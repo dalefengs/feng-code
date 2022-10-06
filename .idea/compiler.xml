@@ -7,15 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="feng-code-admin" />
+        <module name="feng-code-framework" />
         <module name="feng-code-quartz" />
         <module name="feng-code-common" />
         <module name="feng-code-system" />
-        <module name="feng-code-framework" />
         <module name="feng-code-generator" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="feng-code" target="11" />
-    </bytecodeTargetLevel>
   </component>
 </project>

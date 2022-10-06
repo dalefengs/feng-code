@@ -19,33 +19,33 @@
     <div>
       <a-row :gutter="24">
         <a-col :xl="16" :lg="24" :md="24" :sm="24" :xs="24">
-          <a-card
-            class="project-list"
-            style="margin-bottom: 24px;"
-            :bordered="false"
-            title="致谢"
-            :body-style="{ padding: 0 }">
-            <a slot="extra">更多推荐</a>
-            <div>
-              <a-card-grid class="project-card-grid" :key="i" v-for="(item, i) in projects">
-                <a-card :bordered="false" :body-style="{ padding: 0 }">
-                  <a-card-meta>
-                    <div slot="title" class="card-title">
-                      <a-avatar size="small" :src="item.logo"/>
-                      <a>{{ item.name }}</a>
-                    </div>
-                    <div slot="description" class="card-description">
-                      {{ item.description }}
-                    </div>
-                  </a-card-meta>
-                  <div class="project-item">
-                    <a :href="item.website" target="_blank">官网</a>
-                    <a :href="item.downloadUrl" target="_blank" class="download"><a-icon type="cloud-download" /> 源码下载</a>
-                  </div>
-                </a-card>
-              </a-card-grid>
-            </div>
-          </a-card>
+<!--          <a-card-->
+<!--            class="project-list"-->
+<!--            style="margin-bottom: 24px;"-->
+<!--            :bordered="false"-->
+<!--            title="致谢"-->
+<!--            :body-style="{ padding: 0 }">-->
+<!--            <a slot="extra">更多推荐</a>-->
+<!--            <div>-->
+<!--              <a-card-grid class="project-card-grid" :key="i" v-for="(item, i) in projects">-->
+<!--                <a-card :bordered="false" :body-style="{ padding: 0 }">-->
+<!--                  <a-card-meta>-->
+<!--                    <div slot="title" class="card-title">-->
+<!--                      <a-avatar size="small" :src="item.logo"/>-->
+<!--                      <a>{{ item.name }}</a>-->
+<!--                    </div>-->
+<!--                    <div slot="description" class="card-description">-->
+<!--                      {{ item.description }}-->
+<!--                    </div>-->
+<!--                  </a-card-meta>-->
+<!--                  <div class="project-item">-->
+<!--                    <a :href="item.website" target="_blank">官网</a>-->
+<!--                    <a :href="item.downloadUrl" target="_blank" class="download"><a-icon type="cloud-download" /> 源码下载</a>-->
+<!--                  </div>-->
+<!--                </a-card>-->
+<!--              </a-card-grid>-->
+<!--            </div>-->
+<!--          </a-card>-->
           <!-- 项目简介 -->
           <a-card
             style="width:100%"
@@ -69,22 +69,27 @@
           :sm="24"
           :xs="24">
           <!-- 导航 -->
-          <a-card title="便捷导航" style="margin-bottom: 24px" :bordered="false" :body-style="{padding: 0}">
-            <div class="item-group">
-              <a href="https://www.iconfont.cn/" target="_blank">阿里图标</a>
-              <a href="https://www.wangeditor.com/" target="_blank">wangEditor</a>
-            </div>
-          </a-card>
+<!--          <a-card title="便捷导航" style="margin-bottom: 24px" :bordered="false" :body-style="{padding: 0}">-->
+<!--            <div class="item-group">-->
+<!--              <a href="https://www.iconfont.cn/" target="_blank">阿里图标</a>-->
+<!--              <a href="https://www.wangeditor.com/" target="_blank">wangEditor</a>-->
+<!--            </div>-->
+<!--          </a-card>-->
           <!-- Github卡片 -->
           <a-card hoverable style="margin-bottom: 24px">
             <a href="https://github.com/likfees/feng-code" target="_blank" slot="cover">
-              <img style="width:100%" src="https://github-readme-stats.vercel.app/api/pin/?username=likfees&repo=feng-code" >
+              <img style="width:100%" src="https://github-readme-stats.vercel.app/api/?username=likfees&repo=feng-code&show_icons=true" >
+            </a>
+          </a-card>
+          <a-card hoverable style="margin-bottom: 24px">
+            <a href="https://github.com/likfees/feng-code" target="_blank" slot="cover">
+              <img style="width:100%" src="https://github-readme-stats.vercel.app/api/pin/?username=likfees&repo=feng-code&show_owner=true" >
             </a>
           </a-card>
           <!-- Gitee卡片 -->
           <a-card hoverable style="margin-bottom: 24px">
-            <a href="https://gitee.com/fuzui/RuoYi-Antdv" target="_blank" slot="cover">
-              <img style="width:100%" src="https://gitee.com/likfees/feng-code/widgets/widget_card.svg?colors=4183c4,ffffff,ffffff,e3e9ed,666666,9b9b9b" >
+            <a href="https://gitee.com/lzscxb/feng-code" target="_blank" slot="cover">
+              <img style="width:100%" src="https://gitee.com/lzscxb/feng-code/widgets/widget_card.svg?colors=4183c4,ffffff,ffffff,e3e9ed,666666,9b9b9b" >
             </a>
           </a-card>
         </a-col>

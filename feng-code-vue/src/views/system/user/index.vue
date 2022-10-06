@@ -2,15 +2,15 @@
   <page-header-wrapper>
     <a-card :bordered="false">
       <a-row :gutter="24">
-        <a-col :span="4">
-          <!-- 部门树 -->
-          <dept-tree
-            ref="deptTree"
-            :deptOptions="deptOptions"
-            @select="clickDeptNode"
-          />
-        </a-col>
-        <a-col :span="20">
+<!--        <a-col :span="4">-->
+<!--          &lt;!&ndash; 部门树 &ndash;&gt;-->
+<!--          <dept-tree-->
+<!--            ref="deptTree"-->
+<!--            :deptOptions="deptOptions"-->
+<!--            @select="clickDeptNode"-->
+<!--          />-->
+<!--        </a-col>-->
+        <a-col :span="24">
           <!-- 条件搜索 -->
           <div class="table-page-search-wrapper">
             <a-form layout="inline">
@@ -242,7 +242,7 @@ export default {
           align: 'center'
         },
         {
-          title: '部门',
+          title: '角色（待）',
           dataIndex: 'dept.deptName',
           scopedSlots: { customRender: 'dept.deptName' },
           align: 'center'
