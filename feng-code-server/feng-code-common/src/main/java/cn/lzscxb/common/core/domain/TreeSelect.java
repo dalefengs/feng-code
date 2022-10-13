@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import cn.lzscxb.common.core.domain.entity.SysDept;
 import cn.lzscxb.common.core.domain.entity.SysMenu;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -30,13 +29,6 @@ public class TreeSelect implements Serializable
     public TreeSelect()
     {
 
-    }
-
-    public TreeSelect(SysDept dept)
-    {
-        this.id = dept.getDeptId();
-        this.label = dept.getDeptName();
-        this.children = dept.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList());
     }
 
     public TreeSelect(SysMenu menu)

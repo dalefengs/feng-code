@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.lzscxb.system.mapper.SysPostMapper">
 
-	<resultMap type="SysPost" id="SysPostResult">
+	<resultMap type="cn.lzscxb.system.domain.SysPost" id="SysPostResult">
 		<id     property="postId"        column="post_id"       />
 		<result property="postCode"      column="post_code"     />
 		<result property="postName"      column="post_name"     />
@@ -50,7 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select p.post_id
         from sys_post p
 	        left join sys_user_post up on up.post_id = p.post_id
-	        left join sys_user u on u.user_id = up.user_id
+	        left join feng_users u on u.user_id = up.user_id
 	    where u.user_id = #{userId}
 	</select>
 	
@@ -58,7 +58,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select p.post_id, p.post_name, p.post_code
 		from sys_post p
 			 left join sys_user_post up on up.post_id = p.post_id
-			 left join sys_user u on u.user_id = up.user_id
+			 left join feng_users u on u.user_id = up.user_id
 		where u.user_name = #{userName}
 	</select>
 	

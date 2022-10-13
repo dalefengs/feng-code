@@ -6,7 +6,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import cn.lzscxb.common.core.domain.entity.SysRole;
-import cn.lzscxb.common.core.domain.entity.SysUser;
+import cn.lzscxb.common.core.domain.entity.FengUsers;
 import cn.lzscxb.system.service.ISysMenuService;
 import cn.lzscxb.system.service.ISysRoleService;
 
@@ -30,7 +30,7 @@ public class SysPermissionService
      * @param user 用户信息
      * @return 角色权限信息
      */
-    public Set<String> getRolePermission(SysUser user)
+    public Set<String> getRolePermission(FengUsers user)
     {
         Set<String> roles = new HashSet<String>();
         // 管理员拥有所有权限
@@ -51,7 +51,7 @@ public class SysPermissionService
      * @param user 用户信息
      * @return 菜单权限信息
      */
-    public Set<String> getMenuPermission(SysUser user)
+    public Set<String> getMenuPermission(FengUsers user)
     {
         Set<String> perms = new HashSet<String>();
         // 管理员拥有所有权限

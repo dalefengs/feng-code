@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import cn.lzscxb.common.constant.CacheConstants;
 import cn.lzscxb.common.constant.Constants;
 import cn.lzscxb.common.constant.UserConstants;
-import cn.lzscxb.common.core.domain.entity.SysUser;
+import cn.lzscxb.common.core.domain.entity.FengUsers;
 import cn.lzscxb.common.core.domain.model.RegisterBody;
 import cn.lzscxb.common.core.redis.RedisCache;
 import cn.lzscxb.common.utils.MessageUtils;
@@ -16,7 +16,7 @@ import cn.lzscxb.common.utils.StringUtils;
 import cn.lzscxb.framework.manager.AsyncManager;
 import cn.lzscxb.framework.manager.factory.AsyncFactory;
 import cn.lzscxb.system.service.ISysConfigService;
-import cn.lzscxb.system.service.ISysUserService;
+import cn.lzscxb.system.service.IFengUsersService;
 
 /**
  * 注册校验方法
@@ -27,7 +27,7 @@ import cn.lzscxb.system.service.ISysUserService;
 public class SysRegisterService
 {
     @Autowired
-    private ISysUserService userService;
+    private IFengUsersService userService;
 
     @Autowired
     private ISysConfigService configService;
@@ -41,8 +41,8 @@ public class SysRegisterService
     public String register(RegisterBody registerBody)
     {
         String msg = "", username = registerBody.getUsername(), password = registerBody.getPassword();
-        SysUser sysUser = new SysUser();
-        sysUser.setUserName(username);
+        FengUsers fengUsers = new FengUsers();
+        fengUsers.setUserName(username);
 
         // 验证码开关
         boolean captchaEnabled = configService.selectCaptchaEnabled();
@@ -69,15 +69,15 @@ public class SysRegisterService
         {
             msg = "密码长度必须在5到20个字符之间";
         }
-        else if (UserConstants.NOT_UNIQUE.equals(userService.checkUserNameUnique(sysUser)))
+        else if (UserConstants.NOT_UNIQUE.equals(userService.checkUserNameUnique(fengUsers)))
         {
             msg = "保存用户'" + username + "'失败，注册账号已存在";
         }
         else
         {
-            sysUser.setNickName(username);
-            sysUser.setPassword(SecurityUtils.encryptPassword(password));
-            boolean regFlag = userService.registerUser(sysUser);
+            fengUsers.setNickName(username);
+            fengUsers.setPassword(SecurityUtils.encryptPassword(password));
+            boolean regFlag = userService.registerUser(fengUsers);
             if (!regFlag)
             {
                 msg = "注册失败,请联系系统管理人员";

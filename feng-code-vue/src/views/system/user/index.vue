@@ -2,14 +2,6 @@
   <page-header-wrapper>
     <a-card :bordered="false">
       <a-row :gutter="24">
-<!--        <a-col :span="4">-->
-<!--          &lt;!&ndash; 部门树 &ndash;&gt;-->
-<!--          <dept-tree-->
-<!--            ref="deptTree"-->
-<!--            :deptOptions="deptOptions"-->
-<!--            @select="clickDeptNode"-->
-<!--          />-->
-<!--        </a-col>-->
         <a-col :span="24">
           <!-- 条件搜索 -->
           <div class="table-page-search-wrapper">
@@ -80,11 +72,9 @@
           <!-- 创建/编辑用户,单独封装了组件 -->
           <create-form
             ref="createForm"
-            :deptOptions="deptOptions"
             :statusOptions="dict.type['sys_normal_disable']"
             :sexOptions="dict.type['sys_user_sex']"
             @ok="getList"
-            @select-tree="getTreeselect"
           />
           <!-- 修改密码抽屉 -->
           <reset-password
@@ -176,12 +166,11 @@
 
 <script>
 
-import { listUser, delUser, changeUserStatus, deptTreeSelect } from '@/api/system/user'
+import { listUser, delUser, changeUserStatus } from '@/api/system/user'
 import AuthRole from './modules/AuthRole'
 import ResetPassword from './modules/ResetPassword'
 import CreateForm from './modules/CreateForm'
 import ImportExcel from './modules/ImportExcel'
-import DeptTree from './modules/DeptTree'
 import { tableMixin } from '@/store/table-mixin'
 
 export default {
@@ -190,8 +179,7 @@ export default {
     AuthRole,
     ResetPassword,
     CreateForm,
-    ImportExcel,
-    DeptTree
+    ImportExcel
   },
   mixins: [tableMixin],
   dicts: ['sys_normal_disable', 'sys_user_sex'],
@@ -209,12 +197,6 @@ export default {
       ids: [],
       loading: false,
       total: 0,
-      // 部门树选项
-      deptOptions: [{
-        id: 0,
-        label: '',
-        children: []
-      }],
       // 日期范围
       dateRange: [],
       queryParam: {
@@ -222,8 +204,7 @@ export default {
         pageSize: 10,
         userName: undefined,
         phonenumber: undefined,
-        status: undefined,
-        deptId: undefined
+        status: undefined
       },
       columns: [
         {
@@ -271,7 +252,6 @@ export default {
   },
   created () {
     this.getList()
-    this.getDeptTree()
   },
   computed: {
   },
@@ -288,12 +268,6 @@ export default {
         }
       )
     },
-    /** 查询部门下拉树结构 */
-    getDeptTree () {
-      deptTreeSelect().then(response => {
-        this.deptOptions = response.data
-      })
-    },
     /** 搜索按钮操作 */
     handleQuery () {
       this.queryParam.pageNum = 1
@@ -307,8 +281,7 @@ export default {
         pageSize: 10,
         userName: undefined,
         phonenumber: undefined,
-        status: undefined,
-        deptId: undefined
+        status: undefined
       }
       this.handleQuery()
     },
@@ -330,10 +303,6 @@ export default {
     },
     toggleAdvanced () {
       this.advanced = !this.advanced
-    },
-    clickDeptNode (deptId) {
-      this.queryParam.deptId = deptId
-      this.handleQuery()
     },
     /* 用户状态修改 */
     confirmHandleStatus (row) {

@@ -5,7 +5,7 @@ import java.util.Set;
 
 import cn.lzscxb.common.constant.Constants;
 import cn.lzscxb.common.core.domain.entity.SysMenu;
-import cn.lzscxb.common.core.domain.entity.SysUser;
+import cn.lzscxb.common.core.domain.entity.FengUsers;
 import cn.lzscxb.common.core.domain.model.LoginBody;
 import cn.lzscxb.common.utils.SecurityUtils;
 import cn.lzscxb.framework.web.service.SysLoginService;
@@ -60,7 +60,7 @@ public class SysLoginController
     @GetMapping("getInfo")
     public AjaxResult getInfo()
     {
-        SysUser user = SecurityUtils.getLoginUser().getUser();
+        FengUsers user = SecurityUtils.getLoginUser().getUser();
         // 角色集合
         Set<String> roles = permissionService.getRolePermission(user);
         // 权限集合

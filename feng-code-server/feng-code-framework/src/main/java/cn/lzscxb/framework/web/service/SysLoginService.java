@@ -13,7 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import cn.lzscxb.common.constant.CacheConstants;
 import cn.lzscxb.common.constant.Constants;
-import cn.lzscxb.common.core.domain.entity.SysUser;
+import cn.lzscxb.common.core.domain.entity.FengUsers;
 import cn.lzscxb.common.core.domain.model.LoginUser;
 import cn.lzscxb.common.core.redis.RedisCache;
 import cn.lzscxb.common.exception.ServiceException;
@@ -26,7 +26,7 @@ import cn.lzscxb.framework.manager.AsyncManager;
 import cn.lzscxb.framework.manager.factory.AsyncFactory;
 import cn.lzscxb.framework.security.context.AuthenticationContextHolder;
 import cn.lzscxb.system.service.ISysConfigService;
-import cn.lzscxb.system.service.ISysUserService;
+import cn.lzscxb.system.service.IFengUsersService;
 
 /**
  * 登录校验方法
@@ -46,7 +46,7 @@ public class SysLoginService
     private RedisCache redisCache;
     
     @Autowired
-    private ISysUserService userService;
+    private IFengUsersService userService;
 
     @Autowired
     private ISysConfigService configService;
@@ -133,10 +133,10 @@ public class SysLoginService
      */
     public void recordLoginInfo(Long userId)
     {
-        SysUser sysUser = new SysUser();
-        sysUser.setUserId(userId);
-        sysUser.setLoginIp(IpUtils.getIpAddr(ServletUtils.getRequest()));
-        sysUser.setLoginDate(DateUtils.getNowDate());
-        userService.updateUserProfile(sysUser);
+        FengUsers fengUsers = new FengUsers();
+        fengUsers.setUserId(userId);
+        fengUsers.setLoginIp(IpUtils.getIpAddr(ServletUtils.getRequest()));
+        fengUsers.setLoginDate(DateUtils.getNowDate());
+        userService.updateUserProfile(fengUsers);
     }
 }

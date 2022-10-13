@@ -18,7 +18,7 @@ import cn.lzscxb.common.constant.UserConstants;
 import cn.lzscxb.common.core.domain.TreeSelect;
 import cn.lzscxb.common.core.domain.entity.SysMenu;
 import cn.lzscxb.common.core.domain.entity.SysRole;
-import cn.lzscxb.common.core.domain.entity.SysUser;
+import cn.lzscxb.common.core.domain.entity.FengUsers;
 import cn.lzscxb.common.utils.SecurityUtils;
 import cn.lzscxb.common.utils.StringUtils;
 import cn.lzscxb.system.mapper.SysMenuMapper;
@@ -68,7 +68,7 @@ public class SysMenuServiceImpl implements ISysMenuService
     {
         List<SysMenu> menuList = null;
         // 管理员显示所有菜单信息
-        if (SysUser.isAdmin(userId))
+        if (FengUsers.isAdmin(userId))
         {
             menuList = menuMapper.selectMenuList(menu);
         }

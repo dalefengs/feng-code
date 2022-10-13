@@ -2,14 +2,14 @@ package cn.lzscxb.system.service;
 
 import java.util.List;
 
-import cn.lzscxb.common.core.domain.entity.SysUser;
+import cn.lzscxb.common.core.domain.entity.FengUsers;
 
 /**
  * 用户 业务层
  * 
  * @author Likfees
  */
-public interface ISysUserService
+public interface IFengUsersService
 {
     /**
      * 根据条件分页查询用户列表
@@ -17,7 +17,7 @@ public interface ISysUserService
      * @param user 用户信息
      * @return 用户信息集合信息
      */
-    public List<SysUser> selectUserList(SysUser user);
+    public List<FengUsers> selectUserList(FengUsers user);
 
     /**
      * 根据条件分页查询已分配用户角色列表
@@ -25,7 +25,7 @@ public interface ISysUserService
      * @param user 用户信息
      * @return 用户信息集合信息
      */
-    public List<SysUser> selectAllocatedList(SysUser user);
+    public List<FengUsers> selectAllocatedList(FengUsers user);
 
     /**
      * 根据条件分页查询未分配用户角色列表
@@ -33,7 +33,7 @@ public interface ISysUserService
      * @param user 用户信息
      * @return 用户信息集合信息
      */
-    public List<SysUser> selectUnallocatedList(SysUser user);
+    public List<FengUsers> selectUnallocatedList(FengUsers user);
 
     /**
      * 通过用户名查询用户
@@ -41,7 +41,7 @@ public interface ISysUserService
      * @param userName 用户名
      * @return 用户对象信息
      */
-    public SysUser selectUserByUserName(String userName);
+    public FengUsers selectUserByUserName(String userName);
 
     /**
      * 通过用户ID查询用户
@@ -49,7 +49,7 @@ public interface ISysUserService
      * @param userId 用户ID
      * @return 用户对象信息
      */
-    public SysUser selectUserById(Long userId);
+    public FengUsers selectUserById(Long userId);
 
     /**
      * 根据用户ID查询用户所属角色组
@@ -73,7 +73,7 @@ public interface ISysUserService
      * @param user 用户信息
      * @return 结果
      */
-    public String checkUserNameUnique(SysUser user);
+    public String checkUserNameUnique(FengUsers user);
 
     /**
      * 校验手机号码是否唯一
@@ -81,7 +81,7 @@ public interface ISysUserService
      * @param user 用户信息
      * @return 结果
      */
-    public String checkPhoneUnique(SysUser user);
+    public String checkPhoneUnique(FengUsers user);
 
     /**
      * 校验email是否唯一
@@ -89,14 +89,14 @@ public interface ISysUserService
      * @param user 用户信息
      * @return 结果
      */
-    public String checkEmailUnique(SysUser user);
+    public String checkEmailUnique(FengUsers user);
 
     /**
      * 校验用户是否允许操作
      * 
      * @param user 用户信息
      */
-    public void checkUserAllowed(SysUser user);
+    public void checkUserAllowed(FengUsers user);
 
     /**
      * 校验用户是否有数据权限
@@ -111,7 +111,7 @@ public interface ISysUserService
      * @param user 用户信息
      * @return 结果
      */
-    public int insertUser(SysUser user);
+    public int insertUser(FengUsers user);
 
     /**
      * 注册用户信息
@@ -119,7 +119,7 @@ public interface ISysUserService
      * @param user 用户信息
      * @return 结果
      */
-    public boolean registerUser(SysUser user);
+    public boolean registerUser(FengUsers user);
 
     /**
      * 修改用户信息
@@ -127,7 +127,7 @@ public interface ISysUserService
      * @param user 用户信息
      * @return 结果
      */
-    public int updateUser(SysUser user);
+    public int updateUser(FengUsers user);
 
     /**
      * 用户授权角色
@@ -143,7 +143,7 @@ public interface ISysUserService
      * @param user 用户信息
      * @return 结果
      */
-    public int updateUserStatus(SysUser user);
+    public int updateUserStatus(FengUsers user);
 
     /**
      * 修改用户基本信息
@@ -151,7 +151,7 @@ public interface ISysUserService
      * @param user 用户信息
      * @return 结果
      */
-    public int updateUserProfile(SysUser user);
+    public int updateUserProfile(FengUsers user);
 
     /**
      * 修改用户头像
@@ -168,7 +168,7 @@ public interface ISysUserService
      * @param user 用户信息
      * @return 结果
      */
-    public int resetPwd(SysUser user);
+    public int resetPwd(FengUsers user);
 
     /**
      * 重置用户密码
@@ -203,5 +203,5 @@ public interface ISysUserService
      * @param operName 操作用户
      * @return 结果
      */
-    public String importUser(List<SysUser> userList, Boolean isUpdateSupport, String operName);
+    public String importUser(List<FengUsers> userList, Boolean isUpdateSupport, String operName);
 }

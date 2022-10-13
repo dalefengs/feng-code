@@ -10,7 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import cn.lzscxb.common.constant.CacheConstants;
 import cn.lzscxb.common.constant.Constants;
-import cn.lzscxb.common.core.domain.entity.SysUser;
+import cn.lzscxb.common.core.domain.entity.FengUsers;
 import cn.lzscxb.common.core.redis.RedisCache;
 import cn.lzscxb.common.utils.MessageUtils;
 import cn.lzscxb.common.utils.SecurityUtils;
@@ -46,7 +46,7 @@ public class SysPasswordService
         return CacheConstants.PWD_ERR_CNT_KEY + username;
     }
 
-    public void validate(SysUser user)
+    public void validate(FengUsers user)
     {
         Authentication usernamePasswordAuthenticationToken = AuthenticationContextHolder.getContext();
         String username = usernamePasswordAuthenticationToken.getName();
@@ -80,7 +80,7 @@ public class SysPasswordService
         }
     }
 
-    public boolean matches(SysUser user, String rawPassword)
+    public boolean matches(FengUsers user, String rawPassword)
     {
         return SecurityUtils.matchesPassword(rawPassword, user.getPassword());
     }

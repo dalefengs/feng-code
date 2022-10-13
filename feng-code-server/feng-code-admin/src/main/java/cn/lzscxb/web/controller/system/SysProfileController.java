@@ -3,14 +3,14 @@ package cn.lzscxb.web.controller.system;
 import cn.lzscxb.common.annotation.Log;
 import cn.lzscxb.common.config.FengCodeConfig;
 import cn.lzscxb.common.constant.UserConstants;
-import cn.lzscxb.common.core.domain.entity.SysUser;
+import cn.lzscxb.common.core.domain.entity.FengUsers;
 import cn.lzscxb.common.core.domain.model.LoginUser;
 import cn.lzscxb.common.enums.BusinessType;
 import cn.lzscxb.common.utils.SecurityUtils;
 import cn.lzscxb.common.utils.StringUtils;
 import cn.lzscxb.common.utils.file.MimeTypeUtils;
 import cn.lzscxb.framework.web.service.TokenService;
-import cn.lzscxb.system.service.ISysUserService;
+import cn.lzscxb.system.service.IFengUsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,7 +34,7 @@ import cn.lzscxb.common.utils.file.FileUploadUtils;
 public class SysProfileController extends BaseController
 {
     @Autowired
-    private ISysUserService userService;
+    private IFengUsersService userService;
 
     @Autowired
     private TokenService tokenService;
@@ -46,7 +46,7 @@ public class SysProfileController extends BaseController
     public AjaxResult profile()
     {
         LoginUser loginUser = getLoginUser();
-        SysUser user = loginUser.getUser();
+        FengUsers user = loginUser.getUser();
         AjaxResult ajax = AjaxResult.success(user);
         ajax.put("roleGroup", userService.selectUserRoleGroup(loginUser.getUsername()));
         ajax.put("postGroup", userService.selectUserPostGroup(loginUser.getUsername()));
@@ -58,11 +58,11 @@ public class SysProfileController extends BaseController
      */
     @Log(title = "个人信息", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult updateProfile(@RequestBody SysUser user)
+    public AjaxResult updateProfile(@RequestBody FengUsers user)
     {
         LoginUser loginUser = getLoginUser();
-        SysUser sysUser = loginUser.getUser();
-        user.setUserName(sysUser.getUserName());
+        FengUsers fengUsers = loginUser.getUser();
+        user.setUserName(fengUsers.getUserName());
         if (StringUtils.isNotEmpty(user.getPhonenumber())
                 && UserConstants.NOT_UNIQUE.equals(userService.checkPhoneUnique(user)))
         {
@@ -73,17 +73,16 @@ public class SysProfileController extends BaseController
         {
             return AjaxResult.error("修改用户'" + user.getUserName() + "'失败，邮箱账号已存在");
         }
-        user.setUserId(sysUser.getUserId());
+        user.setUserId(fengUsers.getUserId());
         user.setPassword(null);
         user.setAvatar(null);
-        user.setDeptId(null);
         if (userService.updateUserProfile(user) > 0)
         {
             // 更新缓存用户信息
-            sysUser.setNickName(user.getNickName());
-            sysUser.setPhonenumber(user.getPhonenumber());
-            sysUser.setEmail(user.getEmail());
-            sysUser.setSex(user.getSex());
+            fengUsers.setNickName(user.getNickName());
+            fengUsers.setPhonenumber(user.getPhonenumber());
+            fengUsers.setEmail(user.getEmail());
+            fengUsers.setSex(user.getSex());
             tokenService.setLoginUser(loginUser);
             return AjaxResult.success();
         }

@@ -10,7 +10,7 @@ public class UserConstants
     /**
      * 平台内系统用户的唯一标志
      */
-    public static final String SYS_USER = "SYS_USER";
+    public static final String feng_users = "SYS_USER";
 
     /** 正常状态 */
     public static final String NORMAL = "0";
@@ -23,13 +23,7 @@ public class UserConstants
 
     /** 角色封禁状态 */
     public static final String ROLE_DISABLE = "1";
-
-    /** 部门正常状态 */
-    public static final String DEPT_NORMAL = "0";
-
-    /** 部门停用状态 */
-    public static final String DEPT_DISABLE = "1";
-
+    
     /** 字典正常状态 */
     public static final String DICT_NORMAL = "0";
 

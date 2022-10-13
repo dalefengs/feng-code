@@ -5,18 +5,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import cn.lzscxb.common.annotation.Log;
 import cn.lzscxb.common.constant.UserConstants;
-import cn.lzscxb.common.core.domain.entity.SysDept;
 import cn.lzscxb.common.core.domain.entity.SysRole;
-import cn.lzscxb.common.core.domain.entity.SysUser;
+import cn.lzscxb.common.core.domain.entity.FengUsers;
 import cn.lzscxb.common.core.domain.model.LoginUser;
 import cn.lzscxb.common.enums.BusinessType;
 import cn.lzscxb.common.utils.StringUtils;
 import cn.lzscxb.framework.web.service.SysPermissionService;
 import cn.lzscxb.framework.web.service.TokenService;
 import cn.lzscxb.system.domain.SysUserRole;
-import cn.lzscxb.system.service.ISysDeptService;
 import cn.lzscxb.system.service.ISysRoleService;
-import cn.lzscxb.system.service.ISysUserService;
+import cn.lzscxb.system.service.IFengUsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -52,10 +50,7 @@ public class SysRoleController extends BaseController
     private SysPermissionService permissionService;
 
     @Autowired
-    private ISysUserService userService;
-
-    @Autowired
-    private ISysDeptService deptService;
+    private IFengUsersService userService;
 
     @PreAuthorize("@ss.hasPermi('system:role:list')")
     @GetMapping("/list")
@@ -144,19 +139,6 @@ public class SysRoleController extends BaseController
     }
 
     /**
-     * 修改保存数据权限
-     */
-    @PreAuthorize("@ss.hasPermi('system:role:edit')")
-    @Log(title = "角色管理", businessType = BusinessType.UPDATE)
-    @PutMapping("/dataScope")
-    public AjaxResult dataScope(@RequestBody SysRole role)
-    {
-        roleService.checkRoleAllowed(role);
-        roleService.checkRoleDataScope(role.getRoleId());
-        return toAjax(roleService.authDataScope(role));
-    }
-
-    /**
      * 状态修改
      */
     @PreAuthorize("@ss.hasPermi('system:role:edit')")
@@ -196,10 +178,10 @@ public class SysRoleController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('system:role:list')")
     @GetMapping("/authUser/allocatedList")
-    public TableDataInfo allocatedList(SysUser user)
+    public TableDataInfo allocatedList(FengUsers user)
     {
         startPage();
-        List<SysUser> list = userService.selectAllocatedList(user);
+        List<FengUsers> list = userService.selectAllocatedList(user);
         return getDataTable(list);
     }
 
@@ -208,10 +190,10 @@ public class SysRoleController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('system:role:list')")
     @GetMapping("/authUser/unallocatedList")
-    public TableDataInfo unallocatedList(SysUser user)
+    public TableDataInfo unallocatedList(FengUsers user)
     {
         startPage();
-        List<SysUser> list = userService.selectUnallocatedList(user);
+        List<FengUsers> list = userService.selectUnallocatedList(user);
         return getDataTable(list);
     }
 
@@ -249,16 +231,4 @@ public class SysRoleController extends BaseController
         return toAjax(roleService.insertAuthUsers(roleId, userIds));
     }
 
-    /**
-     * 获取对应角色部门树列表
-     */
-    @PreAuthorize("@ss.hasPermi('system:role:query')")
-    @GetMapping(value = "/deptTree/{roleId}")
-    public AjaxResult deptTree(@PathVariable("roleId") Long roleId)
-    {
-        AjaxResult ajax = AjaxResult.success();
-        ajax.put("checkedKeys", deptService.selectDeptListByRoleId(roleId));
-        ajax.put("depts", deptService.selectDeptTreeList(new SysDept()));
-        return ajax;
-    }
 }

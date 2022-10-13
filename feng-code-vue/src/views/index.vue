@@ -9,7 +9,7 @@
           <div class="content-title">
             {{ timeFix }}，{{ nickname }}<span class="welcome-text"></span>
           </div>
-          <div> {{ postGroup }} | {{ user.dept.deptName }}</div>
+          <div> {{ postGroup }} | 角色</div>
         </div>
       </div>
     </template>

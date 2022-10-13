@@ -70,11 +70,6 @@
         @ok="getList"
       />
 
-      <!-- 分配角色数据权限对话框 -->
-      <create-data-scope-form
-        ref="createDataScopeForm"
-        @ok="getList"
-      />
       <!-- 数据展示 -->
       <a-table
         :loading="loading"
@@ -117,12 +112,6 @@
             </a>
             <a-menu slot="overlay">
               <a-menu-item>
-                <a @click="$refs.createDataScopeForm.handleDataScope(record)">
-                  <a-icon type="lock" />
-                  数据权限
-                </a>
-              </a-menu-item>
-              <a-menu-item>
                 <a @click="handleAuthUser(record)">
                   <a-icon type="user-add" />
                   分配用户
@@ -152,14 +141,12 @@
 
 import { listRole, delRole, changeRoleStatus } from '@/api/system/role'
 import CreateForm from './modules/CreateForm'
-import CreateDataScopeForm from './modules/CreateDataScopeForm'
 import { tableMixin } from '@/store/table-mixin'
 
 export default {
   name: 'Role',
   components: {
     CreateForm,
-    CreateDataScopeForm
   },
   mixins: [tableMixin],
   dicts: ['sys_normal_disable'],

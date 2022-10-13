@@ -7,12 +7,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import cn.lzscxb.common.core.domain.entity.SysUser;
+import cn.lzscxb.common.core.domain.entity.FengUsers;
 import cn.lzscxb.common.core.domain.model.LoginUser;
 import cn.lzscxb.common.enums.UserStatus;
 import cn.lzscxb.common.exception.ServiceException;
 import cn.lzscxb.common.utils.StringUtils;
-import cn.lzscxb.system.service.ISysUserService;
+import cn.lzscxb.system.service.IFengUsersService;
 
 /**
  * 用户验证处理
@@ -25,7 +25,7 @@ public class UserDetailsServiceImpl implements UserDetailsService
     private static final Logger log = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
 
     @Autowired
-    private ISysUserService userService;
+    private IFengUsersService userService;
     
     @Autowired
     private SysPasswordService passwordService;
@@ -36,7 +36,7 @@ public class UserDetailsServiceImpl implements UserDetailsService
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
     {
-        SysUser user = userService.selectUserByUserName(username);
+        FengUsers user = userService.selectUserByUserName(username);
         if (StringUtils.isNull(user))
         {
             log.info("登录用户：{} 不存在.", username);
@@ -58,8 +58,8 @@ public class UserDetailsServiceImpl implements UserDetailsService
         return createLoginUser(user);
     }
 
-    public UserDetails createLoginUser(SysUser user)
+    public UserDetails createLoginUser(FengUsers user)
     {
-        return new LoginUser(user.getUserId(), user.getDeptId(), user, permissionService.getMenuPermission(user));
+        return new LoginUser(user.getUserId(), user, permissionService.getMenuPermission(user));
     }
 }

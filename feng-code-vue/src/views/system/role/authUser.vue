@@ -94,7 +94,6 @@
 
 import { allocatedUserList, authUserCancel, authUserCancelAll } from '@/api/system/role'
 import CreateForm from './modules/CreateForm'
-import CreateDataScopeForm from './modules/CreateDataScopeForm'
 import SelectUser from './modules/SelectUser'
 import { tableMixin } from '@/store/table-mixin'
 
@@ -102,7 +101,6 @@ export default {
   name: 'AuthUser',
   components: {
     CreateForm,
-    CreateDataScopeForm,
     SelectUser
   },
   mixins: [tableMixin],

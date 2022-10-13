@@ -8,18 +8,6 @@
       <a-form-model-item label="用户昵称" prop="nickName">
         <a-input v-model="form.nickName" placeholder="请输入" :maxLength="30" />
       </a-form-model-item>
-<!--      <a-form-model-item label="部门" prop="deptId">
-        <a-tree-select
-          v-model="form.deptId"
-          style="width: 100%"
-          :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
-          :tree-data="deptOptions"
-          placeholder="请选择"
-          :replaceFields="replaceFields"
-          tree-default-expand-all
-        >
-        </a-tree-select>
-      </a-form-model-item>-->
       <a-form-model-item label="手机号" prop="phonenumber">
         <a-input v-model="form.phonenumber" placeholder="请输入" />
       </a-form-model-item>
@@ -78,10 +66,6 @@ import { getUser, addUser, updateUser } from '@/api/system/user'
 export default {
   name: 'CreateForm',
   props: {
-    deptOptions: {
-      type: Array,
-      required: true
-    },
     statusOptions: {
       type: Array,
       required: true

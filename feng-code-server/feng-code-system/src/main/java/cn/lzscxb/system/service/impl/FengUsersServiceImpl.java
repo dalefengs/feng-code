@@ -15,7 +15,7 @@ import org.springframework.util.CollectionUtils;
 import cn.lzscxb.common.annotation.DataScope;
 import cn.lzscxb.common.constant.UserConstants;
 import cn.lzscxb.common.core.domain.entity.SysRole;
-import cn.lzscxb.common.core.domain.entity.SysUser;
+import cn.lzscxb.common.core.domain.entity.FengUsers;
 import cn.lzscxb.common.exception.ServiceException;
 import cn.lzscxb.common.utils.SecurityUtils;
 import cn.lzscxb.common.utils.StringUtils;
@@ -25,11 +25,11 @@ import cn.lzscxb.system.domain.SysUserPost;
 import cn.lzscxb.system.domain.SysUserRole;
 import cn.lzscxb.system.mapper.SysPostMapper;
 import cn.lzscxb.system.mapper.SysRoleMapper;
-import cn.lzscxb.system.mapper.SysUserMapper;
+import cn.lzscxb.system.mapper.FengUsersMapper;
 import cn.lzscxb.system.mapper.SysUserPostMapper;
 import cn.lzscxb.system.mapper.SysUserRoleMapper;
 import cn.lzscxb.system.service.ISysConfigService;
-import cn.lzscxb.system.service.ISysUserService;
+import cn.lzscxb.system.service.IFengUsersService;
 
 /**
  * 用户 业务层处理
@@ -37,12 +37,12 @@ import cn.lzscxb.system.service.ISysUserService;
  * @author Likfees
  */
 @Service
-public class SysUserServiceImpl implements ISysUserService
+public class FengUsersServiceImpl implements IFengUsersService
 {
-    private static final Logger log = LoggerFactory.getLogger(SysUserServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(FengUsersServiceImpl.class);
 
     @Autowired
-    private SysUserMapper userMapper;
+    private FengUsersMapper userMapper;
 
     @Autowired
     private SysRoleMapper roleMapper;
@@ -70,7 +70,7 @@ public class SysUserServiceImpl implements ISysUserService
      */
     @Override
     @DataScope(deptAlias = "d", userAlias = "u")
-    public List<SysUser> selectUserList(SysUser user)
+    public List<FengUsers> selectUserList(FengUsers user)
     {
         return userMapper.selectUserList(user);
     }
@@ -83,7 +83,7 @@ public class SysUserServiceImpl implements ISysUserService
      */
     @Override
     @DataScope(deptAlias = "d", userAlias = "u")
-    public List<SysUser> selectAllocatedList(SysUser user)
+    public List<FengUsers> selectAllocatedList(FengUsers user)
     {
         return userMapper.selectAllocatedList(user);
     }
@@ -96,7 +96,7 @@ public class SysUserServiceImpl implements ISysUserService
      */
     @Override
     @DataScope(deptAlias = "d", userAlias = "u")
-    public List<SysUser> selectUnallocatedList(SysUser user)
+    public List<FengUsers> selectUnallocatedList(FengUsers user)
     {
         return userMapper.selectUnallocatedList(user);
     }
@@ -108,7 +108,7 @@ public class SysUserServiceImpl implements ISysUserService
      * @return 用户对象信息
      */
     @Override
-    public SysUser selectUserByUserName(String userName)
+    public FengUsers selectUserByUserName(String userName)
     {
         return userMapper.selectUserByUserName(userName);
     }
@@ -120,7 +120,7 @@ public class SysUserServiceImpl implements ISysUserService
      * @return 用户对象信息
      */
     @Override
-    public SysUser selectUserById(Long userId)
+    public FengUsers selectUserById(Long userId)
     {
         return userMapper.selectUserById(userId);
     }
@@ -166,10 +166,10 @@ public class SysUserServiceImpl implements ISysUserService
      * @return 结果
      */
     @Override
-    public String checkUserNameUnique(SysUser user)
+    public String checkUserNameUnique(FengUsers user)
     {
         Long userId = StringUtils.isNull(user.getUserId()) ? -1L : user.getUserId();
-        SysUser info = userMapper.checkUserNameUnique(user.getUserName());
+        FengUsers info = userMapper.checkUserNameUnique(user.getUserName());
         if (StringUtils.isNotNull(info) && info.getUserId().longValue() != userId.longValue())
         {
             return UserConstants.NOT_UNIQUE;
@@ -184,10 +184,10 @@ public class SysUserServiceImpl implements ISysUserService
      * @return
      */
     @Override
-    public String checkPhoneUnique(SysUser user)
+    public String checkPhoneUnique(FengUsers user)
     {
         Long userId = StringUtils.isNull(user.getUserId()) ? -1L : user.getUserId();
-        SysUser info = userMapper.checkPhoneUnique(user.getPhonenumber());
+        FengUsers info = userMapper.checkPhoneUnique(user.getPhonenumber());
         if (StringUtils.isNotNull(info) && info.getUserId().longValue() != userId.longValue())
         {
             return UserConstants.NOT_UNIQUE;
@@ -202,10 +202,10 @@ public class SysUserServiceImpl implements ISysUserService
      * @return
      */
     @Override
-    public String checkEmailUnique(SysUser user)
+    public String checkEmailUnique(FengUsers user)
     {
         Long userId = StringUtils.isNull(user.getUserId()) ? -1L : user.getUserId();
-        SysUser info = userMapper.checkEmailUnique(user.getEmail());
+        FengUsers info = userMapper.checkEmailUnique(user.getEmail());
         if (StringUtils.isNotNull(info) && info.getUserId().longValue() != userId.longValue())
         {
             return UserConstants.NOT_UNIQUE;
@@ -219,7 +219,7 @@ public class SysUserServiceImpl implements ISysUserService
      * @param user 用户信息
      */
     @Override
-    public void checkUserAllowed(SysUser user)
+    public void checkUserAllowed(FengUsers user)
     {
         if (StringUtils.isNotNull(user.getUserId()) && user.isAdmin())
         {
@@ -235,11 +235,11 @@ public class SysUserServiceImpl implements ISysUserService
     @Override
     public void checkUserDataScope(Long userId)
     {
-        if (!SysUser.isAdmin(SecurityUtils.getUserId()))
+        if (!FengUsers.isAdmin(SecurityUtils.getUserId()))
         {
-            SysUser user = new SysUser();
+            FengUsers user = new FengUsers();
             user.setUserId(userId);
-            List<SysUser> users = SpringUtils.getAopProxy(this).selectUserList(user);
+            List<FengUsers> users = SpringUtils.getAopProxy(this).selectUserList(user);
             if (StringUtils.isEmpty(users))
             {
                 throw new ServiceException("没有权限访问用户数据！");
@@ -255,7 +255,7 @@ public class SysUserServiceImpl implements ISysUserService
      */
     @Override
     @Transactional
-    public int insertUser(SysUser user)
+    public int insertUser(FengUsers user)
     {
         // 新增用户信息
         int rows = userMapper.insertUser(user);
@@ -273,7 +273,7 @@ public class SysUserServiceImpl implements ISysUserService
      * @return 结果
      */
     @Override
-    public boolean registerUser(SysUser user)
+    public boolean registerUser(FengUsers user)
     {
         return userMapper.insertUser(user) > 0;
     }
@@ -286,7 +286,7 @@ public class SysUserServiceImpl implements ISysUserService
      */
     @Override
     @Transactional
-    public int updateUser(SysUser user)
+    public int updateUser(FengUsers user)
     {
         Long userId = user.getUserId();
         // 删除用户与角色关联
@@ -321,7 +321,7 @@ public class SysUserServiceImpl implements ISysUserService
      * @return 结果
      */
     @Override
-    public int updateUserStatus(SysUser user)
+    public int updateUserStatus(FengUsers user)
     {
         return userMapper.updateUser(user);
     }
@@ -333,7 +333,7 @@ public class SysUserServiceImpl implements ISysUserService
      * @return 结果
      */
     @Override
-    public int updateUserProfile(SysUser user)
+    public int updateUserProfile(FengUsers user)
     {
         return userMapper.updateUser(user);
     }
@@ -358,7 +358,7 @@ public class SysUserServiceImpl implements ISysUserService
      * @return 结果
      */
     @Override
-    public int resetPwd(SysUser user)
+    public int resetPwd(FengUsers user)
     {
         return userMapper.updateUser(user);
     }
@@ -381,7 +381,7 @@ public class SysUserServiceImpl implements ISysUserService
      * 
      * @param user 用户对象
      */
-    public void insertUserRole(SysUser user)
+    public void insertUserRole(FengUsers user)
     {
         this.insertUserRole(user.getUserId(), user.getRoleIds());
     }
@@ -391,7 +391,7 @@ public class SysUserServiceImpl implements ISysUserService
      * 
      * @param user 用户对象
      */
-    public void insertUserPost(SysUser user)
+    public void insertUserPost(FengUsers user)
     {
         Long[] posts = user.getPostIds();
         if (StringUtils.isNotEmpty(posts))
@@ -461,7 +461,7 @@ public class SysUserServiceImpl implements ISysUserService
     {
         for (Long userId : userIds)
         {
-            checkUserAllowed(new SysUser(userId));
+            checkUserAllowed(new FengUsers(userId));
             checkUserDataScope(userId);
         }
         // 删除用户与角色关联
@@ -480,7 +480,7 @@ public class SysUserServiceImpl implements ISysUserService
      * @return 结果
      */
     @Override
-    public String importUser(List<SysUser> userList, Boolean isUpdateSupport, String operName)
+    public String importUser(List<FengUsers> userList, Boolean isUpdateSupport, String operName)
     {
         if (StringUtils.isNull(userList) || userList.size() == 0)
         {
@@ -491,12 +491,12 @@ public class SysUserServiceImpl implements ISysUserService
         StringBuilder successMsg = new StringBuilder();
         StringBuilder failureMsg = new StringBuilder();
         String password = configService.selectConfigByKey("sys.user.initPassword");
-        for (SysUser user : userList)
+        for (FengUsers user : userList)
         {
             try
             {
                 // 验证是否存在这个用户
-                SysUser u = userMapper.selectUserByUserName(user.getUserName());
+                FengUsers u = userMapper.selectUserByUserName(user.getUserName());
                 if (StringUtils.isNull(u))
                 {
                     BeanValidators.validateWithException(validator, user);
