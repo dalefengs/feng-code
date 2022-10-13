@@ -6,7 +6,7 @@
       <a href="https://github.com/likfees/feng-code" target="_blank">条款</a>-->
     </template>
     <template v-slot:copyright>
-      Copyright &copy; 2022 <a href="https://github.com/likfees/feng-code" target="_blank">FengCode-Admin</a><br/>
+      Copyright &copy; 2022 <a href="https://github.com/likfees/feng-code" target="_blank">FengCode</a><br/>
       <a-space size="large">
         <a href="https://github.com/likfees/feng-code" target="_blank">
           <img src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub">

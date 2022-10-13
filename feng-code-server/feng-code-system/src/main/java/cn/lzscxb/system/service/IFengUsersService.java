@@ -59,13 +59,6 @@ public interface IFengUsersService
      */
     public String selectUserRoleGroup(String userName);
 
-    /**
-     * 根据用户ID查询用户所属岗位组
-     * 
-     * @param userName 用户名
-     * @return 结果
-     */
-    public String selectUserPostGroup(String userName);
 
     /**
      * 校验用户名称是否唯一

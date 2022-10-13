@@ -81,8 +81,6 @@ export default {
     return {
       submitLoading: false,
       replaceFields: { children: 'children', title: 'label', key: 'id', value: 'id' },
-      // 岗位选项
-      postOptions: [],
       // 角色选项
       roleOptions: [],
       // 默认密码
@@ -176,7 +174,6 @@ export default {
       this.reset()
       this.$emit('select-tree')
       getUser().then(response => {
-        this.postOptions = response.posts
         this.roleOptions = response.roles
         this.open = true
         this.formTitle = '新增用户'
@@ -190,7 +187,6 @@ export default {
       const userId = row ? row.userId : ids
       getUser(userId).then(response => {
         this.form = response.data
-        this.postOptions = response.posts
         this.roleOptions = response.roles
         this.form.postIds = response.postIds
         this.form.roleIds = response.roleIds

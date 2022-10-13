@@ -72,9 +72,6 @@ public class FengUsers extends BaseEntity
     /** 角色组 */
     private Long[] roleIds;
 
-    /** 岗位组 */
-    private Long[] postIds;
-
     /** 角色ID */
     private Long roleId;
 
@@ -247,15 +244,6 @@ public class FengUsers extends BaseEntity
         this.roleIds = roleIds;
     }
 
-    public Long[] getPostIds()
-    {
-        return postIds;
-    }
-
-    public void setPostIds(Long[] postIds)
-    {
-        this.postIds = postIds;
-    }
 
     public Long getRoleId()
     {

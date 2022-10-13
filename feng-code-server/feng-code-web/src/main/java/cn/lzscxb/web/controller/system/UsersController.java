@@ -11,7 +11,6 @@ import cn.lzscxb.common.core.domain.entity.FengUsers;
 import cn.lzscxb.common.enums.BusinessType;
 import cn.lzscxb.common.utils.SecurityUtils;
 import cn.lzscxb.common.utils.StringUtils;
-import cn.lzscxb.system.service.ISysPostService;
 import cn.lzscxb.system.service.ISysRoleService;
 import cn.lzscxb.system.service.IFengUsersService;
 import org.apache.commons.lang3.ArrayUtils;
@@ -47,8 +46,6 @@ public class UsersController extends BaseController
     @Autowired
     private ISysRoleService roleService;
 
-    @Autowired
-    private ISysPostService postService;
 
     /**
      * 获取用户列表
@@ -102,12 +99,10 @@ public class UsersController extends BaseController
         AjaxResult ajax = AjaxResult.success();
         List<SysRole> roles = roleService.selectRoleAll();
         ajax.put("roles", FengUsers.isAdmin(userId) ? roles : roles.stream().filter(r -> !r.isAdmin()).collect(Collectors.toList()));
-        ajax.put("posts", postService.selectPostAll());
         if (StringUtils.isNotNull(userId))
         {
             FengUsers fengUsers = userService.selectUserById(userId);
             ajax.put(AjaxResult.DATA_TAG, fengUsers);
-            ajax.put("postIds", postService.selectPostListByUserId(userId));
             ajax.put("roleIds", fengUsers.getRoles().stream().map(SysRole::getRoleId).collect(Collectors.toList()));
         }
         return ajax;

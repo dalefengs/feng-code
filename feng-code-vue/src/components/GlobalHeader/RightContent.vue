@@ -73,7 +73,7 @@ export default {
   mounted () {
     setTimeout(() => {
       this.currentUser = {
-        name: 'FengCode-Admin'
+        name: 'FengCode'
       }
     }, 1500)
   },

@@ -10,7 +10,7 @@
         <module name="feng-code-common" />
         <module name="feng-code-system" />
         <module name="feng-code-framework" />
-        <module name="feng-code-api" />
+        <module name="feng-code-web" />
         <module name="feng-code-generator" />
         <module name="feng-code-business" />
       </profile>

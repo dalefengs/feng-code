@@ -22,13 +22,13 @@
           <!-- 项目简介 -->
           <a-card
             style="width:100%"
-            title="FengCode-Admin 简介"
+            title="FengCode 简介"
           >
-            <p><b>FengCode-Admin</b>，使用<a href="https://gitee.com/y_project/RuoYi-Vue" target="_blank">RuoYi-Vue</a>作为后端，改其原有Element Ui为Ant Design Vue。将会持续完全适配RuoYi-Vue。</p>
+            <p><b>FengCode</b> 在线编程实践平台</p>
             <blockquote>
-              <p>FengCode-Admin是基于SpringBoot，Spring Security，JWT，Vue 的前后端分离权限管理系统。</p>
+              <p>FengCode是基于SpringBoot，Spring Security，JWT，Vue 的前后端分离权限管理系统。</p>
               <p>
-                拥有用户管理、部门管理、岗位管理、菜单管理、角色管理、字典管理、参数管理、通知公告、操作日志、登录日志、
+                拥有用户管理、菜单管理、角色管理、字典管理、参数管理、通知公告、操作日志、登录日志、
                 在线用户、定时任务、代码生成、系统接口、服务监控、在线构建器、连接池监视等功能。
               </p>
             </blockquote>

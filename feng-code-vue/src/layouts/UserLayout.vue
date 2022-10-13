@@ -5,7 +5,7 @@
         <div class="header">
           <a href="/">
             <img src="~@/assets/logo.png" class="logo" alt="logo">
-            <span class="title">FengCode-Admin</span>
+            <span class="title">FengCode</span>
           </a>
         </div>
         <div class="desc">
@@ -22,7 +22,7 @@
           <a href="https://github.com/likfees/feng-code" target="_blank">条款</a>
         </div>
         <div class="copyright">
-          Copyright &copy; 2022 <a href="https://github.com/likfees/feng-code" target="_blank">FengCode-Admin</a><br/>
+          Copyright &copy; 2022 <a href="https://github.com/likfees/feng-code" target="_blank">FengCode</a><br/>
         </div>
         <a-space size="large">
           <a href="https://beian.miit.gov.cn/" target="_blank">
