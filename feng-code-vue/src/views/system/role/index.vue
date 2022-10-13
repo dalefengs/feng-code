@@ -146,7 +146,7 @@ import { tableMixin } from '@/store/table-mixin'
 export default {
   name: 'Role',
   components: {
-    CreateForm,
+    CreateForm
   },
   mixins: [tableMixin],
   dicts: ['sys_normal_disable'],

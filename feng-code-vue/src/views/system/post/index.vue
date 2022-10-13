@@ -196,7 +196,7 @@ export default {
   watch: {
   },
   methods: {
-    /** 查询部门列表 */
+    /** 查询岗位列表 */
     getList () {
       this.loading = true
       listPost(this.queryParam).then(response => {

@@ -6,12 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="feng-code-admin" />
-        <module name="feng-code-framework" />
         <module name="feng-code-quartz" />
         <module name="feng-code-common" />
         <module name="feng-code-system" />
+        <module name="feng-code-framework" />
+        <module name="feng-code-api" />
         <module name="feng-code-generator" />
+        <module name="feng-code-business" />
       </profile>
     </annotationProcessing>
   </component>

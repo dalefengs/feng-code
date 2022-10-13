@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/feng-code-server/feng-code-admin/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/feng-code-server/feng-code-admin/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feng-code-server/bin/clean.bat" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/feng-code-server/bin/package.bat" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/feng-code-server/bin/run.bat" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/feng-code-server/feng-code-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feng-code-server/feng-code-api/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feng-code-server/feng-code-business/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/feng-code-server/feng-code-business/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/feng-code-server/feng-code-common/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/feng-code-server/feng-code-common/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/feng-code-server/feng-code-framework/src/main/java" charset="UTF-8" />

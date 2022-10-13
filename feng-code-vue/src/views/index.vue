@@ -9,7 +9,7 @@
           <div class="content-title">
             {{ timeFix }}，{{ nickname }}<span class="welcome-text"></span>
           </div>
-          <div> {{ postGroup }} | 角色</div>
+          <div>{{ roleGroup }}</div>
         </div>
       </div>
     </template>
@@ -19,33 +19,6 @@
     <div>
       <a-row :gutter="24">
         <a-col :xl="16" :lg="24" :md="24" :sm="24" :xs="24">
-<!--          <a-card-->
-<!--            class="project-list"-->
-<!--            style="margin-bottom: 24px;"-->
-<!--            :bordered="false"-->
-<!--            title="致谢"-->
-<!--            :body-style="{ padding: 0 }">-->
-<!--            <a slot="extra">更多推荐</a>-->
-<!--            <div>-->
-<!--              <a-card-grid class="project-card-grid" :key="i" v-for="(item, i) in projects">-->
-<!--                <a-card :bordered="false" :body-style="{ padding: 0 }">-->
-<!--                  <a-card-meta>-->
-<!--                    <div slot="title" class="card-title">-->
-<!--                      <a-avatar size="small" :src="item.logo"/>-->
-<!--                      <a>{{ item.name }}</a>-->
-<!--                    </div>-->
-<!--                    <div slot="description" class="card-description">-->
-<!--                      {{ item.description }}-->
-<!--                    </div>-->
-<!--                  </a-card-meta>-->
-<!--                  <div class="project-item">-->
-<!--                    <a :href="item.website" target="_blank">官网</a>-->
-<!--                    <a :href="item.downloadUrl" target="_blank" class="download"><a-icon type="cloud-download" /> 源码下载</a>-->
-<!--                  </div>-->
-<!--                </a-card>-->
-<!--              </a-card-grid>-->
-<!--            </div>-->
-<!--          </a-card>-->
           <!-- 项目简介 -->
           <a-card
             style="width:100%"
@@ -68,13 +41,6 @@
           :md="24"
           :sm="24"
           :xs="24">
-          <!-- 导航 -->
-<!--          <a-card title="便捷导航" style="margin-bottom: 24px" :bordered="false" :body-style="{padding: 0}">-->
-<!--            <div class="item-group">-->
-<!--              <a href="https://www.iconfont.cn/" target="_blank">阿里图标</a>-->
-<!--              <a href="https://www.wangeditor.com/" target="_blank">wangEditor</a>-->
-<!--            </div>-->
-<!--          </a-card>-->
           <!-- Github卡片 -->
           <a-card hoverable style="margin-bottom: 24px">
             <a href="https://github.com/likfees/feng-code" target="_blank" slot="cover">
@@ -102,8 +68,6 @@
 import { timeFix } from '@/utils/util'
 import { mapGetters } from 'vuex'
 import { PageHeaderWrapper } from '@/components/ProLayout'
-import ruoyiLogo from '@/assets/projects/ruoyi.png'
-import antdvLogo from '@/assets/projects/antdv.png'
 import { getUserProfile } from '@/api/system/user'
 
 export default {
@@ -113,59 +77,12 @@ export default {
   },
   data () {
     return {
-      // 贡献者
-      contributors: [
-        {
-          name: '冯仁贵',
-          avatar: 'https://portrait.gitee.com/uploads/avatars/user/1662/4988475_fuzui_1586973704.png!avatar60',
-          email: 'likfees@163.com'
-        }
-      ],
-      // 赞助
-      sponsorList: [
-        {
-          key: 'RuoYi',
-          tab: 'RuoYi'
-        },
-        {
-          key: 'Antdv',
-          tab: 'Antdv'
-        }
-      ],
-      noTitleKey: 'RuoYi',
       timeFix: timeFix(),
       // 用户信息
       user: {
-        dept: {
-          deptName: ''
-        }
       },
       roleGroup: {},
       postGroup: {},
-      // 致谢项目
-      projects: [
-        {
-          logo: ruoyiLogo,
-          name: 'RuoYi-Vue',
-          description: '基于SpringBoot，Spring Security，JWT，Vue & Element 的前后端分离权限管理系统。',
-          website: 'http://ruoyi.vip',
-          downloadUrl: 'https://gitee.com/y_project/RuoYi-Vue'
-        },
-        {
-          logo: antdvLogo,
-          name: 'Ant Design Vue',
-          description: 'An enterprise-class UI components based on Ant Design and Vue. ',
-          website: 'https://antdv.com',
-          downloadUrl: 'https://github.com/vueComponent/ant-design-vue/'
-        },
-        {
-          logo: antdvLogo,
-          name: 'Antd Pro Vue',
-          description: 'An out-of-box UI solution for enterprise applications as a Vue boilerplate. based on Ant Design of Vue.',
-          website: 'https://pro.antdv.com',
-          downloadUrl: 'https://github.com/vueComponent/ant-design-vue/'
-        }
-      ]
     }
   },
   computed: {
