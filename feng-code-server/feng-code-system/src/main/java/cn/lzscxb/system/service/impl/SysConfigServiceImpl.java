@@ -13,7 +13,7 @@ import cn.lzscxb.common.core.text.Convert;
 import cn.lzscxb.common.enums.DataSourceType;
 import cn.lzscxb.common.exception.ServiceException;
 import cn.lzscxb.common.utils.StringUtils;
-import cn.lzscxb.system.domain.SysConfig;
+import cn.lzscxb.domain.SysConfig;
 import cn.lzscxb.system.mapper.SysConfigMapper;
 import cn.lzscxb.system.service.ISysConfigService;
 

@@ -197,6 +197,7 @@
         <module>feng-code-generator</module>
         <module>feng-code-common</module>
         <module>feng-code-business</module>
+        <module>feng-code-domain</module>
     </modules>
     <packaging>pom</packaging>
 

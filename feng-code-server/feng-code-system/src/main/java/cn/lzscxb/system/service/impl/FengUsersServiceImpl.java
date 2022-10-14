@@ -20,7 +20,7 @@ import cn.lzscxb.common.exception.ServiceException;
 import cn.lzscxb.common.utils.SecurityUtils;
 import cn.lzscxb.common.utils.StringUtils;
 import cn.lzscxb.common.utils.bean.BeanValidators;
-import cn.lzscxb.system.domain.SysUserRole;
+import cn.lzscxb.domain.SysUserRole;
 import cn.lzscxb.system.mapper.SysRoleMapper;
 import cn.lzscxb.system.mapper.FengUsersMapper;
 import cn.lzscxb.system.mapper.SysUserRoleMapper;

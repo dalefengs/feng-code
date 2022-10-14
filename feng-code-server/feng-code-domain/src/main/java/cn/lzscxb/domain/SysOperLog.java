@@ -1,4 +1,4 @@
-package cn.lzscxb.system.domain;
+package cn.lzscxb.domain;
 
 import java.util.Date;
 

@@ -2,10 +2,10 @@ package cn.lzscxb.business.service.impl;
 
 import java.util.List;
 import cn.lzscxb.common.utils.DateUtils;
+import cn.lzscxb.domain.FengClass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cn.lzscxb.business.mapper.FengClassMapper;
-import cn.lzscxb.business.domain.FengClass;
 import cn.lzscxb.business.service.IFengClassService;
 
 /**

@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import cn.lzscxb.common.annotation.Log;
 import cn.lzscxb.common.enums.BusinessType;
 import cn.lzscxb.framework.web.service.SysPasswordService;
-import cn.lzscxb.system.domain.SysLogininfor;
+import cn.lzscxb.domain.SysLogininfor;
 import cn.lzscxb.system.service.ISysLogininforService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;

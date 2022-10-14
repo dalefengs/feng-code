@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import cn.lzscxb.common.annotation.Log;
 import cn.lzscxb.common.core.page.TableDataInfo;
 import cn.lzscxb.common.enums.BusinessType;
-import cn.lzscxb.system.domain.SysOperLog;
+import cn.lzscxb.domain.SysOperLog;
 import cn.lzscxb.system.service.ISysOperLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;

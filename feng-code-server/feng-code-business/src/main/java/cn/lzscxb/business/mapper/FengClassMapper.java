@@ -1,7 +1,8 @@
 package cn.lzscxb.business.mapper;
 
+import cn.lzscxb.domain.FengClass;
+
 import java.util.List;
-import cn.lzscxb.business.domain.FengClass;
 
 /**
  * 班级管理Mapper接口

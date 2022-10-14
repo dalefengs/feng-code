@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import cn.lzscxb.common.annotation.Log;
 import cn.lzscxb.common.constant.UserConstants;
 import cn.lzscxb.common.enums.BusinessType;
-import cn.lzscxb.system.domain.SysConfig;
+import cn.lzscxb.domain.SysConfig;
 import cn.lzscxb.system.service.ISysConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;

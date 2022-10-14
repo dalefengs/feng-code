@@ -2,7 +2,7 @@ package cn.lzscxb.system.mapper;
 
 import java.util.List;
 
-import cn.lzscxb.system.domain.SysUserRole;
+import cn.lzscxb.domain.SysUserRole;
 import org.apache.ibatis.annotations.Param;
 
 /**

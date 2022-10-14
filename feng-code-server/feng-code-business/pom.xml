@@ -19,6 +19,12 @@
             <groupId>cn.lzscxb</groupId>
             <artifactId>feng-code-common</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>cn.lzscxb</groupId>
+            <artifactId>feng-code-domain</artifactId>
+            <version>3.8.4</version>
+        </dependency>
     </dependencies>
 
     <properties>

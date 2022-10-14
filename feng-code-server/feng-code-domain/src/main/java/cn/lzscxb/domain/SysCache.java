@@ -1,4 +1,4 @@
-package cn.lzscxb.system.domain;
+package cn.lzscxb.domain;
 
 import cn.lzscxb.common.utils.StringUtils;
 

@@ -2,7 +2,7 @@ package cn.lzscxb.system.mapper;
 
 import java.util.List;
 
-import cn.lzscxb.system.domain.SysConfig;
+import cn.lzscxb.domain.SysConfig;
 
 /**
  * 参数配置 数据层

@@ -1,7 +1,8 @@
 package cn.lzscxb.business.service;
 
+import cn.lzscxb.domain.FengClass;
+
 import java.util.List;
-import cn.lzscxb.business.domain.FengClass;
 
 /**
  * 班级管理Service接口

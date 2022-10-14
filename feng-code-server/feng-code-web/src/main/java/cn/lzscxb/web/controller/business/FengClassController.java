@@ -2,6 +2,9 @@ package cn.lzscxb.web.controller.business;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import cn.lzscxb.common.utils.poi.ExcelUtil;
+import cn.lzscxb.domain.FengClass;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +19,7 @@ import cn.lzscxb.common.annotation.Log;
 import cn.lzscxb.common.core.controller.BaseController;
 import cn.lzscxb.common.core.domain.AjaxResult;
 import cn.lzscxb.common.enums.BusinessType;
-import cn.lzscxb.business.domain.FengClass;
 import cn.lzscxb.business.service.IFengClassService;
-import cn.lzscxb.common.utils.poi.ExcelUtil;
 import cn.lzscxb.common.core.page.TableDataInfo;
 
 /**

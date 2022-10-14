@@ -10,7 +10,7 @@ import java.util.Set;
 
 import cn.lzscxb.common.constant.CacheConstants;
 import cn.lzscxb.common.utils.StringUtils;
-import cn.lzscxb.system.domain.SysCache;
+import cn.lzscxb.domain.SysCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;

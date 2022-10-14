@@ -19,10 +19,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="loginDate"    column="login_date"   />
         <result property="createBy"     column="create_by"    />
         <result property="createTime"   column="create_time"  />
-<!--        <result property="updateBy"     column="update_by"    />-->
-<!--        <result property="updateTime"   column="update_time"  />-->
         <result property="remark"       column="remark"       />
         <collection  property="roles"   javaType="java.util.List"           resultMap="RoleResult" />
+<!--		<association property="classInfo"  resultMap="calssResult" />-->
     </resultMap>
 	
     <resultMap id="RoleResult" type="cn.lzscxb.common.core.domain.entity.SysRole">
@@ -32,6 +31,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="roleSort"     column="role_sort"      />
         <result property="status"       column="role_status"    />
     </resultMap>
+
+<!--	<resultMap id="calssResult" type="cn.lzscxb.business.domain.FengClass">-->
+<!--		<id property="classId" column="id" />-->
+<!--		<result property="className" column="name" />-->
+<!--	</resultMap>-->
 	
 	
 	<sql id="selectUserVo">
@@ -43,7 +47,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </sql>
 
     <select id="selectUserList" parameterType="cn.lzscxb.common.core.domain.entity.FengUsers" resultMap="FengUserResult">
-		select u.user_id, u.nick_name, u.user_name, u.email, u.avatar, u.phonenumber, u.sex, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time, u.remark from feng_users u
+		select u.user_id, u.nick_name, u.user_name, u.email, u.avatar, u.phonenumber, u.sex, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time, u.remark,
+		r.role_id, r.role_name
+		from feng_users u
+			left join sys_user_role ur on u.user_id = ur.user_id
+			left join sys_role r on r.role_id = ur.role_id
+			left join feng_class fc on fc.id = u.class_id
 		where u.del_flag = '0'
 		<if test="userId != null and userId != 0">
 			AND u.user_id = #{userId}

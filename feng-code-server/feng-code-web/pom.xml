@@ -67,6 +67,12 @@
             <scope>compile</scope>
         </dependency>
 
+        <dependency>
+            <groupId>cn.lzscxb</groupId>
+            <artifactId>feng-code-domain</artifactId>
+            <version>3.8.4</version>
+        </dependency>
+
     </dependencies>
 
     <build>

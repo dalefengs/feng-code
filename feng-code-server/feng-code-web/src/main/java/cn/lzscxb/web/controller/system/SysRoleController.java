@@ -12,7 +12,7 @@ import cn.lzscxb.common.enums.BusinessType;
 import cn.lzscxb.common.utils.StringUtils;
 import cn.lzscxb.framework.web.service.SysPermissionService;
 import cn.lzscxb.framework.web.service.TokenService;
-import cn.lzscxb.system.domain.SysUserRole;
+import cn.lzscxb.domain.SysUserRole;
 import cn.lzscxb.system.service.ISysRoleService;
 import cn.lzscxb.system.service.IFengUsersService;
 import org.springframework.beans.factory.annotation.Autowired;

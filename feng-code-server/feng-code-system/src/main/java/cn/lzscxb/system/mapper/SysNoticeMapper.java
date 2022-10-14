@@ -1,8 +1,8 @@
 package cn.lzscxb.system.mapper;
 
+import cn.lzscxb.domain.SysNotice;
 import java.util.List;
 
-import cn.lzscxb.system.domain.SysNotice;
 
 /**
  * 通知公告表 数据层

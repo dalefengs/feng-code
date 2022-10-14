@@ -2,7 +2,7 @@ package cn.lzscxb.system.service;
 
 import java.util.List;
 
-import cn.lzscxb.system.domain.SysLogininfor;
+import cn.lzscxb.domain.SysLogininfor;
 
 /**
  * 系统访问日志情况信息 服务层

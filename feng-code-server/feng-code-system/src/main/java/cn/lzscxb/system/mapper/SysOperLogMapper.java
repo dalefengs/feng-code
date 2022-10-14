@@ -1,8 +1,9 @@
 package cn.lzscxb.system.mapper;
 
+import cn.lzscxb.domain.SysOperLog;
+
 import java.util.List;
 
-import cn.lzscxb.system.domain.SysOperLog;
 
 /**
  * 操作日志 数据层

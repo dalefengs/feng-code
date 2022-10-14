@@ -1,4 +1,4 @@
-package cn.lzscxb.system.domain;
+package cn.lzscxb.domain;
 
 /**
  * 当前在线会话

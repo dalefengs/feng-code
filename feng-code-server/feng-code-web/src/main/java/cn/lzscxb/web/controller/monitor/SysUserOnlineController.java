@@ -11,7 +11,7 @@ import cn.lzscxb.common.core.domain.model.LoginUser;
 import cn.lzscxb.common.core.page.TableDataInfo;
 import cn.lzscxb.common.enums.BusinessType;
 import cn.lzscxb.common.utils.StringUtils;
-import cn.lzscxb.system.domain.SysUserOnline;
+import cn.lzscxb.domain.SysUserOnline;
 import cn.lzscxb.system.service.ISysUserOnlineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;

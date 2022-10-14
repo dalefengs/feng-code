@@ -2,7 +2,7 @@ package cn.lzscxb.system.service;
 
 import java.util.List;
 
-import cn.lzscxb.system.domain.SysNotice;
+import cn.lzscxb.domain.SysNotice;
 
 /**
  * 公告 服务层

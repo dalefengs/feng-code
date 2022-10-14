@@ -3,7 +3,7 @@ package cn.lzscxb.web.controller.business;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
-import cn.lzscxb.business.domain.FengCollege;
+import cn.lzscxb.domain.FengCollege;
 import cn.lzscxb.business.service.IFengCollegeService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;

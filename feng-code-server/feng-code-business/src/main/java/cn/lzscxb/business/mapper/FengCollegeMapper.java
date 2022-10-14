@@ -1,7 +1,7 @@
 package cn.lzscxb.business.mapper;
 
 import java.util.List;
-import cn.lzscxb.business.domain.FengCollege;
+import cn.lzscxb.domain.FengCollege;
 
 /**
  * 学院管理Mapper接口

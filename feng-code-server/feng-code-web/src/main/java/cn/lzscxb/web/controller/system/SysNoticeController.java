@@ -4,7 +4,7 @@ import java.util.List;
 
 import cn.lzscxb.common.annotation.Log;
 import cn.lzscxb.common.enums.BusinessType;
-import cn.lzscxb.system.domain.SysNotice;
+import cn.lzscxb.domain.SysNotice;
 import cn.lzscxb.system.service.ISysNoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;

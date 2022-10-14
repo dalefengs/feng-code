@@ -2,7 +2,7 @@ package cn.lzscxb.system.service;
 
 import java.util.List;
 
-import cn.lzscxb.system.domain.SysConfig;
+import cn.lzscxb.domain.SysConfig;
 
 /**
  * 参数配置 服务层
