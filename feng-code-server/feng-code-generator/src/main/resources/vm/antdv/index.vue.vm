@@ -136,6 +136,7 @@
         :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }"
         :pagination="false"
         :bordered="tableBordered"
+        @change="tableChange"
       >
 #foreach($column in $columns)
 #set($javaField=$column.javaField)
@@ -354,7 +355,9 @@ export default {
 #end
 #end
         pageNum: 1,
-        pageSize: 10
+        pageSize: 10,
+        orderByColumn: 'id',
+        isAsc: 'ascend'
       }
       this.handleQuery()
     },
@@ -365,6 +368,11 @@ export default {
     changeSize (current, pageSize) {
       this.queryParam.pageNum = current
       this.queryParam.pageSize = pageSize
+      this.getList()
+    },
+    tableChange (pagination, filters, sorter) {
+      this.queryParam.orderByColumn = sorter.columnKey
+      this.queryParam.isAsc = sorter.order
       this.getList()
     },
     onSelectChange (selectedRowKeys, selectedRows) {
