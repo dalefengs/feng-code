@@ -48,6 +48,17 @@ public class FengCollegeController extends BaseController
     }
 
     /**
+     * 查询所有学院信息列表
+     * @return
+     */
+    @PreAuthorize("@ss.hasPermi('business:college:listAll')")
+    @GetMapping("/list-all")
+    public AjaxResult listAll(){
+        List<FengCollege> fengColleges = fengCollegeService.selectFengCollegeListAll();
+        return AjaxResult.success(fengColleges);
+    }
+
+    /**
      * 导出学院管理列表
      */
     @PreAuthorize("@ss.hasPermi('business:college:export')")

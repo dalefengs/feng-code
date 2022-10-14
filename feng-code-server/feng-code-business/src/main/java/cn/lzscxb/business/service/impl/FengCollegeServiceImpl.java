@@ -45,6 +45,15 @@ public class FengCollegeServiceImpl implements IFengCollegeService
     }
 
     /**
+     * 获取所有学院信息列表
+     * @return 列表
+     */
+    public List<FengCollege> selectFengCollegeListAll() {
+        return fengCollegeMapper.seletcFengCollegeAllList();
+    }
+
+
+    /**
      * 新增学院管理
      * 
      * @param fengCollege 学院管理

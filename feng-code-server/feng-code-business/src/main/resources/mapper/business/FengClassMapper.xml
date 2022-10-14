@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.lzscxb.business.mapper.FengClassMapper">
+    
+    <resultMap type="FengClass" id="FengClassResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="collegeId"    column="college_id"    />
+        <result property="collegeName"    column="college_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectFengClassVo">
+        select c.id, c.name, c.college_id, c.create_by, c.create_time, c.update_by, c.update_time, fc.name as college_name from feng_class as c
+        left join feng_college fc on c.college_id = fc.id
+
+    </sql>
+
+    <select id="selectFengClassList" parameterType="FengClass" resultMap="FengClassResult">
+        <include refid="selectFengClassVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and c.name like concat('%', #{name}, '%')</if>
+            <if test="collegeId != null "> and c.college_id = #{collegeId}</if>
+        </where>
+    </select>
+    
+    <select id="selectFengClassById" parameterType="Long" resultMap="FengClassResult">
+        <include refid="selectFengClassVo"/>
+        where c.id = #{id}
+    </select>
+        
+    <insert id="insertFengClass" parameterType="FengClass" useGeneratedKeys="true" keyProperty="id">
+        insert into feng_class
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">name,</if>
+            <if test="collegeId != null">college_id,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="collegeId != null">#{collegeId},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFengClass" parameterType="FengClass">
+        update feng_class
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="collegeId != null">college_id = #{collegeId},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFengClassById" parameterType="Long">
+        delete from feng_class where id = #{id}
+    </delete>
+
+    <delete id="deleteFengClassByIds" parameterType="String">
+        delete from feng_class where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
