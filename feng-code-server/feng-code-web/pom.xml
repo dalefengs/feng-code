@@ -60,6 +60,12 @@
             <groupId>cn.lzscxb</groupId>
             <artifactId>feng-code-generator</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.lzscxb</groupId>
+            <artifactId>feng-code-business</artifactId>
+            <version>3.8.4</version>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
 

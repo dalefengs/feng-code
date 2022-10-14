@@ -81,8 +81,7 @@ export default {
       // 用户信息
       user: {
       },
-      roleGroup: {},
-      postGroup: {},
+      roleGroup: {}
     }
   },
   computed: {

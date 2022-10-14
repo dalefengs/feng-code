@@ -99,7 +99,6 @@ export default {
     return {
       user: {},
       roleGroup: {},
-      postGroup: {},
       tags: ['很有想法的', '专注设计', '辣~', '大长腿', '川妹子', '海纳百川'],
 
       tagInputVisible: false,

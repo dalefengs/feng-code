@@ -1,9 +1,6 @@
 <template>
   <global-footer class="footer custom-render">
     <template v-slot:links>
-<!--      <a href="https://github.com/likfees/feng-code" target="_blank">帮助</a>
-      <a href="https://github.com/likfees/feng-code" target="_blank">隐私</a>
-      <a href="https://github.com/likfees/feng-code" target="_blank">条款</a>-->
     </template>
     <template v-slot:copyright>
       Copyright &copy; 2022 <a href="https://github.com/likfees/feng-code" target="_blank">FengCode</a><br/>

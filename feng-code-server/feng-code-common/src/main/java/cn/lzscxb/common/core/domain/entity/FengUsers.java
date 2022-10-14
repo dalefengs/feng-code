@@ -3,6 +3,9 @@ package cn.lzscxb.common.core.domain.entity;
 import java.util.Date;
 import java.util.List;
 import javax.validation.constraints.*;
+
+import lombok.Data;
+import lombok.Getter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import cn.lzscxb.common.annotation.Excel;
@@ -13,10 +16,11 @@ import cn.lzscxb.common.core.domain.BaseEntity;
 import cn.lzscxb.common.xss.Xss;
 
 /**
- * 用户对象 sys_user
+ * 用户对象
  * 
  * @author Likfees
  */
+@Data
 public class FengUsers extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -32,6 +36,13 @@ public class FengUsers extends BaseEntity
     /** 用户昵称 */
     @Excel(name = "用户名称")
     private String nickName;
+
+    /** 学号 */
+    @Excel(name = "学号")
+    private String studentNumber;
+
+    /** 班级id */
+    private String classId;
 
     /** 用户邮箱 */
     @Excel(name = "用户邮箱")

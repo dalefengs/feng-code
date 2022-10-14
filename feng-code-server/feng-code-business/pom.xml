@@ -14,6 +14,12 @@
     <description>
         FengCode 业务模块
     </description>
+    <dependencies>
+        <dependency>
+            <groupId>cn.lzscxb</groupId>
+            <artifactId>feng-code-common</artifactId>
+        </dependency>
+    </dependencies>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
