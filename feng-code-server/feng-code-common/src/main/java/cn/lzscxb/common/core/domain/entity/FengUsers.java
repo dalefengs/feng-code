@@ -5,13 +5,11 @@ import java.util.List;
 import javax.validation.constraints.*;
 
 import lombok.Data;
-import lombok.Getter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import cn.lzscxb.common.annotation.Excel;
 import cn.lzscxb.common.annotation.Excel.ColumnType;
 import cn.lzscxb.common.annotation.Excel.Type;
-import cn.lzscxb.common.annotation.Excels;
 import cn.lzscxb.common.core.domain.BaseEntity;
 import cn.lzscxb.common.xss.Xss;
 
