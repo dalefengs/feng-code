@@ -1,7 +1,7 @@
 package cn.lzscxb.common.utils.sql;
 
 import cn.lzscxb.common.exception.UtilException;
-import cn.lzscxb.common.utils.StringUtils;
+import cn.lzscxb.domain.utils.StringUtils;
 
 /**
  * sql操作工具类

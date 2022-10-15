@@ -5,9 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import org.apache.velocity.VelocityContext;
 import com.alibaba.fastjson.JSONObject;
-import cn.lzscxb.common.constant.GenConstants;
+import cn.lzscxb.domain.constant.GenConstants;
 import cn.lzscxb.common.utils.DateUtils;
-import cn.lzscxb.common.utils.StringUtils;
+import cn.lzscxb.domain.utils.StringUtils;
 import cn.lzscxb.generator.domain.GenTable;
 import cn.lzscxb.generator.domain.GenTableColumn;
 

@@ -1,6 +1,6 @@
 package cn.lzscxb.business.mapper;
 
-import cn.lzscxb.domain.FengClass;
+import cn.lzscxb.domain.entity.FengClass;
 
 import java.util.List;
 
@@ -19,6 +19,14 @@ public interface FengClassMapper
      * @return 班级管理
      */
     public FengClass selectFengClassById(Long id);
+
+    /**
+     * 通过学院id查询班级列表
+     *
+     * @param collegeId 学院主键
+     * @return 班级管理
+     */
+    public List<FengClass> selectFengClassListByCollegeId(Long collegeId);
 
     /**
      * 查询班级管理列表

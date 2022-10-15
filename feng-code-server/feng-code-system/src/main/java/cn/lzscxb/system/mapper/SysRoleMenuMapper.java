@@ -2,7 +2,7 @@ package cn.lzscxb.system.mapper;
 
 import java.util.List;
 
-import cn.lzscxb.domain.SysRoleMenu;
+import cn.lzscxb.domain.entity.SysRoleMenu;
 
 /**
  * 角色与菜单关联表 数据层

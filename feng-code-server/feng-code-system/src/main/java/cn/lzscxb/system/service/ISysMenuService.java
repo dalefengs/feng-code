@@ -3,8 +3,8 @@ package cn.lzscxb.system.service;
 import java.util.List;
 import java.util.Set;
 
-import cn.lzscxb.common.core.domain.entity.SysMenu;
-import cn.lzscxb.common.core.domain.TreeSelect;
+import cn.lzscxb.domain.entity.SysMenu;
+import cn.lzscxb.domain.TreeSelect;
 import cn.lzscxb.system.domain.vo.RouterVo;
 
 /**

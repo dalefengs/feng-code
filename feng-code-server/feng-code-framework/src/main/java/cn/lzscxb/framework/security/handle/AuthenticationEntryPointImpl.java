@@ -8,10 +8,10 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 import com.alibaba.fastjson2.JSON;
-import cn.lzscxb.common.constant.HttpStatus;
-import cn.lzscxb.common.core.domain.AjaxResult;
-import cn.lzscxb.common.utils.ServletUtils;
-import cn.lzscxb.common.utils.StringUtils;
+import cn.lzscxb.domain.constant.HttpStatus;
+import cn.lzscxb.domain.AjaxResult;
+import cn.lzscxb.domain.utils.ServletUtils;
+import cn.lzscxb.domain.utils.StringUtils;
 
 /**
  * 认证失败处理类 返回未授权

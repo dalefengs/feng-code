@@ -7,7 +7,7 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
-import cn.lzscxb.common.utils.StringUtils;
+import cn.lzscxb.domain.utils.StringUtils;
 import cn.lzscxb.common.utils.html.EscapeUtil;
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpHeaders;

@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.lzscxb.business.mapper.FengCollegeMapper">
     
-    <resultMap type="cn.lzscxb.domain.FengCollege" id="FengCollegeResult">
+    <resultMap type="cn.lzscxb.domain.entity.FengCollege" id="FengCollegeResult">
         <result property="id"    column="id"    />
         <result property="name"    column="name"    />
         <result property="createBy"    column="create_by"    />
@@ -17,7 +17,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, name, create_by, create_time, update_by, update_time from feng_college
     </sql>
 
-    <select id="selectFengCollegeList" parameterType="cn.lzscxb.domain.FengCollege" resultMap="FengCollegeResult">
+    <select id="selectFengCollegeList" parameterType="cn.lzscxb.domain.entity.FengCollege" resultMap="FengCollegeResult">
         <include refid="selectFengCollegeVo"/>
         <where>  
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
@@ -33,7 +33,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
         
-    <insert id="insertFengCollege" parameterType="cn.lzscxb.domain.FengCollege" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertFengCollege" parameterType="cn.lzscxb.domain.entity.FengCollege" useGeneratedKeys="true" keyProperty="id">
         insert into feng_college
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="name != null and name != ''">name,</if>
@@ -51,7 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateFengCollege" parameterType="cn.lzscxb.domain.FengCollege">
+    <update id="updateFengCollege" parameterType="cn.lzscxb.domain.entity.FengCollege">
         update feng_college
         <trim prefix="SET" suffixOverrides=",">
             <if test="name != null and name != ''">name = #{name},</if>

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import cn.lzscxb.common.config.FengCodeConfig;
 import cn.lzscxb.common.utils.DateUtils;
-import cn.lzscxb.common.utils.StringUtils;
+import cn.lzscxb.domain.utils.StringUtils;
 import cn.lzscxb.common.utils.uuid.IdUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;

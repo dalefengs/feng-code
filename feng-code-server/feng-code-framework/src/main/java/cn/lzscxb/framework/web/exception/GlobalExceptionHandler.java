@@ -9,11 +9,11 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import cn.lzscxb.common.constant.HttpStatus;
-import cn.lzscxb.common.core.domain.AjaxResult;
+import cn.lzscxb.domain.constant.HttpStatus;
+import cn.lzscxb.domain.AjaxResult;
 import cn.lzscxb.common.exception.DemoModeException;
 import cn.lzscxb.common.exception.ServiceException;
-import cn.lzscxb.common.utils.StringUtils;
+import cn.lzscxb.domain.utils.StringUtils;
 
 /**
  * 全局异常处理器

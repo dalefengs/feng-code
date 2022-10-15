@@ -2,7 +2,7 @@ package cn.lzscxb.system.service;
 
 import java.util.List;
 
-import cn.lzscxb.domain.SysOperLog;
+import cn.lzscxb.domain.entity.SysOperLog;
 
 /**
  * 操作日志 服务层

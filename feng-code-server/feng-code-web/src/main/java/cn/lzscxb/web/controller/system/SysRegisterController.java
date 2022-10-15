@@ -1,7 +1,7 @@
 package cn.lzscxb.web.controller.system;
 
-import cn.lzscxb.common.core.domain.model.RegisterBody;
-import cn.lzscxb.common.utils.StringUtils;
+import cn.lzscxb.domain.model.RegisterBody;
+import cn.lzscxb.domain.utils.StringUtils;
 import cn.lzscxb.framework.web.service.SysRegisterService;
 import cn.lzscxb.system.service.ISysConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import cn.lzscxb.common.core.controller.BaseController;
-import cn.lzscxb.common.core.domain.AjaxResult;
+import cn.lzscxb.domain.AjaxResult;
 
 /**
  * 注册验证

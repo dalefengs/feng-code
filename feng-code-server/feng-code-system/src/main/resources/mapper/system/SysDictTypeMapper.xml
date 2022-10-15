@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.lzscxb.system.mapper.SysDictTypeMapper">
 
-	<resultMap type="cn.lzscxb.common.core.domain.entity.SysDictType" id="SysDictTypeResult">
+	<resultMap type="cn.lzscxb.domain.entity.SysDictType" id="SysDictTypeResult">
 		<id     property="dictId"     column="dict_id"     />
 		<result property="dictName"   column="dict_name"   />
 		<result property="dictType"   column="dict_type"   />

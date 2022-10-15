@@ -8,8 +8,8 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 
 import cn.lzscxb.common.config.FengCodeConfig;
-import cn.lzscxb.common.constant.CacheConstants;
-import cn.lzscxb.common.constant.Constants;
+import cn.lzscxb.domain.constant.CacheConstants;
+import cn.lzscxb.domain.constant.Constants;
 import cn.lzscxb.common.utils.sign.Base64;
 import cn.lzscxb.common.utils.uuid.IdUtils;
 import cn.lzscxb.system.service.ISysConfigService;
@@ -18,7 +18,7 @@ import org.springframework.util.FastByteArrayOutputStream;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.google.code.kaptcha.Producer;
-import cn.lzscxb.common.core.domain.AjaxResult;
+import cn.lzscxb.domain.AjaxResult;
 import cn.lzscxb.common.core.redis.RedisCache;
 
 /**

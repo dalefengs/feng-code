@@ -19,8 +19,8 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import cn.lzscxb.common.constant.Constants;
-import cn.lzscxb.common.utils.StringUtils;
+import cn.lzscxb.domain.constant.Constants;
+import cn.lzscxb.domain.utils.StringUtils;
 
 /**
  * 通用http发送方法

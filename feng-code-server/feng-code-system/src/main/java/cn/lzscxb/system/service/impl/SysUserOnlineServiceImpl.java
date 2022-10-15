@@ -1,9 +1,9 @@
 package cn.lzscxb.system.service.impl;
 
 import org.springframework.stereotype.Service;
-import cn.lzscxb.common.core.domain.model.LoginUser;
-import cn.lzscxb.common.utils.StringUtils;
-import cn.lzscxb.domain.SysUserOnline;
+import cn.lzscxb.domain.model.LoginUser;
+import cn.lzscxb.domain.utils.StringUtils;
+import cn.lzscxb.domain.entity.SysUserOnline;
 import cn.lzscxb.system.service.ISysUserOnlineService;
 
 /**

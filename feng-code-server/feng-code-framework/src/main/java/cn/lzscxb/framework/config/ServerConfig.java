@@ -2,7 +2,7 @@ package cn.lzscxb.framework.config;
 
 import javax.servlet.http.HttpServletRequest;
 
-import cn.lzscxb.common.utils.ServletUtils;
+import cn.lzscxb.domain.utils.ServletUtils;
 import org.springframework.stereotype.Component;
 
 /**

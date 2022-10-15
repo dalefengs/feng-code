@@ -1,10 +1,10 @@
 package cn.lzscxb.common.utils;
 
-import cn.lzscxb.common.core.domain.model.LoginUser;
+import cn.lzscxb.domain.model.LoginUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import cn.lzscxb.common.constant.HttpStatus;
+import cn.lzscxb.domain.constant.HttpStatus;
 import cn.lzscxb.common.exception.ServiceException;
 
 /**

@@ -3,16 +3,16 @@ package cn.lzscxb.web.controller.system;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
-import cn.lzscxb.common.annotation.Log;
-import cn.lzscxb.common.constant.UserConstants;
-import cn.lzscxb.common.core.domain.entity.SysRole;
-import cn.lzscxb.common.core.domain.entity.FengUsers;
-import cn.lzscxb.common.core.domain.model.LoginUser;
-import cn.lzscxb.common.enums.BusinessType;
-import cn.lzscxb.common.utils.StringUtils;
+import cn.lzscxb.domain.annotation.Log;
+import cn.lzscxb.domain.constant.UserConstants;
+import cn.lzscxb.domain.entity.SysRole;
+import cn.lzscxb.domain.entity.FengUsers;
+import cn.lzscxb.domain.model.LoginUser;
+import cn.lzscxb.domain.enums.BusinessType;
+import cn.lzscxb.domain.utils.StringUtils;
 import cn.lzscxb.framework.web.service.SysPermissionService;
 import cn.lzscxb.framework.web.service.TokenService;
-import cn.lzscxb.domain.SysUserRole;
+import cn.lzscxb.domain.entity.SysUserRole;
 import cn.lzscxb.system.service.ISysRoleService;
 import cn.lzscxb.system.service.IFengUsersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +27,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import cn.lzscxb.common.core.controller.BaseController;
-import cn.lzscxb.common.core.domain.AjaxResult;
-import cn.lzscxb.common.core.page.TableDataInfo;
+import cn.lzscxb.domain.AjaxResult;
+import cn.lzscxb.domain.page.TableDataInfo;
 import cn.lzscxb.common.utils.poi.ExcelUtil;
 
 /**

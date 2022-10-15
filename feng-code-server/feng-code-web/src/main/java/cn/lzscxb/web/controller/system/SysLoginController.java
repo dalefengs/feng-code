@@ -3,10 +3,10 @@ package cn.lzscxb.web.controller.system;
 import java.util.List;
 import java.util.Set;
 
-import cn.lzscxb.common.constant.Constants;
-import cn.lzscxb.common.core.domain.entity.SysMenu;
-import cn.lzscxb.common.core.domain.entity.FengUsers;
-import cn.lzscxb.common.core.domain.model.LoginBody;
+import cn.lzscxb.domain.constant.Constants;
+import cn.lzscxb.domain.entity.SysMenu;
+import cn.lzscxb.domain.entity.FengUsers;
+import cn.lzscxb.domain.model.LoginBody;
 import cn.lzscxb.common.utils.SecurityUtils;
 import cn.lzscxb.framework.web.service.SysLoginService;
 import cn.lzscxb.framework.web.service.SysPermissionService;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import cn.lzscxb.common.core.domain.AjaxResult;
+import cn.lzscxb.domain.AjaxResult;
 
 /**
  * 登录验证

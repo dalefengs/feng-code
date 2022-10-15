@@ -1,7 +1,7 @@
 package cn.lzscxb.system.service;
 
-import cn.lzscxb.common.core.domain.model.LoginUser;
-import cn.lzscxb.domain.SysUserOnline;
+import cn.lzscxb.domain.model.LoginUser;
+import cn.lzscxb.domain.entity.SysUserOnline;
 
 /**
  * 在线用户 服务层

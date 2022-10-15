@@ -1,6 +1,6 @@
 package cn.lzscxb.system.mapper;
 
-import cn.lzscxb.domain.SysLogininfor;
+import cn.lzscxb.domain.entity.SysLogininfor;
 
 import java.util.List;
 

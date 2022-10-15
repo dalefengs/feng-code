@@ -2,7 +2,7 @@ package cn.lzscxb.system.mapper;
 
 import java.util.List;
 
-import cn.lzscxb.common.core.domain.entity.SysRole;
+import cn.lzscxb.domain.entity.SysRole;
 
 /**
  * 角色表 数据层

@@ -5,7 +5,7 @@ import cn.lzscxb.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cn.lzscxb.business.mapper.FengCollegeMapper;
-import cn.lzscxb.domain.FengCollege;
+import cn.lzscxb.domain.entity.FengCollege;
 import cn.lzscxb.business.service.IFengCollegeService;
 
 /**

@@ -2,6 +2,8 @@ package cn.lzscxb.common.utils;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+
+import cn.lzscxb.domain.utils.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 /**

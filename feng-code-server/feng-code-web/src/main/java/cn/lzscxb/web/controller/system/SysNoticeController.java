@@ -2,9 +2,9 @@ package cn.lzscxb.web.controller.system;
 
 import java.util.List;
 
-import cn.lzscxb.common.annotation.Log;
-import cn.lzscxb.common.enums.BusinessType;
-import cn.lzscxb.domain.SysNotice;
+import cn.lzscxb.domain.annotation.Log;
+import cn.lzscxb.domain.enums.BusinessType;
+import cn.lzscxb.domain.entity.SysNotice;
 import cn.lzscxb.system.service.ISysNoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import cn.lzscxb.common.core.controller.BaseController;
-import cn.lzscxb.common.core.domain.AjaxResult;
-import cn.lzscxb.common.core.page.TableDataInfo;
+import cn.lzscxb.domain.AjaxResult;
+import cn.lzscxb.domain.page.TableDataInfo;
 
 /**
  * 公告 信息操作处理

@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import cn.lzscxb.common.core.domain.entity.SysRole;
-import cn.lzscxb.common.core.domain.entity.FengUsers;
+import cn.lzscxb.domain.entity.SysRole;
+import cn.lzscxb.domain.entity.FengUsers;
 import cn.lzscxb.system.service.ISysMenuService;
 import cn.lzscxb.system.service.ISysRoleService;
 

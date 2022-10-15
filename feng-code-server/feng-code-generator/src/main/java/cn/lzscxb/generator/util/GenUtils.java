@@ -2,8 +2,8 @@ package cn.lzscxb.generator.util;
 
 import java.util.Arrays;
 
-import cn.lzscxb.common.constant.GenConstants;
-import cn.lzscxb.common.utils.StringUtils;
+import cn.lzscxb.domain.constant.GenConstants;
+import cn.lzscxb.domain.utils.StringUtils;
 import org.apache.commons.lang3.RegExUtils;
 import cn.lzscxb.generator.config.GenConfig;
 import cn.lzscxb.generator.domain.GenTable;

@@ -17,23 +17,6 @@
 
     <dependencies>
 
-        <!-- Spring框架基本的核心工具 -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context-support</artifactId>
-        </dependency>
-
-        <!-- SpringWeb模块 -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-        </dependency>
-
-        <!-- spring security 安全认证 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
 
         <!-- pagehelper 分页插件 -->
         <dependency>
@@ -52,18 +35,8 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
-  
-        <!-- JSON工具类 -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-        </dependency>
 
-        <!-- 阿里JSON解析器 -->
-        <dependency>
-            <groupId>com.alibaba.fastjson2</groupId>
-            <artifactId>fastjson2</artifactId>
-        </dependency>
+
 
         <!-- io常用工具类 -->
         <dependency>
@@ -89,11 +62,6 @@
             <artifactId>snakeyaml</artifactId>
         </dependency>
 
-        <!-- Token生成与解析-->
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-        </dependency>
 
         <!-- Jaxb -->
         <dependency>
@@ -129,22 +97,18 @@
             <artifactId>UserAgentUtils</artifactId>
         </dependency>
 
-        <!-- servlet包 -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
 
 
         <dependency>
             <groupId>io.minio</groupId>
             <artifactId>minio</artifactId>
             <version>8.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.lzscxb</groupId>
+            <artifactId>feng-code-domain</artifactId>
+            <version>3.8.4</version>
+            <scope>compile</scope>
         </dependency>
 
     </dependencies>

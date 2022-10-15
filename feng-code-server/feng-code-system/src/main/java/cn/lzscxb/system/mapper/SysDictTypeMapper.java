@@ -2,7 +2,7 @@ package cn.lzscxb.system.mapper;
 
 import java.util.List;
 
-import cn.lzscxb.common.core.domain.entity.SysDictType;
+import cn.lzscxb.domain.entity.SysDictType;
 
 /**
  * 字典表 数据层

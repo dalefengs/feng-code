@@ -2,8 +2,8 @@ package cn.lzscxb.framework.aspectj;
 
 import java.util.Objects;
 
-import cn.lzscxb.common.annotation.DataSource;
-import cn.lzscxb.common.utils.StringUtils;
+import cn.lzscxb.domain.annotation.DataSource;
+import cn.lzscxb.domain.utils.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -28,8 +28,8 @@ public class DataSourceAspect
 {
     protected Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Pointcut("@annotation(cn.lzscxb.common.annotation.DataSource)"
-            + "|| @within(cn.lzscxb.common.annotation.DataSource)")
+    @Pointcut("@annotation(cn.lzscxb.domain.annotation.DataSource)"
+            + "|| @within(cn.lzscxb.domain.annotation.DataSource)")
     public void dsPointCut()
     {
 

@@ -2,7 +2,7 @@ package cn.lzscxb.system.service;
 
 import java.util.List;
 
-import cn.lzscxb.common.core.domain.entity.SysDictData;
+import cn.lzscxb.domain.entity.SysDictData;
 
 /**
  * 字典 业务层

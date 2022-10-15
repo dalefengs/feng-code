@@ -1,8 +1,8 @@
 package cn.lzscxb.common.utils;
 
 import com.github.pagehelper.PageHelper;
-import cn.lzscxb.common.core.page.PageDomain;
-import cn.lzscxb.common.core.page.TableSupport;
+import cn.lzscxb.domain.page.PageDomain;
+import cn.lzscxb.domain.page.TableSupport;
 import cn.lzscxb.common.utils.sql.SqlUtil;
 
 /**

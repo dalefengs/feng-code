@@ -3,8 +3,8 @@ package cn.lzscxb.system.service;
 import java.util.List;
 import java.util.Set;
 
-import cn.lzscxb.common.core.domain.entity.SysRole;
-import cn.lzscxb.domain.SysUserRole;
+import cn.lzscxb.domain.entity.SysRole;
+import cn.lzscxb.domain.entity.SysUserRole;
 
 /**
  * 角色业务层

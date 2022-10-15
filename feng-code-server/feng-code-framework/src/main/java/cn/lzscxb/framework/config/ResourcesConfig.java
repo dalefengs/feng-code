@@ -1,7 +1,7 @@
 package cn.lzscxb.framework.config;
 
 import cn.lzscxb.common.config.FengCodeConfig;
-import cn.lzscxb.common.constant.Constants;
+import cn.lzscxb.domain.constant.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -3,7 +3,7 @@ package cn.lzscxb.system.service.impl;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import cn.lzscxb.domain.SysNotice;
+import cn.lzscxb.domain.entity.SysNotice;
 import cn.lzscxb.system.mapper.SysNoticeMapper;
 import cn.lzscxb.system.service.ISysNoticeService;
 

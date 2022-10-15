@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
-import cn.lzscxb.common.annotation.Log;
-import cn.lzscxb.common.core.domain.entity.SysDictData;
-import cn.lzscxb.common.enums.BusinessType;
-import cn.lzscxb.common.utils.StringUtils;
+import cn.lzscxb.domain.annotation.Log;
+import cn.lzscxb.domain.entity.SysDictData;
+import cn.lzscxb.domain.enums.BusinessType;
+import cn.lzscxb.domain.utils.StringUtils;
 import cn.lzscxb.system.service.ISysDictDataService;
 import cn.lzscxb.system.service.ISysDictTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import cn.lzscxb.common.core.controller.BaseController;
-import cn.lzscxb.common.core.domain.AjaxResult;
-import cn.lzscxb.common.core.page.TableDataInfo;
+import cn.lzscxb.domain.AjaxResult;
+import cn.lzscxb.domain.page.TableDataInfo;
 import cn.lzscxb.common.utils.poi.ExcelUtil;
 
 /**

@@ -2,11 +2,11 @@ package cn.lzscxb.web.controller.system;
 
 import java.util.List;
 
-import cn.lzscxb.common.annotation.Log;
-import cn.lzscxb.common.constant.UserConstants;
-import cn.lzscxb.common.core.domain.entity.SysMenu;
-import cn.lzscxb.common.enums.BusinessType;
-import cn.lzscxb.common.utils.StringUtils;
+import cn.lzscxb.domain.annotation.Log;
+import cn.lzscxb.domain.constant.UserConstants;
+import cn.lzscxb.domain.entity.SysMenu;
+import cn.lzscxb.domain.enums.BusinessType;
+import cn.lzscxb.domain.utils.StringUtils;
 import cn.lzscxb.system.service.ISysMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import cn.lzscxb.common.core.controller.BaseController;
-import cn.lzscxb.common.core.domain.AjaxResult;
+import cn.lzscxb.domain.AjaxResult;
 
 /**
  * 菜单信息

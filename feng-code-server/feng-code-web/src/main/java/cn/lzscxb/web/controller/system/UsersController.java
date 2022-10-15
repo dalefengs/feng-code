@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
 
-import cn.lzscxb.common.annotation.Log;
-import cn.lzscxb.common.constant.UserConstants;
-import cn.lzscxb.common.core.domain.entity.SysRole;
-import cn.lzscxb.common.core.domain.entity.FengUsers;
-import cn.lzscxb.common.enums.BusinessType;
+import cn.lzscxb.domain.annotation.Log;
+import cn.lzscxb.domain.constant.UserConstants;
+import cn.lzscxb.domain.entity.SysRole;
+import cn.lzscxb.domain.entity.FengUsers;
+import cn.lzscxb.domain.enums.BusinessType;
 import cn.lzscxb.common.utils.SecurityUtils;
-import cn.lzscxb.common.utils.StringUtils;
+import cn.lzscxb.domain.utils.StringUtils;
 import cn.lzscxb.system.service.ISysRoleService;
 import cn.lzscxb.system.service.IFengUsersService;
 import org.apache.commons.lang3.ArrayUtils;
@@ -27,8 +27,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import cn.lzscxb.common.core.controller.BaseController;
-import cn.lzscxb.common.core.domain.AjaxResult;
-import cn.lzscxb.common.core.page.TableDataInfo;
+import cn.lzscxb.domain.AjaxResult;
+import cn.lzscxb.domain.page.TableDataInfo;
 import cn.lzscxb.common.utils.poi.ExcelUtil;
 
 /**

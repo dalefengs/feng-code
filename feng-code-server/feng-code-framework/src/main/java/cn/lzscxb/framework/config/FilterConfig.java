@@ -6,7 +6,7 @@ import javax.servlet.DispatcherType;
 
 import cn.lzscxb.common.filter.RepeatableFilter;
 import cn.lzscxb.common.filter.XssFilter;
-import cn.lzscxb.common.utils.StringUtils;
+import cn.lzscxb.domain.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;

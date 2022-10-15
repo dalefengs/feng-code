@@ -8,8 +8,8 @@ import java.net.URLConnection;
 import java.util.Arrays;
 
 import cn.lzscxb.common.config.FengCodeConfig;
-import cn.lzscxb.common.constant.Constants;
-import cn.lzscxb.common.utils.StringUtils;
+import cn.lzscxb.domain.constant.Constants;
+import cn.lzscxb.domain.utils.StringUtils;
 import org.apache.poi.util.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

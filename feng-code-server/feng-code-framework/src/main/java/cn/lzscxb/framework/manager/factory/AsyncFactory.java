@@ -3,17 +3,17 @@ package cn.lzscxb.framework.manager.factory;
 import java.util.TimerTask;
 
 import cn.lzscxb.common.utils.spring.SpringUtils;
-import cn.lzscxb.domain.SysLogininfor;
+import cn.lzscxb.domain.entity.SysLogininfor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import cn.lzscxb.common.constant.Constants;
+import cn.lzscxb.domain.constant.Constants;
 import cn.lzscxb.common.utils.LogUtils;
-import cn.lzscxb.common.utils.ServletUtils;
-import cn.lzscxb.common.utils.StringUtils;
+import cn.lzscxb.domain.utils.ServletUtils;
+import cn.lzscxb.domain.utils.StringUtils;
 import cn.lzscxb.common.utils.ip.AddressUtils;
 import cn.lzscxb.common.utils.ip.IpUtils;
 
-import cn.lzscxb.domain.SysOperLog;
+import cn.lzscxb.domain.entity.SysOperLog;
 import cn.lzscxb.system.service.ISysLogininforService;
 import cn.lzscxb.system.service.ISysOperLogService;
 import eu.bitwalker.useragentutils.UserAgent;

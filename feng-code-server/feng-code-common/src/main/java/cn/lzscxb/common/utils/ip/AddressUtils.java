@@ -1,8 +1,8 @@
 package cn.lzscxb.common.utils.ip;
 
 import cn.lzscxb.common.config.FengCodeConfig;
-import cn.lzscxb.common.constant.Constants;
-import cn.lzscxb.common.utils.StringUtils;
+import cn.lzscxb.domain.constant.Constants;
+import cn.lzscxb.domain.utils.StringUtils;
 import cn.lzscxb.common.utils.http.HttpUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

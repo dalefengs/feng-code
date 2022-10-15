@@ -2,7 +2,7 @@ package cn.lzscxb.system.mapper;
 
 import java.util.List;
 
-import cn.lzscxb.common.core.domain.entity.SysDictData;
+import cn.lzscxb.domain.entity.SysDictData;
 import org.apache.ibatis.annotations.Param;
 
 /**

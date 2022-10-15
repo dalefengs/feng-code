@@ -5,13 +5,13 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import cn.lzscxb.common.annotation.Log;
-import cn.lzscxb.common.constant.CacheConstants;
-import cn.lzscxb.common.core.domain.model.LoginUser;
-import cn.lzscxb.common.core.page.TableDataInfo;
-import cn.lzscxb.common.enums.BusinessType;
-import cn.lzscxb.common.utils.StringUtils;
-import cn.lzscxb.domain.SysUserOnline;
+import cn.lzscxb.domain.annotation.Log;
+import cn.lzscxb.domain.constant.CacheConstants;
+import cn.lzscxb.domain.model.LoginUser;
+import cn.lzscxb.domain.page.TableDataInfo;
+import cn.lzscxb.domain.enums.BusinessType;
+import cn.lzscxb.domain.utils.StringUtils;
+import cn.lzscxb.domain.entity.SysUserOnline;
 import cn.lzscxb.system.service.ISysUserOnlineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import cn.lzscxb.common.core.controller.BaseController;
-import cn.lzscxb.common.core.domain.AjaxResult;
+import cn.lzscxb.domain.AjaxResult;
 import cn.lzscxb.common.core.redis.RedisCache;
 
 /**

@@ -2,8 +2,8 @@ package cn.lzscxb.generator.domain;
 
 import javax.validation.constraints.NotBlank;
 
-import cn.lzscxb.common.utils.StringUtils;
-import cn.lzscxb.common.core.domain.BaseEntity;
+import cn.lzscxb.domain.utils.StringUtils;
+import cn.lzscxb.domain.BaseEntity;
 
 /**
  * 代码生成业务字段表 gen_table_column

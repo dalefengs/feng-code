@@ -10,11 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import com.alibaba.fastjson2.JSON;
-import cn.lzscxb.common.annotation.RepeatSubmit;
-import cn.lzscxb.common.constant.CacheConstants;
+import cn.lzscxb.domain.annotation.RepeatSubmit;
+import cn.lzscxb.domain.constant.CacheConstants;
 import cn.lzscxb.common.core.redis.RedisCache;
 import cn.lzscxb.common.filter.RepeatedlyRequestWrapper;
-import cn.lzscxb.common.utils.StringUtils;
+import cn.lzscxb.domain.utils.StringUtils;
 import cn.lzscxb.framework.interceptor.RepeatSubmitInterceptor;
 
 /**

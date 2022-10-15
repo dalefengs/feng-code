@@ -6,12 +6,12 @@ import java.nio.file.Paths;
 import java.util.Objects;
 
 import cn.lzscxb.common.config.FengCodeConfig;
-import cn.lzscxb.common.constant.Constants;
+import cn.lzscxb.domain.constant.Constants;
 import cn.lzscxb.common.exception.file.FileNameLengthLimitExceededException;
 import cn.lzscxb.common.exception.file.FileSizeLimitExceededException;
 import cn.lzscxb.common.exception.file.InvalidExtensionException;
 import cn.lzscxb.common.utils.DateUtils;
-import cn.lzscxb.common.utils.StringUtils;
+import cn.lzscxb.domain.utils.StringUtils;
 import cn.lzscxb.common.utils.uuid.Seq;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.multipart.MultipartFile;

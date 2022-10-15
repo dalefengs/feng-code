@@ -6,8 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import cn.lzscxb.common.config.FengCodeConfig;
-import cn.lzscxb.common.constant.Constants;
-import cn.lzscxb.common.utils.StringUtils;
+import cn.lzscxb.domain.constant.Constants;
+import cn.lzscxb.domain.utils.StringUtils;
 import cn.lzscxb.common.utils.file.MinioUtils;
 import cn.lzscxb.framework.config.ServerConfig;
 import org.slf4j.Logger;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import cn.lzscxb.common.core.domain.AjaxResult;
+import cn.lzscxb.domain.AjaxResult;
 import cn.lzscxb.common.utils.file.FileUploadUtils;
 import cn.lzscxb.common.utils.file.FileUtils;
 

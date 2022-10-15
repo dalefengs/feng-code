@@ -12,7 +12,7 @@ import org.apache.commons.lang3.Validate;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import cn.lzscxb.common.core.text.Convert;
+import cn.lzscxb.domain.text.Convert;
 import cn.lzscxb.common.utils.DateUtils;
 
 /**

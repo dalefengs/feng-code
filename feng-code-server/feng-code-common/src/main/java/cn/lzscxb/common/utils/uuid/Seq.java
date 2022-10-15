@@ -2,7 +2,7 @@ package cn.lzscxb.common.utils.uuid;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import cn.lzscxb.common.utils.DateUtils;
-import cn.lzscxb.common.utils.StringUtils;
+import cn.lzscxb.domain.utils.StringUtils;
 
 /**
  * @author Likfees 序列生成类

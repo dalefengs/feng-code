@@ -8,9 +8,9 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import cn.lzscxb.common.constant.CacheConstants;
-import cn.lzscxb.common.utils.StringUtils;
-import cn.lzscxb.domain.SysCache;
+import cn.lzscxb.domain.constant.CacheConstants;
+import cn.lzscxb.domain.utils.StringUtils;
+import cn.lzscxb.domain.entity.SysCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import cn.lzscxb.common.core.domain.AjaxResult;
+import cn.lzscxb.domain.AjaxResult;
 
 /**
  * 缓存监控

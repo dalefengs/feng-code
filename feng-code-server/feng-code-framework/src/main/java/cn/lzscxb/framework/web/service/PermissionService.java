@@ -3,10 +3,10 @@ package cn.lzscxb.framework.web.service;
 import java.util.Set;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import cn.lzscxb.common.core.domain.entity.SysRole;
-import cn.lzscxb.common.core.domain.model.LoginUser;
+import cn.lzscxb.domain.entity.SysRole;
+import cn.lzscxb.domain.model.LoginUser;
 import cn.lzscxb.common.utils.SecurityUtils;
-import cn.lzscxb.common.utils.StringUtils;
+import cn.lzscxb.domain.utils.StringUtils;
 import cn.lzscxb.framework.security.context.PermissionContextHolder;
 
 /**

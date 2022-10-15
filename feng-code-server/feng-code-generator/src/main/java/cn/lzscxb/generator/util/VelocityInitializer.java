@@ -2,7 +2,7 @@ package cn.lzscxb.generator.util;
 
 import java.util.Properties;
 
-import cn.lzscxb.common.constant.Constants;
+import cn.lzscxb.domain.constant.Constants;
 import org.apache.velocity.app.Velocity;
 
 /**

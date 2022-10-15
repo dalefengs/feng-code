@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
-import cn.lzscxb.common.annotation.Log;
-import cn.lzscxb.common.enums.BusinessType;
+import cn.lzscxb.domain.annotation.Log;
+import cn.lzscxb.domain.enums.BusinessType;
 import cn.lzscxb.generator.domain.GenTable;
 import cn.lzscxb.generator.domain.GenTableColumn;
 import org.apache.commons.io.IOUtils;
@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import cn.lzscxb.common.core.controller.BaseController;
-import cn.lzscxb.common.core.domain.AjaxResult;
-import cn.lzscxb.common.core.page.TableDataInfo;
-import cn.lzscxb.common.core.text.Convert;
+import cn.lzscxb.domain.AjaxResult;
+import cn.lzscxb.domain.page.TableDataInfo;
+import cn.lzscxb.domain.text.Convert;
 import cn.lzscxb.generator.service.IGenTableColumnService;
 import cn.lzscxb.generator.service.IGenTableService;
 

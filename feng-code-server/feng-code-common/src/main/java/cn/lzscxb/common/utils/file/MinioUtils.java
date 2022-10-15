@@ -1,7 +1,7 @@
 package cn.lzscxb.common.utils.file;
 
 
-import cn.lzscxb.common.core.domain.MinioObjectItem;
+import cn.lzscxb.domain.MinioObjectItem;
 import io.minio.*;
 import io.minio.messages.DeleteError;
 import io.minio.messages.DeleteObject;

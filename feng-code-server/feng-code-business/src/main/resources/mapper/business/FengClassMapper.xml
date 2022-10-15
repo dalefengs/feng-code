@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.lzscxb.business.mapper.FengClassMapper">
     
-    <resultMap type="FengClass" id="FengClassResult">
+    <resultMap type="cn.lzscxb.domain.entity.FengClass" id="FengClassResult">
         <result property="id"    column="id"    />
         <result property="name"    column="name"    />
         <result property="collegeId"    column="college_id"    />
@@ -21,7 +21,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     </sql>
 
-    <select id="selectFengClassList" parameterType="FengClass" resultMap="FengClassResult">
+    <select id="selectFengClassList" parameterType="cn.lzscxb.domain.entity.FengClass" resultMap="FengClassResult">
         <include refid="selectFengClassVo"/>
         <where>  
             <if test="name != null  and name != ''"> and c.name like concat('%', #{name}, '%')</if>
@@ -34,8 +34,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectFengClassVo"/>
         where c.id = #{id}
     </select>
+
+    <!-- 通过学院id查询班级 -->
+    <select id="selectFengClassListByCollegeId" resultType="cn.lzscxb.domain.entity.FengClass">
+        <include refid="selectFengClassVo" />
+        where c.college_id = #{collegeId}
+    </select>
         
-    <insert id="insertFengClass" parameterType="FengClass" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertFengClass" parameterType="cn.lzscxb.domain.entity.FengClass" useGeneratedKeys="true" keyProperty="id">
         insert into feng_class
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="name != null and name != ''">name,</if>
@@ -55,7 +61,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateFengClass" parameterType="FengClass">
+    <update id="updateFengClass" parameterType="cn.lzscxb.domain.entity.FengClass">
         update feng_class
         <trim prefix="SET" suffixOverrides=",">
             <if test="name != null and name != ''">name = #{name},</if>
@@ -78,4 +84,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
 </mapper>

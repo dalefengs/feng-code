@@ -4,14 +4,14 @@ import java.util.Date;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import cn.lzscxb.common.annotation.Excel;
-import cn.lzscxb.common.constant.ScheduleConstants;
-import cn.lzscxb.common.utils.StringUtils;
+import cn.lzscxb.domain.annotation.Excel;
+import cn.lzscxb.domain.constant.ScheduleConstants;
+import cn.lzscxb.domain.utils.StringUtils;
 import cn.lzscxb.quartz.util.CronUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import cn.lzscxb.common.core.domain.BaseEntity;
+import cn.lzscxb.domain.BaseEntity;
 
 /**
  * 定时任务调度表 sys_job

@@ -1,6 +1,6 @@
 package cn.lzscxb.quartz.task;
 
-import cn.lzscxb.common.utils.StringUtils;
+import cn.lzscxb.domain.utils.StringUtils;
 import org.springframework.stereotype.Component;
 
 /**

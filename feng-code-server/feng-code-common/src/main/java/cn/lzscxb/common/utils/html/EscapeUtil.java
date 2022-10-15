@@ -1,6 +1,6 @@
 package cn.lzscxb.common.utils.html;
 
-import cn.lzscxb.common.utils.StringUtils;
+import cn.lzscxb.domain.utils.StringUtils;
 
 /**
  * 转义和反转义工具类

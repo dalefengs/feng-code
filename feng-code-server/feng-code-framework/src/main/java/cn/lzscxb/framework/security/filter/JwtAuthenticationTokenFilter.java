@@ -13,9 +13,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import cn.lzscxb.common.core.domain.model.LoginUser;
+import cn.lzscxb.domain.model.LoginUser;
 import cn.lzscxb.common.utils.SecurityUtils;
-import cn.lzscxb.common.utils.StringUtils;
+import cn.lzscxb.domain.utils.StringUtils;
 
 /**
  * token过滤器 验证token有效性

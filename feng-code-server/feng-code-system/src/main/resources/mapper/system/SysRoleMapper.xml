@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.lzscxb.system.mapper.SysRoleMapper">
 
-	<resultMap type="cn.lzscxb.common.core.domain.entity.SysRole" id="SysRoleResult">
+	<resultMap type="cn.lzscxb.domain.entity.SysRole" id="SysRoleResult">
 		<id     property="roleId"             column="role_id"               />
 		<result property="roleName"           column="role_name"             />
 		<result property="roleKey"            column="role_key"              />
@@ -24,7 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	        left join feng_users u on u.user_id = ur.user_id
     </sql>
     
-    <select id="selectRoleList" parameterType="cn.lzscxb.common.core.domain.entity.SysRole" resultMap="SysRoleResult">
+    <select id="selectRoleList" parameterType="cn.lzscxb.domain.entity.SysRole" resultMap="SysRoleResult">
 		<include refid="selectRoleVo"/>
 		where r.del_flag = '0'
 		<if test="roleId != null and roleId != 0">
@@ -86,7 +86,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 where r.role_key=#{roleKey} and r.del_flag = '0' limit 1
 	</select>
 	
- 	<insert id="insertRole" parameterType="cn.lzscxb.common.core.domain.entity.SysRole" useGeneratedKeys="true" keyProperty="roleId">
+ 	<insert id="insertRole" parameterType="cn.lzscxb.domain.entity.SysRole" useGeneratedKeys="true" keyProperty="roleId">
  		insert into sys_role(
  			<if test="roleId != null and roleId != 0">role_id,</if>
  			<if test="roleName != null and roleName != ''">role_name,</if>
@@ -110,7 +110,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  		)
 	</insert>
 	
-	<update id="updateRole" parameterType="cn.lzscxb.common.core.domain.entity.SysRole">
+	<update id="updateRole" parameterType="cn.lzscxb.domain.entity.SysRole">
  		update sys_role
  		<set>
  			<if test="roleName != null and roleName != ''">role_name = #{roleName},</if>

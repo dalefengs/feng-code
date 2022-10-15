@@ -3,10 +3,11 @@ package cn.lzscxb.common.utils;
 import java.util.Collection;
 import java.util.List;
 
-import cn.lzscxb.common.core.domain.entity.SysDictData;
+import cn.lzscxb.domain.entity.SysDictData;
 import cn.lzscxb.common.utils.spring.SpringUtils;
+import cn.lzscxb.domain.utils.StringUtils;
 import com.alibaba.fastjson2.JSONArray;
-import cn.lzscxb.common.constant.CacheConstants;
+import cn.lzscxb.domain.constant.CacheConstants;
 import cn.lzscxb.common.core.redis.RedisCache;
 
 /**

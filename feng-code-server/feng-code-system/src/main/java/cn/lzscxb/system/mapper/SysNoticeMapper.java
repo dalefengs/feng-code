@@ -1,6 +1,6 @@
 package cn.lzscxb.system.mapper;
 
-import cn.lzscxb.domain.SysNotice;
+import cn.lzscxb.domain.entity.SysNotice;
 import java.util.List;
 
 

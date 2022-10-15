@@ -1,6 +1,6 @@
 package cn.lzscxb.system.mapper;
 
-import cn.lzscxb.domain.SysOperLog;
+import cn.lzscxb.domain.entity.SysOperLog;
 
 import java.util.List;
 

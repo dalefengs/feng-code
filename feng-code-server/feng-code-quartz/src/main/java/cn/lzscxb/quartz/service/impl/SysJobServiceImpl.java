@@ -11,7 +11,7 @@ import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import cn.lzscxb.common.constant.ScheduleConstants;
+import cn.lzscxb.domain.constant.ScheduleConstants;
 import cn.lzscxb.quartz.domain.SysJob;
 import cn.lzscxb.quartz.mapper.SysJobMapper;
 import cn.lzscxb.quartz.service.ISysJobService;

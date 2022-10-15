@@ -3,7 +3,7 @@ package cn.lzscxb.system.service.impl;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import cn.lzscxb.common.core.domain.entity.SysDictData;
+import cn.lzscxb.domain.entity.SysDictData;
 import cn.lzscxb.common.utils.DictUtils;
 import cn.lzscxb.system.mapper.SysDictDataMapper;
 import cn.lzscxb.system.service.ISysDictDataService;

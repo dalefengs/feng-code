@@ -2,7 +2,7 @@ package cn.lzscxb.system.service;
 
 import java.util.List;
 
-import cn.lzscxb.common.core.domain.entity.FengUsers;
+import cn.lzscxb.domain.entity.FengUsers;
 
 /**
  * 用户 业务层

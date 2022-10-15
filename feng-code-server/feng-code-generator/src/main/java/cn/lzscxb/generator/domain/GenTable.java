@@ -4,10 +4,10 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
-import cn.lzscxb.common.constant.GenConstants;
-import cn.lzscxb.common.utils.StringUtils;
+import cn.lzscxb.domain.constant.GenConstants;
+import cn.lzscxb.domain.utils.StringUtils;
 import org.apache.commons.lang3.ArrayUtils;
-import cn.lzscxb.common.core.domain.BaseEntity;
+import cn.lzscxb.domain.BaseEntity;
 
 /**
  * 业务表 gen_table

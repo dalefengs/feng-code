@@ -12,11 +12,11 @@ import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import cn.lzscxb.common.constant.Constants;
-import cn.lzscxb.common.constant.GenConstants;
+import cn.lzscxb.domain.constant.Constants;
+import cn.lzscxb.domain.constant.GenConstants;
 import cn.lzscxb.common.exception.ServiceException;
 import cn.lzscxb.common.utils.SecurityUtils;
-import cn.lzscxb.common.utils.StringUtils;
+import cn.lzscxb.domain.utils.StringUtils;
 import cn.lzscxb.generator.domain.GenTable;
 import cn.lzscxb.generator.domain.GenTableColumn;
 import cn.lzscxb.generator.util.GenUtils;
@@ -34,7 +34,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
-import cn.lzscxb.common.core.text.CharsetKit;
+import cn.lzscxb.domain.text.CharsetKit;
 import cn.lzscxb.generator.mapper.GenTableColumnMapper;
 import cn.lzscxb.generator.mapper.GenTableMapper;
 

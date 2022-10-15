@@ -12,8 +12,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cn.lzscxb.common.enums.HttpMethod;
-import cn.lzscxb.common.utils.StringUtils;
+import cn.lzscxb.domain.enums.HttpMethod;
+import cn.lzscxb.domain.utils.StringUtils;
 
 /**
  * 防止XSS攻击的过滤器

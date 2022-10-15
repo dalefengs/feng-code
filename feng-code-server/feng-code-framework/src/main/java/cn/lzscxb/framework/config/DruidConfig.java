@@ -10,7 +10,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.sql.DataSource;
 
-import cn.lzscxb.common.enums.DataSourceType;
+import cn.lzscxb.domain.enums.DataSourceType;
 import cn.lzscxb.common.utils.spring.SpringUtils;
 import cn.lzscxb.framework.config.properties.DruidProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

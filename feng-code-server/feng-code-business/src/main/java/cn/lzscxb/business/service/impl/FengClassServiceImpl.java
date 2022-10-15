@@ -2,7 +2,7 @@ package cn.lzscxb.business.service.impl;
 
 import java.util.List;
 import cn.lzscxb.common.utils.DateUtils;
-import cn.lzscxb.domain.FengClass;
+import cn.lzscxb.domain.entity.FengClass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cn.lzscxb.business.mapper.FengClassMapper;
@@ -30,6 +30,17 @@ public class FengClassServiceImpl implements IFengClassService
     public FengClass selectFengClassById(Long id)
     {
         return fengClassMapper.selectFengClassById(id);
+    }
+
+    /**
+     * 通过学院id查询班级列表
+     *
+     * @param collegeId 学院主键
+     * @return 班级管理
+     */
+    @Override
+    public List<FengClass> selectFengClassListByCollegeId(Long collegeId) {
+        return fengClassMapper.selectFengClassListByCollegeId(collegeId);
     }
 
     /**

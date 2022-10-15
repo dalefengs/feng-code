@@ -2,10 +2,10 @@ package cn.lzscxb.quartz.domain;
 
 import java.util.Date;
 
-import cn.lzscxb.common.annotation.Excel;
+import cn.lzscxb.domain.annotation.Excel;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import cn.lzscxb.common.core.domain.BaseEntity;
+import cn.lzscxb.domain.BaseEntity;
 
 /**
  * 定时任务调度日志表 sys_job_log

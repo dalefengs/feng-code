@@ -4,13 +4,13 @@ import java.lang.reflect.Method;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cn.lzscxb.common.annotation.RepeatSubmit;
-import cn.lzscxb.common.utils.ServletUtils;
+import cn.lzscxb.domain.annotation.RepeatSubmit;
+import cn.lzscxb.domain.utils.ServletUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import com.alibaba.fastjson2.JSON;
-import cn.lzscxb.common.core.domain.AjaxResult;
+import cn.lzscxb.domain.AjaxResult;
 
 /**
  * 防止重复提交拦截器

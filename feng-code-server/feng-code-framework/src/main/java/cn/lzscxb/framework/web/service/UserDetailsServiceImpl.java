@@ -7,11 +7,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import cn.lzscxb.common.core.domain.entity.FengUsers;
-import cn.lzscxb.common.core.domain.model.LoginUser;
-import cn.lzscxb.common.enums.UserStatus;
+import cn.lzscxb.domain.entity.FengUsers;
+import cn.lzscxb.domain.model.LoginUser;
+import cn.lzscxb.domain.enums.UserStatus;
 import cn.lzscxb.common.exception.ServiceException;
-import cn.lzscxb.common.utils.StringUtils;
+import cn.lzscxb.domain.utils.StringUtils;
 import cn.lzscxb.system.service.IFengUsersService;
 
 /**

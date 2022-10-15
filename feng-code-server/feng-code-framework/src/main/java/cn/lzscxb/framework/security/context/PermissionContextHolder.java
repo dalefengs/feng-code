@@ -2,7 +2,7 @@ package cn.lzscxb.framework.security.context;
 
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
-import cn.lzscxb.common.core.text.Convert;
+import cn.lzscxb.domain.text.Convert;
 
 /**
  * 权限信息
