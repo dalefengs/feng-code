@@ -65,3 +65,27 @@ export function removeLoadingAnimate (id = '', timeout = 1500) {
     document.body.removeChild(document.getElementById(id))
   }, timeout)
 }
+
+/**
+ * 通过角色列表查询指定角色是否存在
+ * @param roles
+ * @param roleKey
+ * @returns {boolean}
+ */
+export function isDesignatedRole (roles, roleKey) {
+  let flag = false
+  console.log('roles', roles)
+  roles.forEach(item => {
+    if (item.hasOwnProperty('roleKey')) {
+      if (item.roleKey === roleKey) {
+        flag = true
+      }
+    } else {
+      console.log(`roles:${roles},item:${item}, rolekey:${roleKey}, ==? ${item === roleKey}`)
+      if (item === roleKey) {
+        flag = true
+      }
+    }
+  })
+  return flag
+}

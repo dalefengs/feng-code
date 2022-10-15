@@ -9,6 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="userName"     column="user_name"    />
         <result property="nickName"     column="nick_name"    />
         <result property="classId"      column="class_id"    />
+        <result property="collegeId"     column="college_id"    />
         <result property="studentNumber" column="student_number"    />
         <result property="email"        column="email"        />
         <result property="phonenumber"  column="phonenumber"  />
@@ -23,7 +24,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createTime"   column="create_time"  />
         <result property="remark"       column="remark"       />
         <collection  property="roles"   javaType="java.util.List"           resultMap="RoleResult" />
-<!--		<association property="collegeInfo"  javaType="cn.lzscxb.domain.entity.FengCollege" />-->
     </resultMap>
 	
     <resultMap id="RoleResult" type="cn.lzscxb.domain.entity.SysRole">
@@ -41,7 +41,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	
 	<sql id="selectUserVo">
-        select u.user_id, u.user_name, u.nick_name, u.email, u.avatar, u.phonenumber, u.class_id, u.student_number, u.password, u.sex, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time, u.remark,
+        select u.user_id, u.user_name, u.nick_name, u.college_id, u.email, u.avatar, u.phonenumber, u.class_id, u.student_number, u.password, u.sex, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time, u.remark,
         r.role_id, r.role_name, r.role_key, r.role_sort,  r.status as role_status
         from feng_users u
 		    left join sys_user_role ur on u.user_id = ur.user_id
@@ -49,12 +49,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </sql>
 
     <select id="selectUserList" parameterType="cn.lzscxb.domain.entity.FengUsers" resultMap="FengUserResult">
-		select u.user_id, u.nick_name, u.user_name, u.email, u.avatar, u.phonenumber, u.sex, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time, u.remark,
+		select u.user_id, u.nick_name, u.user_name, u.college_id, u.class_id, u.student_number, u.email, u.avatar, u.phonenumber, u.sex, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time, u.remark,
 		r.role_id, r.role_name
 		from feng_users u
 			left join sys_user_role ur on u.user_id = ur.user_id
 			left join sys_role r on r.role_id = ur.role_id
 			left join feng_class fc on fc.id = u.class_id
+			left join feng_college fco on u.college_id = fco.id
 		where u.del_flag = '0'
 		<if test="userId != null and userId != 0">
 			AND u.user_id = #{userId}
@@ -131,6 +132,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insertUser" parameterType="cn.lzscxb.domain.entity.FengUsers" useGeneratedKeys="true" keyProperty="userId">
  		insert into feng_users(
  			<if test="userId != null and userId != 0">user_id,</if>
+ 			<if test="classId != null and classId != 0">class_id,</if>
+ 			<if test="collegeId != null and collegeId != 0">college_id,</if>
+ 			<if test="studentNumber != null and studentNumber != 0">student_number,</if>
  			<if test="userName != null and userName != ''">user_name,</if>
  			<if test="nickName != null and nickName != ''">nick_name,</if>
  			<if test="email != null and email != ''">email,</if>
@@ -144,6 +148,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			create_time
  		)values(
  			<if test="userId != null and userId != ''">#{userId},</if>
+ 			<if test="classId != null and classId != ''">#{classId},</if>
+ 			<if test="collegeId != null and collegeId != ''">#{collegeId},</if>
+ 			<if test="studentNumber != null and studentNumber != ''">#{studentNumber},</if>
  			<if test="userName != null and userName != ''">#{userName},</if>
  			<if test="nickName != null and nickName != ''">#{nickName},</if>
  			<if test="email != null and email != ''">#{email},</if>
@@ -161,6 +168,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="updateUser" parameterType="cn.lzscxb.domain.entity.FengUsers">
  		update feng_users
  		<set>
+ 			<if test="classId != null and classId != ''">class_id = #{classId},</if>
+ 			<if test="collegeId != null and collegeId != ''">college_id = #{collegeId},</if>
+ 			<if test="studentNumber != null and studentNumber != ''">student_number = #{studentNumber},</if>
  			<if test="userName != null and userName != ''">user_name = #{userName},</if>
  			<if test="nickName != null and nickName != ''">nick_name = #{nickName},</if>
  			<if test="email != null ">email = #{email},</if>

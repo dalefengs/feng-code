@@ -242,6 +242,11 @@ export default {
           align: 'center'
         },
         {
+          title: '学院',
+          dataIndex: 'collegeName',
+          align: 'center'
+        },
+        {
           title: '班级',
           dataIndex: 'className',
           align: 'center'

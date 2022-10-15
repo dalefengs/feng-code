@@ -9,6 +9,15 @@ export function listClass (query) {
   })
 }
 
+// 通过学院 Id 查询班级管理列表
+export function listClassByCollegeId (query) {
+  return request({
+    url: '/business/class/list-by-college-id',
+    method: 'get',
+    params: query
+  })
+}
+
 // 查询班级管理详细
 export function getClass (id) {
   return request({
