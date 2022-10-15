@@ -68,7 +68,6 @@ export default {
       fileList: [],
       uploading: false,
       options: {
-        // img: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
         img: '',
         autoCrop: true,
         autoCropWidth: 200,
@@ -133,9 +132,9 @@ export default {
           formData.append('avatarfile', data, this.fileName)
           uploadAvatar(formData).then(response => {
             this.open = false
-            store.commit('SET_AVATAR', process.env.VUE_APP_BASE_API + response.imgUrl)
+            store.commit('SET_AVATAR', response.imgUrl)
             _this.$message.success('上传成功')
-            _this.$emit('ok', process.env.VUE_APP_BASE_API + response.imgUrl)
+            _this.$emit('ok', response.imgUrl)
             _this.visible = false
           })
         })

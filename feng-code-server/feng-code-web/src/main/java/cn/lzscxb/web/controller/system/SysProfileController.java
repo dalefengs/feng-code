@@ -9,8 +9,10 @@ import cn.lzscxb.common.enums.BusinessType;
 import cn.lzscxb.common.utils.SecurityUtils;
 import cn.lzscxb.common.utils.StringUtils;
 import cn.lzscxb.common.utils.file.MimeTypeUtils;
+import cn.lzscxb.common.utils.file.MinioUtils;
 import cn.lzscxb.framework.web.service.TokenService;
 import cn.lzscxb.system.service.IFengUsersService;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +25,8 @@ import org.springframework.web.multipart.MultipartFile;
 import cn.lzscxb.common.core.controller.BaseController;
 import cn.lzscxb.common.core.domain.AjaxResult;
 import cn.lzscxb.common.utils.file.FileUploadUtils;
+
+import javax.validation.constraints.Min;
 
 /**
  * 个人信息 业务处理
@@ -38,6 +42,9 @@ public class SysProfileController extends BaseController
 
     @Autowired
     private TokenService tokenService;
+
+    @Autowired
+    private MinioUtils minioUtils;
 
     /**
      * 个人信息
@@ -126,7 +133,7 @@ public class SysProfileController extends BaseController
         if (!file.isEmpty())
         {
             LoginUser loginUser = getLoginUser();
-            String avatar = FileUploadUtils.upload(FengCodeConfig.getAvatarPath(), file, MimeTypeUtils.IMAGE_EXTENSION);
+            String avatar = minioUtils.upload(file);
             if (userService.updateUserAvatar(loginUser.getUsername(), avatar))
             {
                 AjaxResult ajax = AjaxResult.success();

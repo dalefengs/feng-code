@@ -131,3 +131,10 @@ xss:
   excludes: /system/notice
   # 匹配链接
   urlPatterns: /system/*,/monitor/*,/tool/*
+
+minio:
+  endpoint: https://minio.lzscxb.cn:9000
+  minioUrl: https://minio.lzscxb.cn # 拼接的url地址
+  accessKey: fengcode
+  secretKey: nAY8t9Eusb8HbmT3xs
+  bucketName: feng-code
