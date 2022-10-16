@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.lzscxb.business.mapper.FengProblemSolveMapper">
+    
+    <resultMap type="cn.lzscxb.domain.entity.FengProblemSolve" id="FengProblemSolveResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="userId"    column="user_id"    />
+        <result property="problemId"    column="problem_id"    />
+        <result property="content"    column="content"    />
+        <result property="likeCount"    column="like_count"    />
+        <result property="readCount"    column="read_count"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectFengProblemSolveVo">
+        select id, title, user_id, problem_id, content, like_count, read_count, create_by, create_time, update_by, update_time from feng_problem_solve
+    </sql>
+
+    <select id="selectFengProblemSolveList" parameterType="cn.lzscxb.domain.entity.FengProblemSolve" resultMap="FengProblemSolveResult">
+        <include refid="selectFengProblemSolveVo"/>
+        <where>  
+            <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
+            <if test="content != null  and content != ''"> and content like concat('%', #{content}, '%')</if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectFengProblemSolveById" parameterType="Long" resultMap="FengProblemSolveResult">
+        <include refid="selectFengProblemSolveVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertFengProblemSolve" parameterType="cn.lzscxb.domain.entity.FengProblemSolve">
+        insert into feng_problem_solve
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="title != null">title,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="problemId != null">problem_id,</if>
+            <if test="content != null and content != ''">content,</if>
+            <if test="likeCount != null">like_count,</if>
+            <if test="readCount != null">read_count,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="title != null">#{title},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="problemId != null">#{problemId},</if>
+            <if test="content != null and content != ''">#{content},</if>
+            <if test="likeCount != null">#{likeCount},</if>
+            <if test="readCount != null">#{readCount},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFengProblemSolve" parameterType="cn.lzscxb.domain.entity.FengProblemSolve">
+        update feng_problem_solve
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="title != null">title = #{title},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="problemId != null">problem_id = #{problemId},</if>
+            <if test="content != null and content != ''">content = #{content},</if>
+            <if test="likeCount != null">like_count = #{likeCount},</if>
+            <if test="readCount != null">read_count = #{readCount},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFengProblemSolveById" parameterType="Long">
+        delete from feng_problem_solve where id = #{id}
+    </delete>
+
+    <delete id="deleteFengProblemSolveByIds" parameterType="String">
+        delete from feng_problem_solve where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
