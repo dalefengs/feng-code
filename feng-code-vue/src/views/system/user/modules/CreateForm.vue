@@ -144,7 +144,7 @@ export default {
           { required: true, message: '用户昵称不能为空', trigger: 'blur' }
         ],
         studentNumber: [
-          { required: true, message: '请输入学号', trigger: 'blur' },
+          { required: true, message: '请输入学号', trigger: 'blur' }
         ],
         password: [
           { required: true, message: '密码不能为空', trigger: 'blur' },

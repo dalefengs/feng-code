@@ -1,4 +1,4 @@
-<template>
+<template xmlns="http://www.w3.org/1999/html">
   <page-header-wrapper>
     <a-card :bordered="false">
       <a-row :gutter="24">
@@ -106,9 +106,21 @@
             </span>
 
             <span slot="roleName" slot-scope="text, record">
-              <a-tag v-for="item in record.roles" :key="item.roleId" color="green">
+              <a-tag v-for="item in record.roles" :key="item.roleId" color="cyan">
                 {{ item.roleName }}
               </a-tag>
+            </span>
+
+            <span slot="classInfo" slot-scope="text, record">
+              <template v-if="record.classInfo.length > 0">
+                <template v-for="(item, index) in record.classInfo">
+                  <a-tag :key="item.id" color="green" v-if="item.name !== null">
+                    {{ item.name }}
+                  </a-tag>
+                  <br :key="-index">
+                </template>
+              </template>
+              <a-tag v-else color="green">无</a-tag>
             </span>
 
             <span slot="status" slot-scope="text, record">
@@ -220,7 +232,7 @@ export default {
       },
       columns: [
         {
-          title: '用户编号',
+          title: '编号',
           dataIndex: 'userId',
           align: 'center',
           sorter: true
@@ -237,25 +249,26 @@ export default {
           align: 'center'
         },
         {
+          title: '角色',
+          dataIndex: 'roleName',
+          scopedSlots: { customRender: 'roleName' },
+          align: 'center'
+        },
+        {
           title: '用户昵称',
           dataIndex: 'nickName',
           align: 'center'
         },
         {
           title: '学院',
-          dataIndex: 'collegeName',
+          dataIndex: 'collegeInfo.name',
           align: 'center'
         },
         {
           title: '班级',
-          dataIndex: 'className',
-          align: 'center'
-        },
-        {
-          title: '角色',
-          dataIndex: 'roleName',
-          scopedSlots: { customRender: 'roleName' },
-          align: 'center'
+          dataIndex: 'classInfo.name',
+          align: 'center',
+          scopedSlots: { customRender: 'classInfo' }
         },
         {
           title: '状态',
