@@ -16,7 +16,7 @@ import cn.lzscxb.domain.annotation.Log;
 import cn.lzscxb.common.core.controller.BaseController;
 import cn.lzscxb.domain.AjaxResult;
 import cn.lzscxb.domain.enums.BusinessType;
-import ${packageName}.domain.${ClassName};
+import cn.lzscxb.domain.entity.${ClassName};
 import ${packageName}.service.I${ClassName}Service;
 import cn.lzscxb.common.utils.poi.ExcelUtil;
 #if($table.crud || $table.sub)

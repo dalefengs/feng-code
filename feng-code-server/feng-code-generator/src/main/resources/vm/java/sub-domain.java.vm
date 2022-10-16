@@ -1,10 +1,12 @@
-package ${packageName}.domain;
+package cn.lzscxb.domain.entity;
 
 #foreach ($import in $subImportList)
 import ${import};
 #end
 import cn.lzscxb.domain.annotation.Excel;
-
+import cn.lzscxb.domain.BaseEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 /**
  * ${subTable.functionName}对象 ${subTableName}
  * 

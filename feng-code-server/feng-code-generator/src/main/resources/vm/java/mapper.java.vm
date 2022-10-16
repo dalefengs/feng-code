@@ -1,9 +1,9 @@
 package ${packageName}.mapper;
 
 import java.util.List;
-import ${packageName}.domain.${ClassName};
+import cn.lzscxb.domain.entity.${ClassName};
 #if($table.sub)
-import ${packageName}.domain.${subClassName};
+import cn.lzscxb.domain.entity.${subClassName};
 #end
 
 /**

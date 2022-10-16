@@ -1,9 +1,12 @@
-package ${packageName}.domain;
+package cn.lzscxb.domain.entity;
 
 #foreach ($import in $importList)
 import ${import};
 #end
 import cn.lzscxb.domain.annotation.Excel;
+import cn.lzscxb.domain.BaseEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 #if($table.crud || $table.sub)
 #elseif($table.tree)
 #end

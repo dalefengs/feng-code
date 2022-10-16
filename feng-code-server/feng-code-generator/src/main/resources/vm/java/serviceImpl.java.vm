@@ -13,10 +13,10 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import cn.lzscxb.domain.utils.StringUtils;
 import org.springframework.transaction.annotation.Transactional;
-import ${packageName}.domain.${subClassName};
+import cn.lzscxb.domain.entity.${subClassName};
 #end
 import ${packageName}.mapper.${ClassName}Mapper;
-import ${packageName}.domain.${ClassName};
+import cn.lzscxb.domain.entity.${ClassName};
 import ${packageName}.service.I${ClassName}Service;
 
 /**
