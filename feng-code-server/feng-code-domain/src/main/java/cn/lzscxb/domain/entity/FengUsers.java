@@ -40,7 +40,10 @@ public class FengUsers extends BaseEntity
     private String studentNumber;
 
     /** 班级id */
-    private String classId;
+    private Long classId;
+
+    /** 班级id */
+    private Long collegeId;
 
     /** 用户邮箱 */
     @Excel(name = "用户邮箱")
@@ -85,6 +88,8 @@ public class FengUsers extends BaseEntity
     private Long roleId;
 
     private FengCollege collegeInfo;
+
+    private List<FengClass> classInfo;
 
     public FengUsers()
     {

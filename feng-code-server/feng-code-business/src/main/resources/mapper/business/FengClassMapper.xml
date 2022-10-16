@@ -8,7 +8,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="id"    column="id"    />
         <result property="name"    column="name"    />
         <result property="collegeId"    column="college_id"    />
-        <result property="collegeName"    column="college_name"    />
         <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateBy"    column="update_by"    />
@@ -16,8 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectFengClassVo">
-        select c.id, c.name, c.college_id, c.create_by, c.create_time, c.update_by, c.update_time, fc.name as college_name from feng_class as c
-        left join feng_college fc on c.college_id = fc.id
+        select c.id, c.name, c.college_id, c.create_by, c.create_time, c.update_by, c.update_time from feng_class as c
 
     </sql>
 

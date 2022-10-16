@@ -23,6 +23,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createBy"     column="create_by"    />
         <result property="createTime"   column="create_time"  />
         <result property="remark"       column="remark"       />
+		<!-- 学院信息 -->
+		<association property="collegeInfo" javaType="cn.lzscxb.domain.entity.FengCollege" >
+			<id property="id" column="college_id"/>
+			<result property="name" column="college_name" />
+		</association>
+
+		<collection property="classInfo" javaType="java.util.List" resultMap="calssResult" />
+
         <collection  property="roles"   javaType="java.util.List"           resultMap="RoleResult" />
     </resultMap>
 	
@@ -34,23 +42,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="status"       column="role_status"    />
     </resultMap>
 
-<!--	<resultMap id="calssResult" type="cn.lzscxb.business.domain.FengClass">-->
-<!--		<id property="classId" column="id" />-->
-<!--		<result property="className" column="name" />-->
-<!--	</resultMap>-->
+	<resultMap id="calssResult" type="cn.lzscxb.domain.entity.FengClass">
+		<id property="id" column="class_id" />
+		<result property="name" column="class_name" />
+	</resultMap>
 	
 	
 	<sql id="selectUserVo">
         select u.user_id, u.user_name, u.nick_name, u.college_id, u.email, u.avatar, u.phonenumber, u.class_id, u.student_number, u.password, u.sex, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time, u.remark,
-        r.role_id, r.role_name, r.role_key, r.role_sort,  r.status as role_status
+        r.role_id, r.role_name, r.role_key, r.role_sort,  r.status as role_status, fco.name as college_name, fc.name class_name
         from feng_users u
 		    left join sys_user_role ur on u.user_id = ur.user_id
 		    left join sys_role r on r.role_id = ur.role_id
+			left join feng_college fco on u.college_id = fco.id
+			left join feng_class fc on fc.id = u.class_id
     </sql>
 
     <select id="selectUserList" parameterType="cn.lzscxb.domain.entity.FengUsers" resultMap="FengUserResult">
 		select u.user_id, u.nick_name, u.user_name, u.college_id, u.class_id, u.student_number, u.email, u.avatar, u.phonenumber, u.sex, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time, u.remark,
-		r.role_id, r.role_name
+		r.role_id, r.role_name, r.role_key, fco.name college_name, fc.name class_name
 		from feng_users u
 			left join sys_user_role ur on u.user_id = ur.user_id
 			left join sys_role r on r.role_id = ur.role_id
@@ -106,6 +116,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND u.phonenumber like concat('%', #{phonenumber}, '%')
 		</if>
 	</select>
+
+	<!-- 通过教师id获取班级列表 -->
+	<select id="selectClassListByTeacherId" resultType="cn.lzscxb.domain.entity.FengClass">
+		select c.id,c.name from feng_teacher_class t
+		left join feng_class as c on c.id = t.class_id
+		where t.teacher_id = #{teacherId}
+	</select>
+
+
 
 	<select id="selectUserByUserName" parameterType="String" resultMap="FengUserResult">
 	    <include refid="selectUserVo"/>

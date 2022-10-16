@@ -6,6 +6,10 @@ import java.util.stream.Collectors;
 import javax.validation.Validator;
 
 import cn.lzscxb.common.utils.spring.SpringUtils;
+import cn.lzscxb.domain.entity.*;
+import cn.lzscxb.domain.enums.RoleKey;
+import cn.lzscxb.domain.model.LoginUser;
+import org.checkerframework.checker.units.qual.A;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import cn.lzscxb.domain.annotation.DataScope;
 import cn.lzscxb.domain.constant.UserConstants;
-import cn.lzscxb.domain.entity.SysRole;
-import cn.lzscxb.domain.entity.FengUsers;
 import cn.lzscxb.common.exception.ServiceException;
 import cn.lzscxb.common.utils.SecurityUtils;
 import cn.lzscxb.domain.utils.StringUtils;
 import cn.lzscxb.common.utils.bean.BeanValidators;
-import cn.lzscxb.domain.entity.SysUserRole;
 import cn.lzscxb.system.mapper.SysRoleMapper;
 import cn.lzscxb.system.mapper.FengUsersMapper;
 import cn.lzscxb.system.mapper.SysUserRoleMapper;
@@ -62,7 +63,18 @@ public class FengUsersServiceImpl implements IFengUsersService
     @DataScope(deptAlias = "d", userAlias = "u")
     public List<FengUsers> selectUserList(FengUsers user)
     {
-        return userMapper.selectUserList(user);
+        List<FengUsers> fengUsers = userMapper.selectUserList(user);
+
+        for (FengUsers fengUser : fengUsers) {
+            // 如果是教师则查询教师所属的所有班级
+            if (SecurityUtils.isRoleDesignated(fengUser, RoleKey.TEACHER)) {
+                List<FengClass> fengClasses = userMapper.selectClassListByTeacherId(fengUser.getUserId());
+                fengUser.setClassInfo(fengClasses);
+            }else if (!SecurityUtils.isRoleDesignated(fengUser, RoleKey.STUDENT)){
+                fengUser.setClassInfo(new ArrayList<>());
+            }
+        }
+        return fengUsers;
     }
 
     /**

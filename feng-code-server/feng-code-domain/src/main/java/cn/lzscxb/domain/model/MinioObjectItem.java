@@ -1,4 +1,4 @@
-package cn.lzscxb.domain;
+package cn.lzscxb.domain.model;
 
 import lombok.Data;
 
