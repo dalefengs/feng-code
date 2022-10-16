@@ -193,7 +193,7 @@ public class VelocityUtils
         }
         else if (template.contains("controller.java.vm"))
         {
-            fileName = StringUtils.format("{}/controller/{}Controller.java", javaPath, className);
+            fileName = StringUtils.format("{}/controller/{}/{}Controller.java", javaPath, moduleName, className);
         }
         else if (template.contains("mapper.xml.vm"))
         {
