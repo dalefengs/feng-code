@@ -26,7 +26,7 @@ const sidemenuDark = {
   fixSiderbar: true, // sticky siderbar
   colorWeak: false,
   multiTab: true,
-  tableSize: 'middle',
+  tableSize: 'default',
   tableBordered: false,
   hideFooter: false,
   title: 'FengCode',
@@ -41,7 +41,7 @@ const topmenu = {
   fixedHeader: true, // sticky header
   fixSiderbar: true, // sticky siderbar
   colorWeak: false,
-  multiTab: false,
+  multiTab: true,
   tableSize: 'default',
   tableBordered: false,
   hideFooter: false,
