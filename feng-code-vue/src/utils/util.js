@@ -74,14 +74,12 @@ export function removeLoadingAnimate (id = '', timeout = 1500) {
  */
 export function isDesignatedRole (roles, roleKey) {
   let flag = false
-  console.log('roles', roles)
   roles.forEach(item => {
     if (item.hasOwnProperty('roleKey')) {
       if (item.roleKey === roleKey) {
         flag = true
       }
     } else {
-      console.log(`roles:${roles},item:${item}, rolekey:${roleKey}, ==? ${item === roleKey}`)
       if (item === roleKey) {
         flag = true
       }

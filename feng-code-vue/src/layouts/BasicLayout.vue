@@ -69,7 +69,7 @@ import {
   HIDE_FOOTER
 } from '@/store/mutation-types'
 
-import defaultSettings from '@/config/defaultSettings'
+import { dynamicMenu } from '@/config/defaultSettings'
 import RightContent from '@/components/GlobalHeader/RightContent'
 import GlobalFooter from '@/components/GlobalFooter'
 import Ads from '@/components/Other/CarbonAds'
@@ -94,26 +94,26 @@ export default {
       menus: [],
       // 侧栏展开状态
       collapsed: false,
-      title: defaultSettings.title,
+      title: '',
       settings: {
         // 布局类型
-        layout: defaultSettings.layout, // 'sidemenu', 'topmenu'
+        layout: '',
         // CONTENT_WIDTH_TYPE
-        contentWidth: defaultSettings.layout === 'sidemenu' ? CONTENT_WIDTH_TYPE.Fluid : defaultSettings.contentWidth,
+        contentWidth: '',
         // 主题 'dark' | 'light'
-        theme: defaultSettings.navTheme,
+        theme: '',
         // 主色调
-        primaryColor: defaultSettings.primaryColor,
-        fixedHeader: defaultSettings.fixedHeader,
-        fixSiderbar: defaultSettings.fixSiderbar,
-        multiTab: defaultSettings.multiTab,
-        colorWeak: defaultSettings.colorWeak,
+        primaryColor: '',
+        fixedHeader: '',
+        fixSiderbar: '',
+        multiTab: '',
+        colorWeak: '',
 
         hideHintAlert: true,
         hideCopyButton: false,
-        tableSize: defaultSettings.tableSize,
-        tableBordered: defaultSettings.tableBordered,
-        hideFooter: defaultSettings.hideFooter
+        tableSize: '',
+        tableBordered: '',
+        hideFooter: ''
       },
       // 媒体查询
       query: {}
@@ -132,6 +132,31 @@ export default {
     }
   },
   created () {
+    const defaultSettings = dynamicMenu(undefined)
+    this.title = defaultSettings.title
+    this.settings.layout = defaultSettings.layout
+    this.settings.contentWidth = defaultSettings.contentWidth
+    this.settings.theme = defaultSettings.navTheme
+    this.settings.primaryColor = defaultSettings.primaryColor
+    this.settings.fixedHeader = defaultSettings.fixedHeader
+    this.settings.fixSiderbar = defaultSettings.fixSiderbar
+    this.settings.multiTab = defaultSettings.multiTab
+    this.settings.colorWeak = defaultSettings.colorWeak
+    this.settings.tableSize = defaultSettings.tableSize
+    this.settings.tableBordered = defaultSettings.tableBordered
+    this.settings.hideFooter = defaultSettings.hideFooter
+    // 修改 state
+    // this.$store.state.app.layout = defaultSettings.layout
+    // this.$store.state.app.theme = defaultSettings.navTheme
+    // this.$store.state.app.contentWidth = defaultSettings.contentWidth
+    // this.$store.state.app.fixedHeader = defaultSettings.fixedHeader
+    // this.$store.state.app.fixSiderbar = defaultSettings.fixSiderbar
+    // this.$store.state.app.multiTab = defaultSettings.multiTab
+    // this.$store.state.app.tableSize = defaultSettings.tableSize
+    // // this.$store.state.app.colorWeak = defaultSettings.colorWeak
+    // this.$store.state.app.tableBordered = defaultSettings.tableBordered
+    // this.$store.state.app.tableBordered = defaultSettings.tableBordered
+    // this.$store.state.app.hideFooter = defaultSettings.hideFooter
     const routes = this.mainMenu.find(item => item.path === '/')
 
     this.menus = (routes && routes.children) || []

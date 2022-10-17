@@ -28,6 +28,9 @@ import cn.lzscxb.framework.security.context.AuthenticationContextHolder;
 import cn.lzscxb.system.service.ISysConfigService;
 import cn.lzscxb.system.service.IFengUsersService;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 登录校验方法
  * 
@@ -60,7 +63,7 @@ public class SysLoginService
      * @param uuid 唯一标识
      * @return 结果
      */
-    public String login(String username, String password, String code, String uuid)
+    public Map<String, Object> login(String username, String password, String code, String uuid)
     {
         boolean captchaEnabled = configService.selectCaptchaEnabled();
         // 验证码开关
@@ -97,8 +100,12 @@ public class SysLoginService
         AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success")));
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
         recordLoginInfo(loginUser.getUserId());
+
+        Map<String, Object> result = new HashMap<>();
         // 生成token
-        return tokenService.createToken(loginUser);
+        result.put("token", tokenService.createToken(loginUser));
+        result.put("roles", loginUser.getUser().getRoles());
+        return result;
     }
 
     /**

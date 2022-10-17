@@ -1,6 +1,7 @@
 package cn.lzscxb.web.controller.system;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import cn.lzscxb.domain.constant.Constants;
@@ -46,9 +47,10 @@ public class SysLoginController
     {
         AjaxResult ajax = AjaxResult.success();
         // 生成令牌
-        String token = loginService.login(loginBody.getUsername(), loginBody.getPassword(), loginBody.getCode(),
+        Map<String, Object> login = loginService.login(loginBody.getUsername(), loginBody.getPassword(), loginBody.getCode(),
                 loginBody.getUuid());
-        ajax.put(Constants.TOKEN, token);
+        ajax.put(Constants.TOKEN, login.get("token"));
+        ajax.put("roles", login.get("roles"));
         return ajax;
     }
 

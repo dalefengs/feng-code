@@ -101,7 +101,6 @@ export default {
       getUserProfile().then(response => {
         this.user = response.data
         this.roleGroup = response.roleGroup
-        this.postGroup = response.postGroup
       })
     },
     onSponsorTabChange (key, type) {

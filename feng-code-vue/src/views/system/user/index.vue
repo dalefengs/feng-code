@@ -1,4 +1,4 @@
-<template xmlns="http://www.w3.org/1999/html">
+<template>
   <page-header-wrapper>
     <a-card :bordered="false">
       <a-row :gutter="24">

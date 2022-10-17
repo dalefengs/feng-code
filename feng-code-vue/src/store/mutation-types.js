@@ -29,3 +29,5 @@ export const NAV_THEME = {
 export const TABLE_SIZE = 'table_size'
 export const TABLE_BORDERED = 'table_bordered'
 export const HIDE_FOOTER = 'hide_footer'
+
+export const ROLES = 'roles'

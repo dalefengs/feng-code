@@ -12,7 +12,12 @@
  *
  */
 
-export default {
+import { ROLES } from '@/store/mutation-types'
+import storage from 'store'
+import { isDesignatedRole } from '@/utils/util'
+import { STUDENT_ROLE } from '@/store/role-constant'
+
+const sidemenuDark = {
   navTheme: 'dark', // theme for nav menu
   primaryColor: '#1890ff', // primary color of ant design
   layout: 'sidemenu', // nav menu position: `sidemenu` or `topmenu`
@@ -27,3 +32,58 @@ export default {
   title: 'FengCode',
   production: process.env.NODE_ENV === 'production' && process.env.VUE_APP_PREVIEW !== 'true'
 }
+
+const topmenu = {
+  navTheme: 'light', // theme for nav menu
+  primaryColor: '#1890FF', // primary color of ant design
+  layout: 'topmenu', // nav menu position: sidemenu or topmenu
+  contentWidth: 'Fixed', // layout of content: Fluid or Fixed, only works when layout is topmenu
+  fixedHeader: true, // sticky header
+  fixSiderbar: false, // sticky siderbar
+  colorWeak: false,
+  multiTab: false,
+  tableSize: 'middle',
+  tableBordered: false,
+  hideFooter: false,
+  title: 'FengCode',
+  production: process.env.NODE_ENV === 'production' && process.env.VUE_APP_PREVIEW !== 'true'
+}
+
+/**
+ * 动态菜单
+ * @returns {{multiTab: boolean, production: boolean, fixSiderbar: boolean, primaryColor: string, colorWeak: boolean, tableBordered: boolean, hideFooter: boolean, navTheme: string, title: string, layout: string, contentWidth: string, fixedHeader: boolean, tableSize: string}}
+ */
+export function dynamicMenu (roles) {
+  if (!roles) {
+    roles = storage.get(ROLES)
+    console.log(`roles is false, get storage:`, roles)
+  }
+  // 如果是学生
+  console.log('dynamicMenu Roles', roles)
+  if (roles && isDesignatedRole(roles, STUDENT_ROLE)) {
+    return topmenu
+  } else {
+    return sidemenuDark
+  }
+}
+
+// export default {
+//   ...dynamicMenu()
+// }
+
+// // 亮色配置
+// export default {
+//   navTheme: 'light', // theme for nav menu
+//   primaryColor: '#1890FF', // primary color of ant design
+//   layout: 'topmenu', // nav menu position: sidemenu or topmenu
+//   contentWidth: 'Fixed', // layout of content: Fluid or Fixed, only works when layout is topmenu
+//   fixedHeader: true, // sticky header
+//   fixSiderbar: false, // sticky siderbar
+//   colorWeak: false,
+//   multiTab: false,
+//   tableSize: 'middle',
+//   tableBordered: false,
+//   hideFooter: false,
+//   title: 'FengCode',
+//   production: process.env.NODE_ENV === 'production' && process.env.VUE_APP_PREVIEW !== 'true'
+// }

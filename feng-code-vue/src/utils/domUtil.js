@@ -1,4 +1,4 @@
-import config from '@/config/defaultSettings'
+import { dynamicMenu } from '@/config/defaultSettings'
 
 export const setDocumentTitle = function (title) {
   document.title = title
@@ -18,4 +18,4 @@ export const setDocumentTitle = function (title) {
   }
 }
 
-export const domTitle = config.title
+export const domTitle = dynamicMenu(undefined).title

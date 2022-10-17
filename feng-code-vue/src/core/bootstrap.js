@@ -16,11 +16,11 @@ import {
   HIDE_FOOTER
 } from '@/store/mutation-types'
 import { printANSI } from '@/utils/screenLog'
-import defaultSettings from '@/config/defaultSettings'
+import { dynamicMenu } from '@/config/defaultSettings'
 
 export default function Initializer () {
   printANSI() // 请自行移除该行.  please remove this line
-
+  const defaultSettings = dynamicMenu(undefined)
   store.commit(SIDE_COLLAPSED, storage.get(SIDE_COLLAPSED, false))
   store.commit(TOGGLE_LAYOUT, storage.get(TOGGLE_LAYOUT, defaultSettings.layout))
   store.commit(TOGGLE_FIXED_HEADER, storage.get(TOGGLE_FIXED_HEADER, defaultSettings.fixedHeader))
