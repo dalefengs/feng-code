@@ -35,18 +35,19 @@ const sidemenuDark = {
 
 const topmenu = {
   navTheme: 'light', // theme for nav menu
-  primaryColor: '#1890FF', // primary color of ant design
+  primaryColor: '#1890ff', // primary color of ant design
   layout: 'topmenu', // nav menu position: sidemenu or topmenu
-  contentWidth: 'Fixed', // layout of content: Fluid or Fixed, only works when layout is topmenu
+  contentWidth: 'Fluid', // layout of content: Fluid or Fixed, only works when layout is topmenu
   fixedHeader: true, // sticky header
-  fixSiderbar: false, // sticky siderbar
+  fixSiderbar: true, // sticky siderbar
   colorWeak: false,
   multiTab: false,
-  tableSize: 'middle',
+  tableSize: 'default',
   tableBordered: false,
   hideFooter: false,
   title: 'FengCode',
   production: process.env.NODE_ENV === 'production' && process.env.VUE_APP_PREVIEW !== 'true'
+
 }
 
 /**
