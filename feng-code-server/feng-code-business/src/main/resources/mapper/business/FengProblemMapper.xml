@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.lzscxb.business.mapper.FengProblemMapper">
+    
+    <resultMap type="cn.lzscxb.domain.entity.FengProblem" id="FengProblemResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="userId"    column="user_id"    />
+        <result property="level"    column="level"    />
+        <result property="likeCount"    column="like_count"    />
+        <result property="description"    column="description"    />
+        <result property="categoryId"    column="category_id"    />
+        <result property="tagId"    column="tag_id"    />
+        <result property="hint"    column="hint"    />
+        <result property="submitCount"    column="submit_count"    />
+        <result property="sort"    column="sort"    />
+        <result property="successCount"    column="success_count"    />
+        <result property="testcastUrl"    column="testcast_url"    />
+        <result property="methodName"    column="method_name"    />
+        <result property="paramNames"    column="param_names"    />
+        <result property="isAuto"    column="is_auto"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectFengProblemVo">
+        select id, title, user_id, level, like_count, description, category_id, tag_id, hint, submit_count, sort, success_count, testcast_url, method_name, param_names, is_auto, create_by, create_time, update_by, update_time from feng_problem
+    </sql>
+
+    <select id="selectFengProblemList" parameterType="cn.lzscxb.domain.entity.FengProblem" resultMap="FengProblemResult">
+        <include refid="selectFengProblemVo"/>
+        <where>  
+            <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="level != null "> and level = #{level}</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+            <if test="categoryId != null "> and category_id = #{categoryId}</if>
+            <if test="tagId != null "> and tag_id = #{tagId}</if>
+        </where>
+    </select>
+    
+    <select id="selectFengProblemById" parameterType="Long" resultMap="FengProblemResult">
+        <include refid="selectFengProblemVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertFengProblem" parameterType="cn.lzscxb.domain.entity.FengProblem">
+        insert into feng_problem
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="title != null and title != ''">title,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="level != null">level,</if>
+            <if test="likeCount != null">like_count,</if>
+            <if test="description != null">description,</if>
+            <if test="categoryId != null">category_id,</if>
+            <if test="tagId != null">tag_id,</if>
+            <if test="hint != null">hint,</if>
+            <if test="submitCount != null">submit_count,</if>
+            <if test="sort != null">sort,</if>
+            <if test="successCount != null">success_count,</if>
+            <if test="testcastUrl != null">testcast_url,</if>
+            <if test="methodName != null">method_name,</if>
+            <if test="paramNames != null">param_names,</if>
+            <if test="isAuto != null">is_auto,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="title != null and title != ''">#{title},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="level != null">#{level},</if>
+            <if test="likeCount != null">#{likeCount},</if>
+            <if test="description != null">#{description},</if>
+            <if test="categoryId != null">#{categoryId},</if>
+            <if test="tagId != null">#{tagId},</if>
+            <if test="hint != null">#{hint},</if>
+            <if test="submitCount != null">#{submitCount},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="successCount != null">#{successCount},</if>
+            <if test="testcastUrl != null">#{testcastUrl},</if>
+            <if test="methodName != null">#{methodName},</if>
+            <if test="paramNames != null">#{paramNames},</if>
+            <if test="isAuto != null">#{isAuto},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFengProblem" parameterType="cn.lzscxb.domain.entity.FengProblem">
+        update feng_problem
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="title != null and title != ''">title = #{title},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="likeCount != null">like_count = #{likeCount},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="categoryId != null">category_id = #{categoryId},</if>
+            <if test="tagId != null">tag_id = #{tagId},</if>
+            <if test="hint != null">hint = #{hint},</if>
+            <if test="submitCount != null">submit_count = #{submitCount},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="successCount != null">success_count = #{successCount},</if>
+            <if test="testcastUrl != null">testcast_url = #{testcastUrl},</if>
+            <if test="methodName != null">method_name = #{methodName},</if>
+            <if test="paramNames != null">param_names = #{paramNames},</if>
+            <if test="isAuto != null">is_auto = #{isAuto},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFengProblemById" parameterType="Long">
+        delete from feng_problem where id = #{id}
+    </delete>
+
+    <delete id="deleteFengProblemByIds" parameterType="String">
+        delete from feng_problem where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
