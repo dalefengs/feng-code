@@ -9,6 +9,14 @@ export function listProblemCategory (query) {
   })
 }
 
+// 查询所有问题分类列表
+export function listAllProblemCategory () {
+  return request({
+    url: '/business/problemCategory/list-all',
+    method: 'get'
+  })
+}
+
 // 查询问题分类详细
 export function getProblemCategory (id) {
   return request({

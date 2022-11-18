@@ -191,10 +191,11 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd (row) {
-      this.reset()
-      this.formType = 1
-      this.open = true
-      this.formTitle = '添加'
+      // this.reset()
+      // this.formType = 1
+      // this.open = true
+      // this.formTitle = '添加'
+      this.$router.push({ path: '/study/business/problem/createProblem', query: { } })
     },
     /** 修改按钮操作 */
     handleUpdate (row, ids) {

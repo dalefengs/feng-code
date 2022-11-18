@@ -39,10 +39,10 @@
       </div>
       <!-- 操作 -->
       <div class="table-operations">
-        <a-button type="primary" @click="$refs.createForm.handleAdd()" v-hasPermi="['business:problem:add']">
+        <a-button type="primary" @click="add()" v-hasPermi="['business:problem:add']">
           <a-icon type="plus" />新增
         </a-button>
-        <a-button type="primary" :disabled="single" @click="$refs.createForm.handleUpdate(undefined, ids)" v-hasPermi="['business:problem:edit']">
+        <a-button type="primary" :disabled="single" @click="update(undefined, ids)" v-hasPermi="['business:problem:edit']">
           <a-icon type="edit" />修改
         </a-button>
         <a-button type="danger" :disabled="multiple" @click="handleDelete" v-hasPermi="['business:problem:remove']">
@@ -262,6 +262,15 @@ export default {
         isAsc: 'ascend'
       }
       this.handleQuery()
+    },
+    /** 新增按钮操作 */
+    add () {
+      this.$router.push({ path: '/study/business/problem/createProblem', query: { } })
+    },
+    /** 修改按钮操作 */
+    update (row, ids) {
+      const id = row ? row.id : ids
+      this.$router.push({ path: '/study/business/problem/createProblem', query: { id: id } })
     },
     onShowSizeChange (current, pageSize) {
       this.queryParam.pageSize = pageSize

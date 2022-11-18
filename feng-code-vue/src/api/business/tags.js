@@ -9,6 +9,14 @@ export function listTags (query) {
   })
 }
 
+// 查询所有题目标签列表
+export function listAllTags () {
+  return request({
+    url: '/business/tags/list-all',
+    method: 'get'
+  })
+}
+
 // 查询题目标签详细
 export function getTags (id) {
   return request({
