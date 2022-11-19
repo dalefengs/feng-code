@@ -75,7 +75,7 @@
             :disabled="item.disabled">{{ item.label }}</a-checkbox>
         </a-checkbox-group>
       </a-form-model-item>
-      <template v-for="item in formData.language" v-if="!languageWrite.includes(item)">
+      <template v-for="(item, key) in formData.language" v-if="!languageWrite.includes(item)">
         <a-form-model-item :label="languageList[item] + ' 代码模板'" prop="templete" :key="item" >
           <a-textarea
             v-model="formData.templete"
@@ -84,9 +84,29 @@
             :style="{width: '100%'}"
             allow-clear />
         </a-form-model-item>
-        <a-form-model-item :label="languageList[item] + ' 函数名'" prop="" :key="-item">
-          <a-input v-model="formData.methods" placeholder="请输入代码模版中要执行的函数名" :style="{width: '100%'}" allow-clear>
+        <a-form-model-item :label="languageList[item] + ' 函数名'" prop="" :key="key + 100">
+          <a-input v-model="formData.methodNames[item]" placeholder="请输入代码模版中要执行的函数名" :style="{width: '100%'}" allow-clear>
           </a-input>
+        </a-form-model-item>
+        <!--    Python不显示参数类型选择框和按钮    -->
+        <template v-for="(count, index) in languageParamTypeCount[item]" v-if="item !== '1'">
+          <a-form-model-item :label="languageList[item] + '第'+ count +'个参数类型'" prop="" :key="index + item">
+            <a-select v-model="formData.languageParamType[item][count]" placeholder="请选择参数类型" allow-clear :style="{width: '100%'}">
+              <a-select-option
+                v-for="(v, i) in languageTypeOptions[item]"
+                :key="i"
+                :value="v.value"
+                :disabled="v.disabled">{{ v.label }}</a-select-option>
+            </a-select>
+          </a-form-model-item>
+        </template>
+        <a-form-model-item label="参数操作" :key="key + 300" v-if="item !== '1'">
+          <a-button type="primary" icon="plus" @click="languageParamTypeCountChange(item, 1)">
+            添加
+          </a-button>
+          <a-button type="primary" icon="plus" @click="languageParamTypeCountChange(item, 2)" style="margin-left: 20px">
+            删除
+          </a-button>
         </a-form-model-item>
       </template>
       <a-form-model-item label="测试用例" prop="testCase">
@@ -122,15 +142,24 @@ export default {
         title: undefined,
         description: undefined,
         hint: undefined,
-        categoryId: undefined,
+        categoryId: 1,
         tagId: undefined,
         level: '0',
         sort: 50,
         isAuto: '0',
-        language: [],
+        language: ['0', '2'],
         templete: undefined,
         testCase: undefined,
-        methods: undefined
+        methodNames: [],
+        languageParamType: {
+          0: [],
+          1: [],
+          2: [],
+          3: [],
+          4: [],
+          5: [],
+          6: []
+        }
       },
       rules: {
         title: [{
@@ -200,8 +229,10 @@ export default {
       levelOptions: [],
       isAutoOptions: [],
       languageOptions: [],
+      languageTypeOptions: [],
       languageList: {},
-      languageWrite: ['4', '6']
+      languageWrite: ['4', '6'], // 4sql 5shell 不生成函数名
+      languageParamTypeCount: {}
     }
   },
   computed: {},
@@ -230,6 +261,7 @@ export default {
     this.getProblemCategoryList()
     this.getProblemTagsList()
     this.getDictsList()
+    this.getLanguageTypeDicts()
   },
   mounted () {},
   methods: {
@@ -246,6 +278,15 @@ export default {
     resetForm () {
       this.$refs['elForm'].resetFields()
     },
+    languageParamTypeCountChange (languageType, type) {
+      const t = this.languageParamTypeCount
+      if (type === 1) {
+        t[languageType]++
+      } else if (type === 2) {
+        t[languageType]--
+      }
+      this.languageParamTypeCount = Object.assign({}, this.languageParamTypeCount, t)
+    },
     /**
      * 获取分类列表
      */
@@ -256,7 +297,6 @@ export default {
           return false
         }
         res.data.forEach(item => {
-          console.log(item)
           const data = {
             'label': item.title,
             'value': item.id
@@ -322,9 +362,37 @@ export default {
             'disabled': true
           }
           this.languageList[item.dictValue] = item.dictLabel
+          this.languageParamTypeCount[item.dictValue] = 2
           this.languageOptions.push(data)
         })
       })
+    },
+    // 获取语言类型字典
+    async getLanguageTypeDicts () {
+      const languageDictType = {
+        '0': 'java_type',
+        '2': 'go_type',
+        '4': 'c_type'
+      }
+      const lanuageTypeObject = {}
+      for (const key in languageDictType) {
+        const languageList = []
+        // 获取语言类型字典
+        const res = await getDicts(languageDictType[key])
+        if (res.code !== 200) {
+          this.$message.error('获取语言类型失败')
+          return false
+        }
+        res.data.forEach(item => {
+          const data = {
+            'label': item.dictLabel,
+            'value': item.dictValue
+          }
+          languageList.push(data)
+        })
+        lanuageTypeObject[key] = languageList
+        this.languageTypeOptions = lanuageTypeObject
+      }
     }
   }
 }
