@@ -85,9 +85,9 @@
           </a-input>
         </a-form-model-item>
         <!--    Python不显示参数类型选择框和按钮    -->
-        <template v-for="(count, index) in languageParamTypeCount[item]" v-if="!['1', '5'].includes(item)">
+        <template v-for="(count, index) in paramTypeCount[item]" v-if="!['1', '5'].includes(item)">
           <a-form-model-item :label="languageList[item] + '第'+ count +'个参数类型'" prop="" :key="index + item">
-            <a-select v-model="formData.languageParamType[item][count - 1]" placeholder="请选择参数类型" allow-clear :style="{width: '100%'}">
+            <a-select v-model="formData.paramTypes[item][count - 1]" placeholder="请选择参数类型" allow-clear :style="{width: '100%'}">
               <a-select-option
                 v-for="(v, i) in languageTypeOptions[item]"
                 :key="i"
@@ -97,10 +97,10 @@
           </a-form-model-item>
         </template>
         <a-form-model-item label="参数操作" :key="key + 300" v-if="item !== '1'">
-          <a-button type="primary" icon="plus" @click="languageParamTypeCountChange(item, 1)">
+          <a-button type="primary" icon="plus" @click="paramTypeCountChange(item, 1)">
             添加
           </a-button>
-          <a-button type="primary" icon="plus" @click="languageParamTypeCountChange(item, 2)" style="margin-left: 20px">
+          <a-button type="primary" icon="plus" @click="paramTypeCountChange(item, 2)" style="margin-left: 20px">
             删除
           </a-button>
         </a-form-model-item>
@@ -125,6 +125,7 @@ import { listAllProblemCategory } from '@/api/business/problemCategory'
 import { listAllTags } from '@/api/business/tags'
 import { getDicts } from '@/api/system/dict/data'
 import CodemirrorDemo from '@/components/Codemirror'
+
 export default {
   name: 'CreateProblem',
   components: {
@@ -143,10 +144,10 @@ export default {
         sort: 50,
         isAuto: '0',
         language: [], // 支持的语言
-        testCase: undefined,
-        languageTemplate: [], // 语言模版
+        testCase: '',
+        codeTemplates: [], // 语言模版
         methodNames: [], // 语言模版方法名称
-        languageParamType: [[], [], [], [], [], []] // 语言模版参数类型列表
+        paramTypes: [[], [], [], [], [], []] // 语言模版参数类型列表
       },
       rules: {
         title: [{
@@ -214,14 +215,14 @@ export default {
       languageTypeOptions: [], // 每个语言的参数类型
       languageList: {},
       languageWrite: ['4', '6'], // 4sql 5shell 不生成函数名
-      languageParamTypeCount: {} // 每个语言类型的参数个数
+      paramTypeCount: {} // 每个语言类型的参数个数
     }
   },
   computed: {},
   watch: {
-    'formData.languageParamType': {
+    'formData.paramTypes': {
       handler (newVal, oldVal) {
-        console.log('languageParamType', newVal)
+        console.log('paramTypes', newVal)
       },
       deep: true
     },
@@ -234,14 +235,14 @@ export default {
           diffLanguage.forEach(lkey => {
             console.log('delete data key', lkey)
             // 删除对应的数据
-            // this.formData.languageParamType[lkey] = []
-            const t = this.formData.languageParamType[lkey] = []
-            this.formData.languageParamType = Object.assign({}, this.formData.languageParamType, t)
-            console.log('Object.assign({}, this.formData.languageParamType[lkey], []', Object.assign({}, this.formData.languageParamType, t))
-            console.log('this.formData.languageParamType[lkey]', lkey, this.formData.languageParamType[lkey])
-            this.formData.languageTemplate.splice(lkey, 1)
+            // this.formData.paramTypes[lkey] = []
+            const t = this.formData.paramTypes[lkey] = []
+            this.formData.paramTypes = Object.assign({}, this.formData.paramTypes, t)
+            console.log('Object.assign({}, this.formData.paramTypes[lkey], []', Object.assign({}, this.formData.paramTypes, t))
+            console.log('this.formData.paramTypes[lkey]', lkey, this.formData.paramTypes[lkey])
+            this.formData.codeTemplates.splice(lkey, 1)
             this.formData.methodNames.splice(lkey, 1)
-            this.languageParamTypeCount[lkey] = 0
+            this.paramTypeCount[lkey] = 0
           })
         }
       },
@@ -282,8 +283,7 @@ export default {
           return false
         }
         const ref = 'edit_' + item
-        const code = this.$refs[ref][0].getCodeValue()
-        this.formData.languageTemplate[item] = code
+        this.formData.codeTemplates[item] = this.$refs[ref][0].getCodeValue()
       })
       // 获取测试用例
       this.formData.testCase = this.$refs.testCase.getCodeValue()
@@ -305,16 +305,16 @@ export default {
      * @param languageType
      * @param type 1增 2减
      */
-    languageParamTypeCountChange (languageType, type) {
-      const count = this.languageParamTypeCount
+    paramTypeCountChange (languageType, type) {
+      const count = this.paramTypeCount
       if (type === 1) {
         count[languageType]++
       } else if (type === 2) {
         count[languageType]--
         // 删除数组最后一个元素
-        this.formData.languageParamType[languageType].pop()
+        this.formData.paramTypes[languageType].pop()
       }
-      this.languageParamTypeCount = Object.assign({}, this.languageParamTypeCount, count)
+      this.paramTypeCount = Object.assign({}, this.paramTypeCount, count)
     },
     /**
      * 获取分类列表
@@ -391,7 +391,7 @@ export default {
             'disabled': true
           }
           this.languageList[item.dictValue] = item.dictLabel
-          this.languageParamTypeCount[item.dictValue] = 0
+          this.paramTypeCount[item.dictValue] = 0
           this.languageOptions.push(data)
         })
       })

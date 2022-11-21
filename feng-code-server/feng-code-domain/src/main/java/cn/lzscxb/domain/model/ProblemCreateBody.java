@@ -1,5 +1,7 @@
 package cn.lzscxb.domain.model;
 
+import lombok.Data;
+
 import java.util.List;
 
 /**
@@ -7,6 +9,7 @@ import java.util.List;
  * @Date: 2022/11/21 10:46
  * @Description:
  */
+@Data
 public class ProblemCreateBody {
 
     // 题目标题
@@ -39,8 +42,14 @@ public class ProblemCreateBody {
     // 语言模版方法名列表
     private List<String> methodNames;
 
+    // 代码模版
+    private List<String> codeTemplates;
+
+    // 语言参数类型
+    private List<String> paramTypes;
 
     // 测试用例
     private String testCase;
+
 
 }

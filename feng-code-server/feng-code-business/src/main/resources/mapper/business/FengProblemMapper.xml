@@ -16,11 +16,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="hint"    column="hint"    />
         <result property="submitCount"    column="submit_count"    />
         <result property="sort"    column="sort"    />
-        <result property="successCount"    column="success_count"    />
-        <result property="testcastUrl"    column="testcast_url"    />
-        <result property="methodName"    column="method_name"    />
-        <result property="paramNames"    column="param_names"    />
         <result property="isAuto"    column="is_auto"    />
+        <result property="successCount"    column="success_count"    />
+        <result property="language"    column="language"    />
+        <result property="methodNames"    column="method_names"    />
+        <result property="paramTypes"    column="param_types"    />
+        <result property="codeTemplates"    column="code_templates"    />
+        <result property="testCase"    column="test_case"    />
         <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateBy"    column="update_by"    />
@@ -28,18 +30,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectFengProblemVo">
-        select id, title, user_id, level, like_count, description, category_id, tag_id, hint, submit_count, sort, success_count, testcast_url, method_name, param_names, is_auto, create_by, create_time, update_by, update_time from feng_problem
+        select id, title, user_id, level, like_count, description, category_id, tag_id, hint, submit_count, sort, is_auto, success_count, language, method_names, param_types, code_templates, test_case, create_by, create_time, update_by, update_time from feng_problem
     </sql>
 
     <select id="selectFengProblemList" parameterType="cn.lzscxb.domain.entity.FengProblem" resultMap="FengProblemResult">
         <include refid="selectFengProblemVo"/>
         <where>  
             <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
-            <if test="userId != null "> and user_id = #{userId}</if>
             <if test="level != null "> and level = #{level}</if>
-            <if test="description != null  and description != ''"> and description = #{description}</if>
             <if test="categoryId != null "> and category_id = #{categoryId}</if>
             <if test="tagId != null "> and tag_id = #{tagId}</if>
+            <if test="isAuto != null "> and is_auto = #{isAuto}</if>
+            <if test="language != null  and language != ''"> and language = #{language}</if>
+            <if test="methodNames != null  and methodNames != ''"> and method_names = #{methodNames}</if>
+            <if test="paramTypes != null  and paramTypes != ''"> and param_types = #{paramTypes}</if>
+            <if test="codeTemplates != null  and codeTemplates != ''"> and code_templates = #{codeTemplates}</if>
+            <if test="testCase != null  and testCase != ''"> and test_case = #{testCase}</if>
+            <if test="createTime != null "> and create_time = #{createTime}</if>
         </where>
     </select>
     
@@ -62,11 +69,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="hint != null">hint,</if>
             <if test="submitCount != null">submit_count,</if>
             <if test="sort != null">sort,</if>
-            <if test="successCount != null">success_count,</if>
-            <if test="testcastUrl != null">testcast_url,</if>
-            <if test="methodName != null">method_name,</if>
-            <if test="paramNames != null">param_names,</if>
             <if test="isAuto != null">is_auto,</if>
+            <if test="successCount != null">success_count,</if>
+            <if test="language != null and language != ''">language,</if>
+            <if test="methodNames != null and methodNames != ''">method_names,</if>
+            <if test="paramTypes != null and paramTypes != ''">param_types,</if>
+            <if test="codeTemplates != null and codeTemplates != ''">code_templates,</if>
+            <if test="testCase != null">test_case,</if>
             <if test="createBy != null">create_by,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateBy != null">update_by,</if>
@@ -84,11 +93,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="hint != null">#{hint},</if>
             <if test="submitCount != null">#{submitCount},</if>
             <if test="sort != null">#{sort},</if>
-            <if test="successCount != null">#{successCount},</if>
-            <if test="testcastUrl != null">#{testcastUrl},</if>
-            <if test="methodName != null">#{methodName},</if>
-            <if test="paramNames != null">#{paramNames},</if>
             <if test="isAuto != null">#{isAuto},</if>
+            <if test="successCount != null">#{successCount},</if>
+            <if test="language != null and language != ''">#{language},</if>
+            <if test="methodNames != null and methodNames != ''">#{methodNames},</if>
+            <if test="paramTypes != null and paramTypes != ''">#{paramTypes},</if>
+            <if test="codeTemplates != null and codeTemplates != ''">#{codeTemplates},</if>
+            <if test="testCase != null">#{testCase},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateBy != null">#{updateBy},</if>
@@ -109,11 +120,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="hint != null">hint = #{hint},</if>
             <if test="submitCount != null">submit_count = #{submitCount},</if>
             <if test="sort != null">sort = #{sort},</if>
-            <if test="successCount != null">success_count = #{successCount},</if>
-            <if test="testcastUrl != null">testcast_url = #{testcastUrl},</if>
-            <if test="methodName != null">method_name = #{methodName},</if>
-            <if test="paramNames != null">param_names = #{paramNames},</if>
             <if test="isAuto != null">is_auto = #{isAuto},</if>
+            <if test="successCount != null">success_count = #{successCount},</if>
+            <if test="language != null and language != ''">language = #{language},</if>
+            <if test="methodNames != null and methodNames != ''">method_names = #{methodNames},</if>
+            <if test="paramTypes != null and paramTypes != ''">param_types = #{paramTypes},</if>
+            <if test="codeTemplates != null and codeTemplates != ''">code_templates = #{codeTemplates},</if>
+            <if test="testCase != null">test_case = #{testCase},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateBy != null">update_by = #{updateBy},</if>

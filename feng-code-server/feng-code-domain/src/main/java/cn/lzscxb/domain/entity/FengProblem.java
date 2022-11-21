@@ -9,13 +9,13 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * 题目管理对象 feng_problem
  * 
  * @author Likfees
- * @date 2022-11-17
+ * @date 2022-11-21
  */
 public class FengProblem extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** $column.columnComment */
+    /** 编号 */
     private Long id;
 
     /** 题目标题 */
@@ -23,11 +23,10 @@ public class FengProblem extends BaseEntity
     private String title;
 
     /** 作者 */
-    @Excel(name = "作者")
     private Long userId;
 
-    /** 难度等级 */
-    @Excel(name = "难度等级")
+    /** 题目等级(0简单 1中等 2困难) */
+    @Excel(name = "题目等级(0简单 1中等 2困难)")
     private Integer level;
 
     /** 点赞 */
@@ -35,15 +34,14 @@ public class FengProblem extends BaseEntity
     private Long likeCount;
 
     /** 题目说明 */
-    @Excel(name = "题目说明")
     private String description;
 
     /** 分类id */
     @Excel(name = "分类id")
     private Long categoryId;
 
-    /** 标签id */
-    @Excel(name = "标签id")
+    /** 标签id 一个问题属于一个标签 */
+    @Excel(name = "标签id 一个问题属于一个标签")
     private Long tagId;
 
     /** 提示 */
@@ -58,21 +56,33 @@ public class FengProblem extends BaseEntity
     @Excel(name = "排序")
     private Long sort;
 
+    /** 0自动批阅(执行测试用例) 1教师批阅 */
+    @Excel(name = "0自动批阅(执行测试用例) 1教师批阅")
+    private Integer isAuto;
+
     /** 通过次数 */
     @Excel(name = "通过次数")
     private Long successCount;
 
-    /** 测试用例文件地址 */
-    private String testcastUrl;
+    /** 支持的语言类型 */
+    @Excel(name = "支持的语言类型")
+    private String language;
 
     /** 方法名 */
-    private String methodName;
+    @Excel(name = "方法名")
+    private String methodNames;
 
-    /** 参数名，多个参数使用;号分隔(类型:名称;类型:名称) 默认使用Java类型 */
-    private String paramNames;
+    /** 参数类型名称 */
+    @Excel(name = "参数类型名称")
+    private String paramTypes;
 
-    /** 0自动批阅(执行测试用例) 1教师批阅 */
-    private Integer isAuto;
+    /** 代码模版 */
+    @Excel(name = "代码模版")
+    private String codeTemplates;
+
+    /** 测试用例 */
+    @Excel(name = "测试用例")
+    private String testCase;
 
     public void setId(Long id) 
     {
@@ -119,12 +129,12 @@ public class FengProblem extends BaseEntity
     {
         return likeCount;
     }
-    public void setDescription(String description)
+    public void setDescription(String description) 
     {
         this.description = description;
     }
 
-    public String getDescription()
+    public String getDescription() 
     {
         return description;
     }
@@ -173,6 +183,15 @@ public class FengProblem extends BaseEntity
     {
         return sort;
     }
+    public void setIsAuto(Integer isAuto) 
+    {
+        this.isAuto = isAuto;
+    }
+
+    public Integer getIsAuto() 
+    {
+        return isAuto;
+    }
     public void setSuccessCount(Long successCount) 
     {
         this.successCount = successCount;
@@ -182,41 +201,50 @@ public class FengProblem extends BaseEntity
     {
         return successCount;
     }
-    public void setTestcastUrl(String testcastUrl) 
+    public void setLanguage(String language) 
     {
-        this.testcastUrl = testcastUrl;
+        this.language = language;
     }
 
-    public String getTestcastUrl() 
+    public String getLanguage() 
     {
-        return testcastUrl;
+        return language;
     }
-    public void setMethodName(String methodName) 
+    public void setMethodNames(String methodNames) 
     {
-        this.methodName = methodName;
-    }
-
-    public String getMethodName() 
-    {
-        return methodName;
-    }
-    public void setParamNames(String paramNames) 
-    {
-        this.paramNames = paramNames;
+        this.methodNames = methodNames;
     }
 
-    public String getParamNames() 
+    public String getMethodNames() 
     {
-        return paramNames;
+        return methodNames;
     }
-    public void setIsAuto(Integer isAuto) 
+    public void setParamTypes(String paramTypes) 
     {
-        this.isAuto = isAuto;
+        this.paramTypes = paramTypes;
     }
 
-    public Integer getIsAuto() 
+    public String getParamTypes() 
     {
-        return isAuto;
+        return paramTypes;
+    }
+    public void setCodeTemplates(String codeTemplates) 
+    {
+        this.codeTemplates = codeTemplates;
+    }
+
+    public String getCodeTemplates() 
+    {
+        return codeTemplates;
+    }
+    public void setTestCase(String testCase) 
+    {
+        this.testCase = testCase;
+    }
+
+    public String getTestCase() 
+    {
+        return testCase;
     }
 
     @Override
@@ -233,11 +261,13 @@ public class FengProblem extends BaseEntity
             .append("hint", getHint())
             .append("submitCount", getSubmitCount())
             .append("sort", getSort())
-            .append("successCount", getSuccessCount())
-            .append("testcastUrl", getTestcastUrl())
-            .append("methodName", getMethodName())
-            .append("paramNames", getParamNames())
             .append("isAuto", getIsAuto())
+            .append("successCount", getSuccessCount())
+            .append("language", getLanguage())
+            .append("methodNames", getMethodNames())
+            .append("paramTypes", getParamTypes())
+            .append("codeTemplates", getCodeTemplates())
+            .append("testCase", getTestCase())
             .append("createBy", getCreateBy())
             .append("createTime", getCreateTime())
             .append("updateBy", getUpdateBy())
