@@ -8,11 +8,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="id"    column="id"    />
         <result property="title"    column="title"    />
         <result property="userId"    column="user_id"    />
+        <result property="nickName"    column="nick_name"    />
         <result property="level"    column="level"    />
         <result property="likeCount"    column="like_count"    />
         <result property="description"    column="description"    />
         <result property="categoryId"    column="category_id"    />
+        <result property="categoryName"    column="category_name"    />
         <result property="tagId"    column="tag_id"    />
+        <result property="tagName"    column="tag_name"    />
         <result property="hint"    column="hint"    />
         <result property="submitCount"    column="submit_count"    />
         <result property="sort"    column="sort"    />
@@ -30,29 +33,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectFengProblemVo">
-        select id, title, user_id, level, like_count, description, category_id, tag_id, hint, submit_count, sort, is_auto, success_count, language, method_names, param_types, code_templates, test_case, create_by, create_time, update_by, update_time from feng_problem
+        select p.id, p.title, p.user_id, p.level, p.like_count, p.description, p.category_id, p.tag_id, p.hint, p.submit_count,
+               p.sort, p.is_auto, p.success_count, p.language, p.method_names, p.param_types, p.code_templates, p.test_case,
+               p.create_by, p.create_time, p.update_by, p.update_time, u.nick_name, c.title as category_name, tag.title as tag_name
+        from feng_problem as p
+        left join feng_users u on u.user_id = p.user_id
+        left join feng_problem_category c on p.category_id = c.id
+        left join feng_problem_tags tag on tag.id = p.tag_id
     </sql>
 
     <select id="selectFengProblemList" parameterType="cn.lzscxb.domain.entity.FengProblem" resultMap="FengProblemResult">
         <include refid="selectFengProblemVo"/>
         <where>  
-            <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
-            <if test="level != null "> and level = #{level}</if>
-            <if test="categoryId != null "> and category_id = #{categoryId}</if>
-            <if test="tagId != null "> and tag_id = #{tagId}</if>
-            <if test="isAuto != null "> and is_auto = #{isAuto}</if>
-            <if test="language != null  and language != ''"> and language = #{language}</if>
-            <if test="methodNames != null  and methodNames != ''"> and method_names = #{methodNames}</if>
-            <if test="paramTypes != null  and paramTypes != ''"> and param_types = #{paramTypes}</if>
-            <if test="codeTemplates != null  and codeTemplates != ''"> and code_templates = #{codeTemplates}</if>
-            <if test="testCase != null  and testCase != ''"> and test_case = #{testCase}</if>
-            <if test="createTime != null "> and create_time = #{createTime}</if>
+            <if test="title != null  and title != ''"> and p.title like concat('%', #{title}, '%')</if>
+            <if test="level != null "> and p.level = #{level}</if>
+            <if test="categoryId != null "> and p.category_id = #{categoryId}</if>
+            <if test="tagId != null "> and p.tag_id = #{tagId}</if>
+            <if test="isAuto != null "> and p.is_auto = #{isAuto}</if>
+            <if test="language != null  and language != ''"> and p.language = #{language}</if>
+            <if test="createTime != null "> and p.create_time = #{createTime}</if>
         </where>
     </select>
     
     <select id="selectFengProblemById" parameterType="Long" resultMap="FengProblemResult">
         <include refid="selectFengProblemVo"/>
-        where id = #{id}
+        where p.id = #{id}
     </select>
         
     <insert id="insertFengProblem" parameterType="cn.lzscxb.domain.entity.FengProblem">
@@ -140,7 +145,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteFengProblemByIds" parameterType="String">
-        delete from feng_problem where id in 
+        delete from feng_problem where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

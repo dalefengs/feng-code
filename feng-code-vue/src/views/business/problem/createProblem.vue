@@ -316,7 +316,7 @@ export default {
               '编辑成功',
               3
             )
-            this.$router.push({ path: '/study/problem', query: {} })
+            this.$router.push({ path: '/study/problem', query: { reload: 'true' } })
           })
         } else {
           addProblem(this.formData).then(res => {
@@ -325,7 +325,7 @@ export default {
               '添加成功',
               3
             )
-            this.$router.push({ path: '/study/problem', query: {} })
+            this.$router.push({ path: '/study/problem', query: { reload: 'true' } })
           })
         }
       })
