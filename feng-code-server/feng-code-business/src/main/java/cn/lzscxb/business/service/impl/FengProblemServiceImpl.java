@@ -2,6 +2,10 @@ package cn.lzscxb.business.service.impl;
 
 import java.util.List;
 import cn.lzscxb.common.utils.DateUtils;
+import cn.lzscxb.common.utils.SecurityUtils;
+import cn.lzscxb.domain.model.LoginUser;
+import cn.lzscxb.domain.model.ProblemCreateBody;
+import com.alibaba.fastjson2.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cn.lzscxb.business.mapper.FengProblemMapper;
@@ -47,27 +51,55 @@ public class FengProblemServiceImpl implements IFengProblemService
     /**
      * 新增题目管理
      * 
-     * @param fengProblem 题目管理
+     * @param problemCreateBody 题目管理
      * @return 结果
      */
     @Override
-    public int insertFengProblem(FengProblem fengProblem)
+    public int insertFengProblem(ProblemCreateBody problemCreateBody)
     {
+        // 获取用户信息
+        LoginUser loginUser = SecurityUtils.getLoginUser();
+        // 将 ProblemCreateBody 转换为 FengProblem 对象
+        FengProblem fengProblem = this.toFengProblem(problemCreateBody);
+        fengProblem.setUserId(loginUser.getUserId());
         fengProblem.setCreateTime(DateUtils.getNowDate());
+
         return fengProblemMapper.insertFengProblem(fengProblem);
     }
+
 
     /**
      * 修改题目管理
      * 
-     * @param fengProblem 题目管理
+     * @param problemCreateBody 题目管理
      * @return 结果
      */
     @Override
-    public int updateFengProblem(FengProblem fengProblem)
+    public int updateFengProblem(ProblemCreateBody problemCreateBody)
     {
+        FengProblem fengProblem = this.toFengProblem(problemCreateBody);
         fengProblem.setUpdateTime(DateUtils.getNowDate());
         return fengProblemMapper.updateFengProblem(fengProblem);
+    }
+
+    public FengProblem toFengProblem(ProblemCreateBody p){
+        FengProblem f = new FengProblem();
+        f.setId(p.getId());
+        f.setUserId(p.getUserId());
+        f.setTitle(p.getTitle());
+        f.setDescription(p.getDescription());
+        f.setHint(p.getHint());
+        f.setCategoryId(p.getCategoryId());
+        f.setTagId(p.getTagId());
+        f.setLevel(p.getLevel());
+        f.setSort(p.getSort());
+        f.setIsAuto(p.getIsAuto());
+        f.setLanguage(JSON.toJSONString(p.getLanguage()));
+        f.setMethodNames(JSON.toJSONString(p.getMethodNames()));
+        f.setParamTypes(JSON.toJSONString(p.getParamTypes()));
+        f.setCodeTemplates(JSON.toJSONString(p.getCodeTemplates()));
+        f.setTestCase(JSON.toJSONString(p.getTestCase()));
+        return f;
     }
 
     /**

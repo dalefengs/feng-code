@@ -106,6 +106,16 @@
         </a-form-model-item>
       </template>
       <a-form-model-item label="测试用例" prop="testCase">
+        <a-alert
+          message="测试用例说明"
+          type="info"
+        >
+          <template slot="description">
+            例：一行为一条测试用例；格式为：参数1,参数2,参数...=结果1,结果2,结果...<br />
+            param1,param2=result <br />
+            20,50=80
+          </template>
+        </a-alert>
         <!--     代码编辑器      -->
         <CodemirrorDemo mode="TestCase" :ref="'testCase'"></CodemirrorDemo>
       </a-form-model-item>
@@ -124,6 +134,7 @@
 import { listAllProblemCategory } from '@/api/business/problemCategory'
 import { listAllTags } from '@/api/business/tags'
 import { getDicts } from '@/api/system/dict/data'
+import { getProblem, addProblem, updateProblem } from '@/api/business/problem'
 import CodemirrorDemo from '@/components/Codemirror'
 
 export default {
@@ -134,7 +145,10 @@ export default {
   props: [],
   data () {
     return {
+      id: undefined,
       formData: {
+        id: undefined,
+        userId: undefined,
         title: '',
         description: '',
         hint: '', // 提示
@@ -143,7 +157,7 @@ export default {
         level: '0',
         sort: 50,
         isAuto: '0',
-        language: [], // 支持的语言
+        language: ['1'], // 支持的语言
         testCase: '',
         codeTemplates: [], // 语言模版
         methodNames: [], // 语言模版方法名称
@@ -220,26 +234,18 @@ export default {
   },
   computed: {},
   watch: {
-    'formData.paramTypes': {
-      handler (newVal, oldVal) {
-        console.log('paramTypes', newVal)
-      },
-      deep: true
-    },
     'formData.language': {
       handler (newVal, oldVal) {
         // 求差集 得到取消选择的语言
         const diffLanguage = newVal.concat(oldVal).filter(v => !newVal.includes(v))
-        console.log('diffLanguage', diffLanguage)
+        console.log('oldVal', oldVal)
+        console.log('newVal', newVal, 'oldVal', oldVal, 'diffLanguage', diffLanguage)
         if (diffLanguage.length !== 0) {
           diffLanguage.forEach(lkey => {
-            console.log('delete data key', lkey)
             // 删除对应的数据
             // this.formData.paramTypes[lkey] = []
             const t = this.formData.paramTypes[lkey] = []
-            this.formData.paramTypes = Object.assign({}, this.formData.paramTypes, t)
-            console.log('Object.assign({}, this.formData.paramTypes[lkey], []', Object.assign({}, this.formData.paramTypes, t))
-            console.log('this.formData.paramTypes[lkey]', lkey, this.formData.paramTypes[lkey])
+            this.formData.paramTypes = Object.assign([], this.formData.paramTypes, t)
             this.formData.codeTemplates.splice(lkey, 1)
             this.formData.methodNames.splice(lkey, 1)
             this.paramTypeCount[lkey] = 0
@@ -250,7 +256,6 @@ export default {
     },
     'formData.categoryId': {
       handler (newVal, oldVal) {
-        console.log(newVal)
         this.languageOptions.forEach((item, index) => {
           this.formData.language = []
           // 分类选数据库时启用sql
@@ -273,10 +278,15 @@ export default {
     this.getProblemTagsList()
     this.getDictsList()
     this.getLanguageTypeDicts()
+    this.id = this.$route.query.id
+    if (this.id) {
+      this.setProblemInfo(this.id)
+    }
   },
-  mounted () {},
+
   methods: {
     submitForm () {
+            // 获取所有代码编辑器的内容
       this.formData.language.forEach(item => {
         // sql 和 shell
         if (['4', '6'].includes(item)) {
@@ -295,10 +305,77 @@ export default {
         if (!valid) {
           return false
         }
+
+        if (this.id) {
+          updateProblem(this.formData).then(res => {
+            if (res.code !== 200) {
+              this.$message.error(res.msg)
+              return false
+            }
+            this.$message.success(
+              '编辑成功',
+              3
+            )
+            this.$router.push({ path: '/study/problem', query: {} })
+          })
+        } else {
+          addProblem(this.formData).then(res => {
+            console.log('res', res)
+            this.$message.success(
+              '添加成功',
+              3
+            )
+            this.$router.push({ path: '/study/problem', query: {} })
+          })
+        }
       })
     },
     resetForm () {
       this.$refs['elForm'].resetFields()
+    },
+    // 获取问题详情信息
+    async setProblemInfo (id) {
+      const { code, msg, data } = await getProblem(id)
+      if (code !== 200) {
+        this.$message.error(msg, 3)
+        setTimeout(() => {
+          this.$router.go(-1)
+        }, 3000)
+        return false
+      }
+      console.log('getProblemInfo', data)
+      this.formData.id = data.id
+      this.formData.title = data.title
+      this.formData.userId = data.userId
+      this.formData.description = data.description
+      this.formData.categoryId = data.categoryId
+      this.formData.tagId = data.tagId
+      this.formData.level = data.level + ''
+      this.formData.hint = data.hint
+      this.formData.sort = data.sort
+      this.formData.isAuto = data.isAuto + ''
+      this.formData.testCase = JSON.parse(data.testCase)
+      this.$refs.testCase.code = this.formData.testCase
+      // 为了防止监听 categoryId 的修改导致 language 被覆盖
+      await new Promise((resolve) => {
+        setTimeout(resolve, 800)
+      })
+      this.formData.language = JSON.parse(data.language)
+      this.formData.methodNames = JSON.parse(data.methodNames)
+      this.formData.paramTypes = JSON.parse(data.paramTypes)
+      this.paramTypeCount = this.formData.paramTypes.map(item => {
+        return item.length
+      })
+      // 等待代码编辑器初始化
+      this.formData.codeTemplates = JSON.parse(data.codeTemplates)
+      await new Promise((resolve) => {
+        setTimeout(resolve, 500)
+      })
+      this.formData.codeTemplates.forEach((item, index) => {
+        if (item) {
+          this.$refs['edit_' + index][0].code = item
+        }
+      })
     },
     /**
      * 添加删除参数

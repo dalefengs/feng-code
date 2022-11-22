@@ -2,6 +2,7 @@ package cn.lzscxb.business.service;
 
 import java.util.List;
 import cn.lzscxb.domain.entity.FengProblem;
+import cn.lzscxb.domain.model.ProblemCreateBody;
 
 /**
  * 题目管理Service接口
@@ -30,18 +31,18 @@ public interface IFengProblemService
     /**
      * 新增题目管理
      * 
-     * @param fengProblem 题目管理
+     * @param problemCreateBody 题目管理
      * @return 结果
      */
-    public int insertFengProblem(FengProblem fengProblem);
+    public int insertFengProblem(ProblemCreateBody problemCreateBody);
 
     /**
      * 修改题目管理
      * 
-     * @param fengProblem 题目管理
+     * @param problemCreateBody 题目管理
      * @return 结果
      */
-    public int updateFengProblem(FengProblem fengProblem);
+    public int updateFengProblem(ProblemCreateBody problemCreateBody);
 
     /**
      * 批量删除题目管理

@@ -2,6 +2,8 @@ package cn.lzscxb.web.controller.business;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import cn.lzscxb.domain.model.ProblemCreateBody;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -75,9 +77,10 @@ public class FengProblemController extends BaseController
     @PreAuthorize("@ss.hasPermi('business:problem:add')")
     @Log(title = "题目管理", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody FengProblem fengProblem)
+    public AjaxResult add(@RequestBody ProblemCreateBody problemCreateBody)
     {
-        return toAjax(fengProblemService.insertFengProblem(fengProblem));
+        System.out.println(problemCreateBody);
+        return toAjax(fengProblemService.insertFengProblem(problemCreateBody));
     }
 
     /**
@@ -86,9 +89,9 @@ public class FengProblemController extends BaseController
     @PreAuthorize("@ss.hasPermi('business:problem:edit')")
     @Log(title = "题目管理", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody FengProblem fengProblem)
+    public AjaxResult edit(@RequestBody ProblemCreateBody problemCreateBody)
     {
-        return toAjax(fengProblemService.updateFengProblem(fengProblem));
+        return toAjax(fengProblemService.updateFengProblem(problemCreateBody));
     }
 
     /**

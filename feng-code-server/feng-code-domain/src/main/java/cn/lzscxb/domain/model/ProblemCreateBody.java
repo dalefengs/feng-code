@@ -12,6 +12,12 @@ import java.util.List;
 @Data
 public class ProblemCreateBody {
 
+    // id
+    private long id;
+
+    // 用户id 用于修改
+    private long userId;
+
     // 题目标题
     private String title;
 
@@ -31,13 +37,13 @@ public class ProblemCreateBody {
     private int level;
 
     // 排序
-    private int sort;
+    private long sort;
 
     // 自动批阅
     private int isAuto;
 
     // 题目支持的语言列表
-    private List<Integer> language;
+    private List<String> language;
 
     // 语言模版方法名列表
     private List<String> methodNames;
@@ -46,7 +52,7 @@ public class ProblemCreateBody {
     private List<String> codeTemplates;
 
     // 语言参数类型
-    private List<String> paramTypes;
+    private List<List<String>> paramTypes;
 
     // 测试用例
     private String testCase;

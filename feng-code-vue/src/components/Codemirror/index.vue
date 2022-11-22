@@ -202,8 +202,7 @@ var your-method-name = function(s) {
         },
         'TestCase': {
           'mode': '',
-          'templete': `# 例：参数1，参数2=结果1，结果2
-# param1,param2=result
+          'templete': `
 
           `
         }
@@ -223,11 +222,11 @@ var your-method-name = function(s) {
     }
   },
   mounted () {
-    console.log('the current CodeMirror instance object:', this.codemirror)
+    // console.log('the current CodeMirror instance object:', this.codemirror)
     this.codemirror.on('change', (cm, changeObj) => {
       // 自动补全的时候，也会触发change事件，所有坐下判断，以免死循环，正则是为了不让空格，换行之类的也提示
       // 通过change对象你可以自定义一些规则去判断是否提示
-      if (/\w|\./g.test(changeObj.text[0])) {
+      if (changeObj.origin === '+input' && /\w|\./g.test(changeObj.text[0])) {
         this.codemirror.showHint()
       }
     })
@@ -235,10 +234,10 @@ var your-method-name = function(s) {
   },
   methods: {
     onCmReady (cm) {
-      console.log('the editor is readied!', cm)
+      // console.log('the editor is readied!', cm)
     },
     onCmFocus (cm) {
-      console.log('the editor is focused!', cm)
+      // console.log('the editor is focused!', cm)
     },
     onCmCodeChange (newCode) {
       this.code = newCode

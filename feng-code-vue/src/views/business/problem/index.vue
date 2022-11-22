@@ -42,9 +42,6 @@
         <a-button type="primary" @click="add()" v-hasPermi="['business:problem:add']">
           <a-icon type="plus" />新增
         </a-button>
-        <a-button type="primary" :disabled="single" @click="update(undefined, ids)" v-hasPermi="['business:problem:edit']">
-          <a-icon type="edit" />修改
-        </a-button>
         <a-button type="danger" :disabled="multiple" @click="handleDelete" v-hasPermi="['business:problem:remove']">
           <a-icon type="delete" />删除
         </a-button>
@@ -82,7 +79,7 @@
         </span>
         <span slot="operation" slot-scope="text, record">
           <a-divider type="vertical" v-hasPermi="['business:problem:edit']" />
-          <a @click="$refs.createForm.handleUpdate(record, undefined)" v-hasPermi="['business:problem:edit']">
+          <a @click="update(record)" v-hasPermi="['business:problem:edit']">
             <a-icon type="edit" />修改
           </a>
           <a-divider type="vertical" v-hasPermi="['business:problem:remove']" />
@@ -268,9 +265,8 @@ export default {
       this.$router.push({ path: '/study/business/problem/createProblem', query: { } })
     },
     /** 修改按钮操作 */
-    update (row, ids) {
-      const id = row ? row.id : ids
-      this.$router.push({ path: '/study/business/problem/createProblem', query: { id: id } })
+    update (row) {
+      this.$router.push({ path: '/study/business/problem/createProblem', query: { id: row.id } })
     },
     onShowSizeChange (current, pageSize) {
       this.queryParam.pageSize = pageSize
