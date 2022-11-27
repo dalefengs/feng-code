@@ -17,6 +17,7 @@ import storage from 'store'
 import { isDesignatedRole } from '@/utils/util'
 import { STUDENT_ROLE } from '@/store/role-constant'
 
+// 管理后台界面布局
 const sidemenuDark = {
   navTheme: 'dark', // theme for nav menu
   primaryColor: '#1890ff', // primary color of ant design
@@ -33,15 +34,16 @@ const sidemenuDark = {
   production: process.env.NODE_ENV === 'production' && process.env.VUE_APP_PREVIEW !== 'true'
 }
 
+// 用户界面布局
 const topmenu = {
   navTheme: 'light', // theme for nav menu
   primaryColor: '#1890ff', // primary color of ant design
   layout: 'topmenu', // nav menu position: sidemenu or topmenu
   contentWidth: 'Fluid', // layout of content: Fluid or Fixed, only works when layout is topmenu
-  fixedHeader: true, // sticky header
+  fixedHeader: false, // sticky header
   fixSiderbar: true, // sticky siderbar
   colorWeak: false,
-  multiTab: true,
+  multiTab: false,
   tableSize: 'default',
   tableBordered: false,
   hideFooter: false,

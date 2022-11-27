@@ -28,10 +28,18 @@ export default {
   },
   data () {
     const validateNewPass = (rule, value, callback) => {
+      // if (value === '') {
+      //   callback(new Error('请输入新密码'))
+      // } else if (!/^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$)([^\u4e00-\u9fa5\s]){5,20}$/.test(value)) {
+      //   callback(new Error('请输入5-20位英文字母、数字或者符号（除空格），且字母、数字和标点符号至少包含两种'))
+      // } else {
+      //   if (this.form.confirmPassword !== '') {
+      //     this.$refs.form.validateField('confirmPassword')
+      //   }
+      //   callback()
+      // }
       if (value === '') {
         callback(new Error('请输入新密码'))
-      } else if (!/^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$)([^\u4e00-\u9fa5\s]){5,20}$/.test(value)) {
-        callback(new Error('请输入5-20位英文字母、数字或者符号（除空格），且字母、数字和标点符号至少包含两种'))
       } else {
         if (this.form.confirmPassword !== '') {
           this.$refs.form.validateField('confirmPassword')

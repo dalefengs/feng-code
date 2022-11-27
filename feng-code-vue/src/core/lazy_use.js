@@ -49,7 +49,8 @@ import {
   message,
   notification,
   Space,
-  Tree
+  Tree,
+  Calendar
 } from 'ant-design-vue'
 
 // ext library
@@ -108,6 +109,7 @@ Vue.use(Descriptions)
 Vue.use(Space)
 Vue.use(Tree)
 Vue.use(VueClipboard)
+Vue.use(Calendar)
 
 Vue.prototype.$confirm = Modal.confirm
 Vue.prototype.$message = message

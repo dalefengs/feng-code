@@ -50,6 +50,19 @@ public class FengProblemServiceImpl implements IFengProblemService
     }
 
     /**
+     * 查询首页题目管理列表
+     *
+     * @param fengProblem 题目管理
+     * @return 题目管理
+     */
+    @Override
+    public List<FengProblem> selectFengProblemSetList(FengProblem fengProblem)
+    {
+        // TODO 查询当前用户题目的状态
+        return fengProblemMapper.selectFengProblemList(fengProblem);
+    }
+
+    /**
      * 新增题目管理
      * 
      * @param problemCreateBody 题目管理

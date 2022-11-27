@@ -29,6 +29,14 @@ public interface IFengProblemService
     public List<FengProblem> selectFengProblemList(FengProblem fengProblem);
 
     /**
+     * 查询首页题目管理列表
+     *
+     * @param fengProblem 题目管理
+     * @return 题目管理集合
+     */
+    public List<FengProblem> selectFengProblemSetList(FengProblem fengProblem);
+
+    /**
      * 新增题目管理
      * 
      * @param problemCreateBody 题目管理

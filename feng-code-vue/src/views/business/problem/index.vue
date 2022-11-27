@@ -156,7 +156,7 @@ export default {
         },
         {
           title: '作者',
-          dataIndex: 'userId',
+          dataIndex: 'nickName',
           ellipsis: true,
           align: 'center'
         },
@@ -175,13 +175,13 @@ export default {
         // },
         {
           title: '所属分类',
-          dataIndex: 'categoryId',
+          dataIndex: 'categoryName',
           ellipsis: true,
           align: 'center'
         },
         {
           title: '标签',
-          dataIndex: 'tagId',
+          dataIndex: 'tagName',
           ellipsis: true,
           align: 'center'
         },
@@ -227,6 +227,12 @@ export default {
   computed: {
   },
   watch: {
+    // 监听路由变化
+    $route (to, from) {
+      if (to.query.reload === 'true') {
+        this.getList()
+      }
+    }
   },
   methods: {
     /** 查询题目管理列表 */

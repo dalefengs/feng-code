@@ -1,5 +1,5 @@
 <template>
-  <page-header-wrapper>
+  <page-header-wrapper style="background-color: white !important;">
     <keep-alive :include="this.cachedViews">
       <router-view />
     </keep-alive>
