@@ -110,7 +110,7 @@
 <script>
 import { listAllProblemCategory } from '@/api/business/problemCategory'
 import { listAllTags } from '@/api/business/tags'
-import { listProblem } from '@/api/business/problem'
+import { listProblemSet } from '@/api/business/problem'
 import { tableMixin } from '@/store/table-mixin'
 export default {
   name: 'ProblemSet',
@@ -181,6 +181,7 @@ export default {
         on: {
           click: () => {
             console.log('click:', record.id)
+            this.$router.push({ path: '/problemSet/' + record.id })
           }
         }
       })
@@ -227,7 +228,7 @@ export default {
         query.categoryId = undefined
       }
       console.log(this.queryParam)
-      listProblem(query).then(response => {
+      listProblemSet(query).then(response => {
         this.list = response.rows
         this.total = response.total
         this.loading = false
@@ -345,6 +346,7 @@ export default {
 .body{
   padding: 30px 60px;
   min-width: 1280px;
+  height: 100%;
 }
 
 .category-button {

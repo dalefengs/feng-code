@@ -55,13 +55,6 @@
           :refresh-loading="loading"
           @refresh="getList" />
       </div>
-      <!-- 增加修改 -->
-      <create-form
-        ref="createForm"
-        :levelOptions="dict.type.difficulty_level"
-        :isAutoOptions="dict.type.is_auto"
-        @ok="getList"
-      />
       <!-- 数据展示 -->
       <a-table
         :loading="loading"
@@ -106,13 +99,11 @@
 
 <script>
 import { listProblem, delProblem } from '@/api/business/problem'
-import CreateForm from './modules/CreateForm'
 import { tableMixin } from '@/store/table-mixin'
 
 export default {
   name: 'Problem',
   components: {
-    CreateForm
   },
   mixins: [tableMixin],
   dicts: ['difficulty_level', 'is_auto'],

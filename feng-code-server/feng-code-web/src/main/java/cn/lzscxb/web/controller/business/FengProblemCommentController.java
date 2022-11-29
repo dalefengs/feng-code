@@ -37,7 +37,6 @@ public class FengProblemCommentController extends BaseController
     /**
      * 查询题目评论列表
      */
-    @PreAuthorize("@ss.hasPermi('business:comment:list')")
     @GetMapping("/list")
     public TableDataInfo list(FengProblemComment fengProblemComment)
     {

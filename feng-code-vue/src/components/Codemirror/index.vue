@@ -4,7 +4,7 @@
   <!-- Or manually control the data synchronization -->
   <div>
     <div class="plane">
-      <a-row>
+      <a-row style="vertical-align: center">
         <a-col :span="12">
           <a-select :default-value="this.mode" style="width: 120px;" @change="languageChange">
             <a-select-option v-for="(item, key) in modes" :value="key" :key="key">
@@ -16,15 +16,17 @@
           </a-button>
         </a-col>
         <a-col :span="12" style="text-align: right">
-          <a-tooltip placement="top" title="还原到默认的代码模版" @click="resetTemplte">
-            <a-icon class="right-icon" type="undo" />
-          </a-tooltip>
-          <a-tooltip placement="top" title="使用帮助">
-            <a-icon class="right-icon" type="question-circle" />
-          </a-tooltip>
-          <a-tooltip placement="top" title="全屏">
-            <a-icon class="right-icon" type="fullscreen" @click="fullscreen"/>
-          </a-tooltip>
+          <div>
+            <a-tooltip placement="top" title="还原到默认的代码模版" @click="resetTemplte">
+              <a-icon class="right-icon" type="undo" />
+            </a-tooltip>
+            <a-tooltip placement="top" title="使用帮助">
+              <a-icon class="right-icon" type="question-circle" />
+            </a-tooltip>
+            <a-tooltip placement="top" title="全屏">
+              <a-icon class="right-icon" type="fullscreen" @click="fullscreen"/>
+            </a-tooltip>
+          </div>
         </a-col>
       </a-row>
     </div>
@@ -278,6 +280,8 @@ var your-method-name = function(s) {
   padding: 0 10px;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
+  height: 45px;
+  line-height: 45px;
 }
 
 /* 全屏 */

@@ -48,7 +48,6 @@ public class FengProblemCategoryController extends BaseController {
     /**
      * 查询所有问题分类列表
      */
-    @PreAuthorize("@ss.hasPermi('business:problemCategory:list-all')")
     @GetMapping("/list-all")
     public AjaxResult listall(FengProblemCategory fengProblemCategory) {
         List<FengProblemCategory> list = fengProblemCategoryService.selectFengProblemCategoryList(fengProblemCategory);

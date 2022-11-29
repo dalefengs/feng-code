@@ -37,7 +37,7 @@
     <template v-slot:rightContentRender>
       <right-content :top-menu="settings.layout === 'topmenu'" :is-mobile="isMobile" :theme="settings.theme" />
     </template>
-    <template v-slot:footerRender v-if="!hideFooter">
+    <template v-slot:footerRender v-if="!hideFooter && emitHideFooter ">
       <global-footer />
     </template>
     <keep-alive :include="this.cachedViews">
@@ -68,6 +68,7 @@ import {
   TABLE_BORDERED,
   HIDE_FOOTER
 } from '@/store/mutation-types'
+import commonEmit from '@/utils/commonEmit'
 
 import { dynamicMenu } from '@/config/defaultSettings'
 import RightContent from '@/components/GlobalHeader/RightContent'
@@ -116,7 +117,8 @@ export default {
         hideFooter: ''
       },
       // 媒体查询
-      query: {}
+      query: {},
+      emitHideFooter: true
     }
   },
   computed: {
@@ -195,6 +197,9 @@ export default {
     if (process.env.NODE_ENV !== 'production' || process.env.VUE_APP_PREVIEW === 'true') {
       updateTheme(this.settings.primaryColor)
     }
+    commonEmit.$on('onEmithIdeFooter', (val) => {
+      this.emitHideFooter = val
+    })
   },
   methods: {
     i18nRender,

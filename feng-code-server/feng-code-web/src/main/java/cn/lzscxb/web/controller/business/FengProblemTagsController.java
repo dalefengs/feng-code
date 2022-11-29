@@ -49,7 +49,6 @@ public class FengProblemTagsController extends BaseController
     /**
      * 查询所有题目标签列表
      */
-    @PreAuthorize("@ss.hasPermi('business:tags:list-all')")
     @GetMapping("/list-all")
     public AjaxResult listAll(FengProblemTags fengProblemTags)
     {

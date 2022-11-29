@@ -8,6 +8,14 @@ export function listProblem (query) {
     params: query
   })
 }
+// 查询题目管理列表
+export function listProblemSet (query) {
+  return request({
+    url: '/business/problem/problem-set-list',
+    method: 'get',
+    params: query
+  })
+}
 
 // 查询题目管理详细
 export function getProblem (id) {
