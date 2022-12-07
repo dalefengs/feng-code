@@ -51,7 +51,7 @@ public class FengProblemController extends BaseController
     /**
      * 查询题目管理列表
      */
-    @PreAuthorize("@ss.hasPermi('business:problem:problem-set-list')")
+    @PreAuthorize("@ss.hasPermi('business:problem:set-list')")
     @GetMapping("/problem-set-list")
     public TableDataInfo problemSetlist(FengProblem fengProblem)
     {
@@ -76,7 +76,6 @@ public class FengProblemController extends BaseController
     /**
      * 获取题目管理详细信息
      */
-    @PreAuthorize("@ss.hasPermi('business:problem:query')")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {

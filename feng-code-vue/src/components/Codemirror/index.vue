@@ -100,11 +100,6 @@ export default {
       type: String,
       requires: true,
       default: 'text/x-java'
-    },
-    height: {
-      type: Number,
-      requires: false,
-      default: 400
     }
   },
   data () {
