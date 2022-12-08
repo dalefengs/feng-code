@@ -40,6 +40,11 @@
       @input="onCmCodeChange"
     />
     <a-divider style="margin: 0"/>
+    <div id="exit-full" v-if="isFullscreen" @click="fullscreen">
+      <a-button type="primary">
+        退出全屏
+      </a-button>
+    </div>
   </div>
 </template>
 <script>
@@ -91,6 +96,7 @@ import 'codemirror/addon/hint/sql-hint'
 
 import 'codemirror/addon/hint/anyword-hint'
 import 'codemirror/addon/hint/javascript-hint'
+import { getDicts } from '@/api/system/dict/data'
 
 export default {
   name: 'CodemirrorComponent',
@@ -99,12 +105,29 @@ export default {
     mode: {
       type: String,
       requires: true,
-      default: 'text/x-java'
+      default: 'Java'
+    },
+    supportMode: { // 支持的语言
+      type: Array,
+      default: () => ['Java', 'Python', 'Golang', 'Sql', 'Shell', 'C/C++']
+    },
+    codeTemplates: {
+      type: Array,
+      default: () => []
+    }
+  },
+  watch: {
+    supportMode: {
+      handler (newVal, oldVal) {
+        this.changeModes()
+      }
     }
   },
   data () {
     return {
       language: 'Java',
+      languageDicts: {},
+      isFullscreen: false,
       code: `
 
 
@@ -129,9 +152,11 @@ export default {
         extraKeys: { // 触发按键
           'Ctrl': 'autocomplete',
           'F11': function (cm) { // 代码全屏
+            this.isFullscreen = !this.isFullscreen
             cm.setOption('fullScreen', !cm.getOption('fullScreen'))
           },
           'Esc': function (cm) {
+            this.isFullscreen = !this.isFullscreen
             if (cm.getOption('fullScreen')) {
               console.log('esc 关闭全屏')
               cm.setOption('fullScreen', false)
@@ -143,7 +168,8 @@ export default {
         autorefresh: true
         // more CodeMirror options...
       },
-      modes: {
+      modes: {},
+      modesList: {
         'Java': {
           'mode': 'text/x-java',
           'templete': `
@@ -212,11 +238,7 @@ var your-method-name = function(s) {
     }
   },
   created () {
-    if (this.modes[this.mode]) {
-      const mode = this.modes[this.mode]
-      this.code = mode.templete
-      this.cmOptions.mode = mode.mode
-    }
+    this.changeModes()
   },
   mounted () {
     // console.log('the current CodeMirror instance object:', this.codemirror)
@@ -251,8 +273,8 @@ var your-method-name = function(s) {
     },
     // 全屏
     fullscreen () {
+      this.isFullscreen = !this.isFullscreen
       this.codemirror.setOption('fullScreen', !this.codemirror.getOption('fullScreen'))
-      this.$message.info('全屏模式，F11 关闭全屏')
     },
     smartButtonClick () {
       this.$message.warn('智能模式已开启，暂时不能关闭！')
@@ -261,6 +283,39 @@ var your-method-name = function(s) {
       this.cmOptions.mode = this.modes[this.language].mode
       this.code = this.modes[this.language].templete
       this.$message.success('代码已恢复到原始状态！')
+    },
+    async changeModes () {
+      // 获取语言类型字典
+      if (Object.keys(this.languageDicts).length === 0) {
+        const { data } = await getDicts('code_language')
+        this.languageDicts = data
+      }
+      // 设置支持语言
+      if (this.supportMode.length === 0) {
+        this.modes = this.modesList
+      } else {
+        this.modes = {}
+        for (const key in this.modesList) {
+          if (this.supportMode.includes(key)) {
+            this.modes[key] = this.modesList[key]
+          }
+        }
+      }
+      // 设置代码模版
+      if (this.codeTemplates.length > 0) {
+        this.codeTemplates.forEach((item, index) => {
+          this.languageDicts.forEach(d => {
+            if (parseInt(d.dictValue) === index) {
+              this.modes[d.dictLabel]['templete'] = item
+            }
+          })
+        })
+      }
+      if (this.modes[this.mode]) {
+        const mode = this.modes[this.mode]
+        this.code = mode.templete
+        this.cmOptions.mode = mode.mode
+      }
     }
   }
 }
@@ -287,6 +342,13 @@ var your-method-name = function(s) {
 .right-icon{
   margin-right: 15px;
   font-size: 18px;
+}
+
+#exit-full {
+  z-index: 501;
+  position: fixed;
+  right: 20px;
+  top: 20px;
 }
 
 </style>

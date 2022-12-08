@@ -1,7 +1,9 @@
 package cn.lzscxb.business.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import cn.lzscxb.common.utils.DateUtils;
+import cn.lzscxb.common.utils.DictUtils;
 import cn.lzscxb.common.utils.SecurityUtils;
 import cn.lzscxb.domain.entity.FengUsers;
 import cn.lzscxb.domain.model.LoginUser;
@@ -34,7 +36,16 @@ public class FengProblemServiceImpl implements IFengProblemService
     @Override
     public FengProblem selectFengProblemById(Long id)
     {
-        return fengProblemMapper.selectFengProblemById(id);
+        FengProblem fengProblem = fengProblemMapper.selectFengProblemById(id);
+        List<String> languageList = JSON.parseArray(fengProblem.getLanguage(), String.class);
+        List<String> languageDicts = new ArrayList<>();
+        for (String language : languageList) {
+            String languageDict = DictUtils.getDictLabel("code_language", language);
+            languageDicts.add(languageDict);
+        }
+        fengProblem.setCodeTemplatesParse(JSON.parseArray(fengProblem.getCodeTemplates(), String.class));
+        fengProblem.setLanguageDicts(languageDicts);
+        return fengProblem;
     }
 
     /**

@@ -5,6 +5,8 @@ import cn.lzscxb.domain.BaseEntity;
 import lombok.Data;
 import lombok.ToString;
 
+import java.util.List;
+
 /**
  * 题目管理对象 feng_problem
  * 
@@ -76,8 +78,11 @@ public class FengProblem extends BaseEntity
     private Long successCount;
 
     /** 支持的语言类型 */
-    @Excel(name = "支持的语言类型")
     private String language;
+
+    /** 支持的语言类型 */
+    @Excel(name = "支持的语言类型")
+    private List<String> languageDicts;
 
     /** 方法名 */
     @Excel(name = "方法名")
@@ -88,8 +93,10 @@ public class FengProblem extends BaseEntity
     private String paramTypes;
 
     /** 代码模版 */
-    @Excel(name = "代码模版")
     private String codeTemplates;
+
+    /** 代码模版 */
+    private List<String> codeTemplatesParse;
 
     /** 测试用例 */
     @Excel(name = "测试用例")
