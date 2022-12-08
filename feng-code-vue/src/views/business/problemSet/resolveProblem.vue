@@ -52,7 +52,7 @@
       </a-tabs>
     </a-col>
     <a-col :span="12" style="position: relative; height: calc(100vh - 118px)">
-      <Codemirror ></Codemirror>
+      <Codemirror :support-mode="problemInfo.languageDicts" :code-templates="problemInfo.codeTemplatesParse" ref="editCode"></Codemirror>
       <div class="controller" v-show="controllerIcon === 'up'">
         <a-tabs default-active-key="1">
           <a-tab-pane key="1" tab="执行结果">
@@ -68,7 +68,7 @@
         </div>
         <div class="right">
           <a-button type="primary">运行</a-button>
-          <a-button style="background-color: #2db55d; color: white">提交</a-button>
+          <a-button @click="submit()" style="background-color: #2db55d; color: white">提交</a-button>
         </div>
       </div>
     </a-col>
@@ -110,6 +110,11 @@ export default {
     this.changeEditorHeight('calc(65vh - 180px)')
   },
   methods: {
+    submit () {
+      const code = this.$refs.editCode.getCodeValue()
+      const mode = this.$refs.editCode.mode
+      console.log('code submit mode === ', mode, code)
+    },
     async getProblemInfo () {
       const { data, code } = await getProblem(this.id)
       console.log(data)
@@ -160,7 +165,6 @@ export default {
       if (!paramData) {
         return false
       }
-      console.log(paramData)
     }
   }
 }
@@ -180,7 +184,7 @@ export default {
 /* 编辑器高度 */
 .CodeMirror {
   /* 动态高度 */
-  height: var(--edit-height) !important;
+  height: var(--edit-height);
   //height: calc(50vh - 120px) !important;
 }
 
