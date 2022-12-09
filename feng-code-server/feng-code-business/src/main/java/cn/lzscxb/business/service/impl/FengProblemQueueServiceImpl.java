@@ -2,6 +2,7 @@ package cn.lzscxb.business.service.impl;
 
 import java.util.List;
 import cn.lzscxb.common.utils.DateUtils;
+import cn.lzscxb.common.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cn.lzscxb.business.mapper.FengProblemQueueMapper;
@@ -54,6 +55,7 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService
     public int insertFengProblemQueue(FengProblemQueue fengProblemQueue)
     {
         fengProblemQueue.setCreateTime(DateUtils.getNowDate());
+        fengProblemQueue.setUserId(SecurityUtils.getUserId());
         return fengProblemQueueMapper.insertFengProblemQueue(fengProblemQueue);
     }
 

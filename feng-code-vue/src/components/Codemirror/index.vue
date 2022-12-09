@@ -6,7 +6,7 @@
     <div class="plane">
       <a-row style="vertical-align: center">
         <a-col :span="12">
-          <a-select :default-value="this.mode" style="width: 120px;" @change="languageChange">
+          <a-select v-model="language" style="width: 120px;" @change="languageChange">
             <a-select-option v-for="(item, key) in modes" :value="key" :key="key">
               {{ key }}
             </a-select-option>
@@ -104,12 +104,11 @@ export default {
   props: {
     mode: {
       type: String,
-      requires: true,
-      default: 'Java'
+      default: '' // Java Python
     },
     supportMode: { // 支持的语言
       type: Array,
-      default: () => ['Java', 'Python', 'Golang', 'Sql', 'Shell', 'C/C++']
+      default: () => []
     },
     codeTemplates: {
       type: Array,
@@ -117,16 +116,29 @@ export default {
     }
   },
   watch: {
+    language: {
+      handler (newVal, oldVal) {
+        // 获取当前选中的类型 key
+        this.languageDicts.forEach(d => {
+          if (d.dictLabel === this.language) {
+            this.languageKey = d.dictValue
+            console.log(this.languageKey, 333333333333333333)
+          }
+        })
+      }
+    },
     supportMode: {
       handler (newVal, oldVal) {
+        console.log(`support change new:${newVal}, old: ${oldVal}`)
         this.changeModes()
       }
     }
   },
   data () {
     return {
-      language: 'Java',
-      languageDicts: {},
+      language: '', // 当前选择语言
+      languageKey: undefined, // 当前选择语言的key
+      languageDicts: [],
       isFullscreen: false,
       code: `
 
@@ -134,7 +146,7 @@ export default {
       `,
       cmOptions: {
         tabSize: 4,
-        mode: 'text/x-java',
+        mode: '',
         // theme: 'material-darker',
         lineNumbers: true,
         smartIndent: true, // 是否智能缩进
@@ -238,6 +250,7 @@ var your-method-name = function(s) {
     }
   },
   created () {
+    this.getLanguageDicts()
     this.changeModes()
   },
   mounted () {
@@ -284,12 +297,14 @@ var your-method-name = function(s) {
       this.code = this.modes[this.language].templete
       this.$message.success('代码已恢复到原始状态！')
     },
-    async changeModes () {
+    async getLanguageDicts () {
       // 获取语言类型字典
       if (Object.keys(this.languageDicts).length === 0) {
         const { data } = await getDicts('code_language')
         this.languageDicts = data
       }
+    },
+    changeModes () {
       // 设置支持语言
       if (this.supportMode.length === 0) {
         this.modes = this.modesList
@@ -301,21 +316,38 @@ var your-method-name = function(s) {
           }
         }
       }
+
       // 设置代码模版
       if (this.codeTemplates.length > 0) {
         this.codeTemplates.forEach((item, index) => {
           this.languageDicts.forEach(d => {
             if (parseInt(d.dictValue) === index) {
-              this.modes[d.dictLabel]['templete'] = item
+              if (this.modes[d.dictLabel]) {
+                this.modes[d.dictLabel]['templete'] = item || ''
+              }
             }
           })
         })
       }
+
       if (this.modes[this.mode]) {
+        this.language = this.mode
         const mode = this.modes[this.mode]
         this.code = mode.templete
         this.cmOptions.mode = mode.mode
+      } else {
+        this.language = Object.keys(this.modes)[0]
+        const mode = this.modes[this.language]
+        this.code = mode.templete
+        this.cmOptions.mode = mode.mode
       }
+      // 获取当前选中的类型 key
+      this.languageDicts.forEach(d => {
+        if (d.dictLabel === this.language) {
+          this.languageKey = d.dictValue
+          console.log(this.languageKey, 333333333333333333)
+        }
+      })
     }
   }
 }

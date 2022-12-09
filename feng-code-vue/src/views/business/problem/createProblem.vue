@@ -117,7 +117,7 @@
           </template>
         </a-alert>
         <!--     代码编辑器      -->
-        <CodemirrorDemo mode="TestCase" :ref="'testCase'"></CodemirrorDemo>
+        <CodemirrorDemo mode="TestCase" ref="testCase"></CodemirrorDemo>
       </a-form-model-item>
       <a-form-model-item :wrapper-col="{ span: 21, offset: 3 }">
         <a-space>
@@ -157,7 +157,7 @@ export default {
         level: '0',
         sort: 50,
         isAuto: '0',
-        language: ['1'], // 支持的语言
+        language: [], // 支持的语言
         testCase: '',
         codeTemplates: [], // 语言模版
         methodNames: [], // 语言模版方法名称
@@ -238,8 +238,6 @@ export default {
       handler (newVal, oldVal) {
         // 求差集 得到取消选择的语言
         const diffLanguage = newVal.concat(oldVal).filter(v => !newVal.includes(v))
-        console.log('oldVal', oldVal)
-        console.log('newVal', newVal, 'oldVal', oldVal, 'diffLanguage', diffLanguage)
         if (diffLanguage.length !== 0) {
           diffLanguage.forEach(lkey => {
             // 删除对应的数据
@@ -355,7 +353,6 @@ export default {
       this.formData.sort = data.sort
       this.formData.isAuto = data.isAuto + ''
       this.formData.testCase = JSON.parse(data.testCase)
-      this.$refs.testCase.code = this.formData.testCase
       // 为了防止监听 categoryId 的修改导致 language 被覆盖
       await new Promise((resolve) => {
         setTimeout(resolve, 800)
@@ -369,8 +366,9 @@ export default {
       // 等待代码编辑器初始化
       this.formData.codeTemplates = JSON.parse(data.codeTemplates)
       await new Promise((resolve) => {
-        setTimeout(resolve, 500)
+        setTimeout(resolve, 2000)
       })
+      this.$refs.testCase.code = this.formData.testCase
       this.formData.codeTemplates.forEach((item, index) => {
         if (item) {
           this.$refs['edit_' + index][0].code = item

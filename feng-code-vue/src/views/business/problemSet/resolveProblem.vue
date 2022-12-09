@@ -52,7 +52,11 @@
       </a-tabs>
     </a-col>
     <a-col :span="12" style="position: relative; height: calc(100vh - 118px)">
-      <Codemirror :support-mode="problemInfo.languageDicts" :code-templates="problemInfo.codeTemplatesParse" ref="editCode"></Codemirror>
+      <Codemirror
+        :support-mode="problemInfo.languageDicts"
+        :code-templates="problemInfo.codeTemplatesParse"
+        ref="editCode"
+      ></Codemirror>
       <div class="controller" v-show="controllerIcon === 'up'">
         <a-tabs default-active-key="1">
           <a-tab-pane key="1" tab="执行结果">
@@ -79,6 +83,7 @@
 import { getProblem } from '@/api/business/problem'
 import commonEmit from '@/utils/commonEmit'
 import Codemirror from '@/components/Codemirror'
+import { addQueue } from '@/api/business/queue'
 
 export default {
   name: 'ResolveProblem',
@@ -88,7 +93,9 @@ export default {
   data () {
     return {
       id: undefined,
-      problemInfo: {},
+      problemInfo: {
+        codeTemplatesParse: []
+      },
       paramTypes: {},
       teseCase: [],
       controllerIcon: 'up'
@@ -111,9 +118,18 @@ export default {
   },
   methods: {
     submit () {
-      const code = this.$refs.editCode.getCodeValue()
-      const mode = this.$refs.editCode.mode
-      console.log('code submit mode === ', mode, code)
+      const data = {}
+      data.code = this.$refs.editCode.getCodeValue()
+      data.type = this.$refs.editCode.languageKey
+      data.problemId = this.id
+      console.log('submit data', data)
+      addQueue(data).then(res => {
+        if (res.code !== 200) {
+          this.$message.error(res.msg)
+        } else {
+          this.$message.success('保存成功！')
+        }
+      })
     },
     async getProblemInfo () {
       const { data, code } = await getProblem(this.id)
