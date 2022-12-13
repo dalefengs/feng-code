@@ -1,0 +1,1 @@
+javac -encoding UTF-8 -cp lib/fastjson-1.2.83.jar -d ./out ./src/*.java && java -cp "./out;lib/fastjson-1.2.83.jar" TestSolution

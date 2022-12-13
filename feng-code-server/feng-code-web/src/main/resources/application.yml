@@ -90,7 +90,12 @@ spring:
 #        max-active: 8
 #        # #连接池最大阻塞等待时间（使用负值表示没有限制）
 #        max-wait: -1ms
-
+  thymeleaf:
+    mode: 'RAW'
+    cache: 'false'
+    prefix: 'classpath:/docker/'
+    suffix: '.tpl'
+    encoding: 'UTF-8'
 
 # token配置
 token:
@@ -138,3 +143,12 @@ minio:
   accessKey: fengcode
   secretKey: nAY8t9Eusb8HbmT3xs
   bucketName: feng-code
+
+
+docker-config:
+  host: 192.168.147.100
+  port: 2375
+  isRemote: true  # 是否远程部署 docker主机与web主机需要配置SSH免密，如果docker与web运行在一台机器则填 false
+  username: root # docker 服务器所有在用户名和密码 isRemote=false 则不需要
+  password: '000'
+  uploadPath: /root/fengcodetemp # 代码相关文件保存目录

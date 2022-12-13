@@ -1,19 +1,22 @@
 package cn.lzscxb.business.service;
 
 import java.util.List;
+
 import cn.lzscxb.domain.entity.FengProblemQueue;
 
 /**
  * 任务管理Service接口
- * 
+ *
  * @author Likfees
  * @date 2022-12-08
  */
-public interface IFengProblemQueueService 
-{
+public interface IFengProblemQueueService {
+
+    public void excuteQueue(long id);
+
     /**
      * 查询任务管理
-     * 
+     *
      * @param id 任务管理主键
      * @return 任务管理
      */
@@ -21,7 +24,7 @@ public interface IFengProblemQueueService
 
     /**
      * 查询任务管理列表
-     * 
+     *
      * @param fengProblemQueue 任务管理
      * @return 任务管理集合
      */
@@ -29,7 +32,7 @@ public interface IFengProblemQueueService
 
     /**
      * 新增任务管理
-     * 
+     *
      * @param fengProblemQueue 任务管理
      * @return 结果
      */
@@ -37,7 +40,7 @@ public interface IFengProblemQueueService
 
     /**
      * 修改任务管理
-     * 
+     *
      * @param fengProblemQueue 任务管理
      * @return 结果
      */
@@ -45,7 +48,7 @@ public interface IFengProblemQueueService
 
     /**
      * 批量删除任务管理
-     * 
+     *
      * @param ids 需要删除的任务管理主键集合
      * @return 结果
      */
@@ -53,7 +56,7 @@ public interface IFengProblemQueueService
 
     /**
      * 删除任务管理信息
-     * 
+     *
      * @param id 任务管理主键
      * @return 结果
      */
