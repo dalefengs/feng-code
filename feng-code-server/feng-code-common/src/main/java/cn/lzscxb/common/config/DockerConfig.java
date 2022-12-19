@@ -26,18 +26,6 @@ public class DockerConfig {
     @Value("${docker-config.port}")
     private int dockerPort;
 
-    @Value(("${docker-config.isRemote}"))
-    private boolean isRemote;
-
-    @Value(("${docker-config.uploadPath}"))
-    private String uploadPath;
-
-    @Value(("${docker-config.username}"))
-    private String username;
-
-    @Value(("${docker-config.password}"))
-    private String password;
-
     /**
      * 创建 DockerClient 对象
      *

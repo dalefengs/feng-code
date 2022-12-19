@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Vector;
 
 /**
@@ -25,28 +28,18 @@ public class SftpUtilsTest {
     private SftpUtils sftpUtils;
 
     @Test
-    public void testExec() throws JSchException {
-        sftpUtils.connect();
-        sftpUtils.execCmd("ls");
-        sftpUtils.close();
-    }
-
-    @Test
     public void testUpload() throws JSchException, SftpException, FileNotFoundException {
-        sftpUtils.connect();
-
-        sftpUtils.upload("D:\\Code\\Java\\feng-code\\feng-code-server\\feng-code-web\\src\\main\\resources\\banner.txt", "/root");
-
-        sftpUtils.close();
+        sftpUtils.login();
+        sftpUtils.uploadDirectory("/root/temptest","D:\\Code\\Java\\feng-code\\feng-code-server\\feng-code-business\\src\\main\\resources\\template");
+        sftpUtils.logout();
     }
 
 
     @Test
     public void testListFiles() throws Exception {
-        sftpUtils.connect();
+        sftpUtils.login();
         Vector lsEntries = sftpUtils.listFiles("/root");
-        System.out.println(lsEntries);
-        sftpUtils.close();
+        sftpUtils.logout();
     }
 
 }

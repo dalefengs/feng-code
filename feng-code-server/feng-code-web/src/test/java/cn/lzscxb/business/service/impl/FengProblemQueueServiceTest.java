@@ -1,6 +1,5 @@
 package cn.lzscxb.business.service.impl;
 
-import org.checkerframework.checker.units.qual.A;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ public class FengProblemQueueServiceTest {
     @Test
     public void testExcuteQueue(){
 
-        fengProblemQueueService.excuteQueue(1);
+        fengProblemQueueService.excuteJavaQueue(1, 100);
     }
 
 }

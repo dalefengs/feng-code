@@ -12,7 +12,14 @@ import cn.lzscxb.domain.entity.FengProblemQueue;
  */
 public interface IFengProblemQueueService {
 
-    public void excuteQueue(long id);
+    /**
+     *
+     *
+     * @param id 任务管理主键
+     * @param problemId 题目id
+     * @return
+     */
+    public void excuteJavaQueue(long id, long problemId);
 
     /**
      * 查询任务管理

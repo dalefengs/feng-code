@@ -139,8 +139,10 @@ public class DockerClientUtils {
         StringBuffer stringBuffer = new StringBuffer();
         try {
             this.dockerClient.logContainerCmd(id)
-                    .withStdOut(Boolean.TRUE)
-                    .withStdOut(Boolean.TRUE)
+                    .withStdOut(true)
+                    .withStdErr(true)
+                    .withFollowStream(true)
+                    .withSince(0)
                     .exec(new ResultCallbackTemplate<ResultCallback<Frame>, Frame>() {
                         @Override
                         public void onNext(Frame frame) {

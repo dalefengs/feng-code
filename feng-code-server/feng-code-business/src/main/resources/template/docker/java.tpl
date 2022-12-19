@@ -1,9 +1,9 @@
 FROM openjdk:8-jdk-alpine
 
-COPY ../code/java /app/java
+COPY java /app/java
 
-RUN apk add --no-cache javac
+RUN mkdir /app/java/out
 
-RUN javac -cp /app/java/lib/fastjson-1.2.83.jar -d /app/java/out /app/java/src/*.java
+RUN javac -cp /app/java/fastjson-1.2.83.jar -d /app/java/out /app/java/*.java
 
-CMD ["java", "-cp", "/app/java/out:/app/java/lib/fastjson-1.2.83.jar", "TestSolution"]
+CMD ["java", "-cp", "/app/java/out:/app/java/fastjson-1.2.83.jar", "TestSolution"]
