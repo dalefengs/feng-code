@@ -42,3 +42,11 @@ export function delQueue (id) {
     method: 'delete'
   })
 }
+
+// 执行任务
+export function excuteQueue (id) {
+  return request({
+    url: '/business/excute/' + id,
+    method: 'POST'
+  })
+}

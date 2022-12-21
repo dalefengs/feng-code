@@ -47,6 +47,17 @@ public class FengProblemQueueController extends BaseController
     }
 
     /**
+     * 执行任务
+     */
+    @PreAuthorize("@ss.hasPermi('business:queue:excute')")
+    @GetMapping("/excute")
+    public AjaxResult excuteQuque(FengProblemQueue fengProblemQueue)
+    {
+        FengProblemQueue result = fengProblemQueueService.excuteQuque(fengProblemQueue.getId(), fengProblemQueue.getProblemId());
+        return AjaxResult.success(result);
+    }
+
+    /**
      * 导出任务管理列表
      */
     @PreAuthorize("@ss.hasPermi('business:queue:export')")

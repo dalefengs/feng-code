@@ -2,6 +2,8 @@ package cn.lzscxb.domain.entity;
 
 import cn.lzscxb.domain.annotation.Excel;
 import cn.lzscxb.domain.BaseEntity;
+import cn.lzscxb.domain.model.ExecuteResult;
+import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -11,6 +13,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @author Likfees
  * @date 2022-12-08
  */
+@Data
 public class FengProblemQueue extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -36,7 +39,7 @@ public class FengProblemQueue extends BaseEntity
 
     /** 语言类型 */
     @Excel(name = "语言类型")
-    private Long type;
+    private int type;
 
     /** 代码 */
     private String code;
@@ -51,114 +54,6 @@ public class FengProblemQueue extends BaseEntity
     /** 错误信息 */
     private String errorMsg;
 
-    public void setId(Long id) 
-    {
-        this.id = id;
-    }
+    private ExecuteResult executeResult;
 
-    public Long getId() 
-    {
-        return id;
-    }
-    public void setUserId(Long userId) 
-    {
-        this.userId = userId;
-    }
-
-    public Long getUserId() 
-    {
-        return userId;
-    }
-    public void setProblemId(Long problemId) 
-    {
-        this.problemId = problemId;
-    }
-
-    public Long getProblemId() 
-    {
-        return problemId;
-    }
-    public void setTaskId(Long taskId) 
-    {
-        this.taskId = taskId;
-    }
-
-    public Long getTaskId() 
-    {
-        return taskId;
-    }
-    public void setTaskJoinId(Long taskJoinId) 
-    {
-        this.taskJoinId = taskJoinId;
-    }
-
-    public Long getTaskJoinId() 
-    {
-        return taskJoinId;
-    }
-    public void setType(Long type) 
-    {
-        this.type = type;
-    }
-
-    public Long getType() 
-    {
-        return type;
-    }
-    public void setCode(String code) 
-    {
-        this.code = code;
-    }
-
-    public String getCode() 
-    {
-        return code;
-    }
-    public void setStatus(Integer status) 
-    {
-        this.status = status;
-    }
-
-    public Integer getStatus() 
-    {
-        return status;
-    }
-    public void setSuccessMsg(String successMsg) 
-    {
-        this.successMsg = successMsg;
-    }
-
-    public String getSuccessMsg() 
-    {
-        return successMsg;
-    }
-    public void setErrorMsg(String errorMsg) 
-    {
-        this.errorMsg = errorMsg;
-    }
-
-    public String getErrorMsg() 
-    {
-        return errorMsg;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("userId", getUserId())
-            .append("problemId", getProblemId())
-            .append("taskId", getTaskId())
-            .append("taskJoinId", getTaskJoinId())
-            .append("type", getType())
-            .append("code", getCode())
-            .append("status", getStatus())
-            .append("successMsg", getSuccessMsg())
-            .append("errorMsg", getErrorMsg())
-            .append("createBy", getCreateBy())
-            .append("createTime", getCreateTime())
-            .append("updateBy", getUpdateBy())
-            .append("updateTime", getUpdateTime())
-            .toString();
-    }
 }

@@ -3,6 +3,7 @@ package cn.lzscxb.business.service;
 import java.util.List;
 
 import cn.lzscxb.domain.entity.FengProblemQueue;
+import cn.lzscxb.domain.model.ExecuteResult;
 
 /**
  * 任务管理Service接口
@@ -13,13 +14,22 @@ import cn.lzscxb.domain.entity.FengProblemQueue;
 public interface IFengProblemQueueService {
 
     /**
+     * 控制任务执行
      *
+     * @param
+     * @return
+     */
+     FengProblemQueue excuteQuque(long id, long problemId);
+
+
+    /**
+     * 执行 Java 任务
      *
      * @param id 任务管理主键
      * @param problemId 题目id
      * @return
      */
-    public void excuteJavaQueue(long id, long problemId);
+    public ExecuteResult excuteQueueJava(long id, long userId, long problemId);
 
     /**
      * 查询任务管理
@@ -68,4 +78,5 @@ public interface IFengProblemQueueService {
      * @return 结果
      */
     public int deleteFengProblemQueueById(Long id);
+
 }

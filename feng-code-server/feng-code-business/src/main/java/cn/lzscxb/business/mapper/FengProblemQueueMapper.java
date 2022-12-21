@@ -33,7 +33,7 @@ public interface FengProblemQueueMapper
      * @param fengProblemQueue 任务管理
      * @return 结果
      */
-    public int insertFengProblemQueue(FengProblemQueue fengProblemQueue);
+    public long insertFengProblemQueue(FengProblemQueue fengProblemQueue);
 
     /**
      * 修改任务管理

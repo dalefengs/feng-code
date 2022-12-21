@@ -2,19 +2,22 @@ package cn.lzscxb.domain.entity;
 
 import cn.lzscxb.domain.annotation.Excel;
 import cn.lzscxb.domain.BaseEntity;
+import com.alibaba.fastjson2.JSON;
 import lombok.Data;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
 /**
  * 题目管理对象 feng_problem
- * 
+ *
  * @author Likfees
  * @date 2022-11-21
  */
 @Data
 @ToString
+@Slf4j
 public class FengProblem extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -101,4 +104,31 @@ public class FengProblem extends BaseEntity
     /** 测试用例 */
     @Excel(name = "测试用例")
     private String testCase;
+
+    /**
+     * 解析方法名JSON
+     */
+    public List<String> parseMethodName() {
+        return JSON.parseArray(this.getMethodNames(), String.class);
+    }
+
+    /**
+     * 解析方法名JSON 并返回指定方法名
+     */
+    public String parseMethodName(int languageType) {
+        return parseMethodName().get(languageType);
+    }
+
+
+    public List<String[]> parseParamType() {
+        return JSON.parseArray(this.getParamTypes(), String[].class);
+    }
+    public String[] parseParamType(int languageType) {
+        return parseParamType().get(languageType);
+    }
+
+    public String parseTestCase() {
+        return JSON.parseObject(getTestCase(), String.class).trim();
+    }
+
 }

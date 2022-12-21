@@ -1,5 +1,8 @@
 package cn.lzscxb.business.service.impl;
 
+import cn.lzscxb.business.mapper.FengProblemMapper;
+import cn.lzscxb.domain.entity.FengProblem;
+import cn.lzscxb.domain.model.ExecuteResult;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +23,22 @@ public class FengProblemQueueServiceTest {
     private FengProblemQueueServiceImpl fengProblemQueueService;
 
 
+    @Autowired
+    private FengProblemMapper fengProblemMapper;
+
+
     @Test
     public void testExcuteQueue(){
 
-        fengProblemQueueService.excuteJavaQueue(1, 100);
+        ExecuteResult executeResult = fengProblemQueueService.excuteQueueJava(1, 101, 1);
+        System.out.println(executeResult);
+
     }
 
+
+    @Test
+    public void test() {
+        FengProblem fengProblem = fengProblemMapper.selectFengProblemById(1L);
+        String s = fengProblem.parseTestCase();
+    }
 }

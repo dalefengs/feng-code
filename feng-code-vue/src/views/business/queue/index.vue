@@ -141,7 +141,7 @@ export default {
       queryParam: {
         userId: null,
         problemId: null,
-        type: null,
+        type: -1,
         status: null,
         pageNum: 1,
         pageSize: 10
@@ -165,12 +165,12 @@ export default {
           ellipsis: true,
           align: 'center'
         },
-        {
-          title: '学习任务',
-          dataIndex: 'taskId',
-          ellipsis: true,
-          align: 'center'
-        },
+        // {
+        //   title: '学习任务',
+        //   dataIndex: 'taskId',
+        //   ellipsis: true,
+        //   align: 'center'
+        // },
         {
           title: '学生参与学习任务',
           dataIndex: 'taskJoinId',
@@ -188,6 +188,18 @@ export default {
           title: '状态',
           dataIndex: 'status',
           scopedSlots: { customRender: 'status' },
+          ellipsis: true,
+          align: 'center'
+        },
+        {
+          title: '执行信息',
+          dataIndex: 'successMsg',
+          ellipsis: true,
+          align: 'center'
+        },
+        {
+          title: '失败信息',
+          dataIndex: 'errorMsg',
           ellipsis: true,
           align: 'center'
         },
@@ -231,7 +243,7 @@ export default {
       this.queryParam = {
         userId: undefined,
         problemId: undefined,
-        type: undefined,
+        type: -1,
         status: undefined,
         pageNum: 1,
         pageSize: 10,

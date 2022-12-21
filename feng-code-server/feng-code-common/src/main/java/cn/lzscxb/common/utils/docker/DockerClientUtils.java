@@ -5,6 +5,7 @@ import com.github.dockerjava.api.async.ResultCallback;
 import com.github.dockerjava.api.async.ResultCallbackTemplate;
 import com.github.dockerjava.api.command.*;
 import com.github.dockerjava.api.exception.NotFoundException;
+import com.github.dockerjava.api.exception.NotModifiedException;
 import com.github.dockerjava.api.model.*;
 
 import com.google.common.collect.ImmutableSet;
@@ -31,14 +32,14 @@ public class DockerClientUtils {
     private DockerClient dockerClient;
 
 
-
     /**
      * 通过 Dockerfile 文件编译镜像文件
      * List<String> dockerfile = Arrays.asList(
-     *                     "FROM alpine:3.2",
-     *                     "RUN echo 'hello from Docker build process'",
-     *                     "CMD yes"
-     *             );
+     * "FROM alpine:3.2",
+     * "RUN echo 'hello from Docker build process'",
+     * "CMD yes"
+     * );
+     *
      * @param: 镜像名称, Dockerfile 文件路径
      * @return: 镜像Id
      */
@@ -198,8 +199,12 @@ public class DockerClientUtils {
      * @param: 容器Id
      */
     public void deleteContainer(String id) {
-        // 先关闭在删除
-        this.stopContainer(id);
+        try {
+            // 先关闭在删除
+            this.stopContainer(id);
+        } catch (NotModifiedException ignored) {
+
+        }
         this.dockerClient.removeContainerCmd(id).exec();
     }
 
