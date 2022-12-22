@@ -1,6 +1,8 @@
 package cn.lzscxb.business.service.impl;
 
 import cn.lzscxb.business.mapper.FengProblemMapper;
+import cn.lzscxb.common.core.redis.RedisCache;
+import cn.lzscxb.domain.constant.CacheConstants;
 import cn.lzscxb.domain.entity.FengProblem;
 import cn.lzscxb.domain.model.ExecuteResult;
 import org.junit.Test;
@@ -8,6 +10,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Auther: Likfees
@@ -26,6 +31,8 @@ public class FengProblemQueueServiceTest {
     @Autowired
     private FengProblemMapper fengProblemMapper;
 
+    @Autowired
+    private RedisCache redisCache;
 
     @Test
     public void testExcuteQueue(){
@@ -38,7 +45,10 @@ public class FengProblemQueueServiceTest {
 
     @Test
     public void test() {
-        FengProblem fengProblem = fengProblemMapper.selectFengProblemById(1L);
-        String s = fengProblem.parseTestCase();
+        boolean b = redisCache.cacheListRpush(CacheConstants.QUQUE_EXECUTE, 123);
+        boolean b1 = redisCache.cacheListRpush(CacheConstants.QUQUE_EXECUTE, 124);
+        boolean b2 = redisCache.cacheListRpush(CacheConstants.QUQUE_EXECUTE, 125);
+//        Integer tttt = redisCache.cacheListLPop(CacheConstants.QUQUE_EXECUTE);
+//        System.out.println(tttt);
     }
 }

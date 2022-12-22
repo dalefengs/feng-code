@@ -1,7 +1,7 @@
 <template>
   <a-row class="body" ref="styleVar">
     <a-col :span="12" style="padding: 0 20px; overflow-y: auto; height: calc(100vh - 72px - 50px);">
-      <a-tabs default-active-key="1">
+      <a-tabs default-active-key="1" :active-key="activeKey">
         <a-tab-pane key="1" tab="题目描述">
           <h2>{{ problemInfo.title }}</h2>
           <a-tag color="cyan" v-if="problemInfo.level === 0">简单</a-tag>
@@ -60,7 +60,44 @@
       <div class="controller" v-show="controllerIcon === 'up'">
         <a-tabs default-active-key="1">
           <a-tab-pane key="1" tab="执行结果">
-            Content of Tab Pane 1
+            <div v-if="excuteStatus === 0">请先提交您的代码。</div>
+            <div v-if="excuteStatus === 1"><a-icon type="loading" style="margin-right: 8px" />代码正在执行中，请等待...</div>
+            <div v-if="excuteStatus > 1">
+              <div v-if="excuteStatus === 2">
+                <a-alert message="恭喜您，程序通过啦！" type="success" show-icon />
+                <div class="excuteTime">
+                  <div>用例数量：{{ this.excuteResult.allCount ?? 0 }} 个</div>
+                  <div>通过数量：{{ this.excuteResult.successCount ?? 0 }} 个</div>
+                  <div>通过率：{{ ((this.excuteResult.successCount / this.excuteResult.allCount) * 100).toFixed(2) }}%</div>
+                </div>
+                <div class="excuteTime">
+                  <div>执行时间：{{ this.excuteResult.excuteTime ?? 0 }} ms</div>
+                  <div>执行占用：{{ this.excuteResult.memory ?? 0 }} kb</div>
+                </div>
+              </div>
+              <div v-else>
+                <a-alert message="很遗憾，您的程序发生了错误，请再接再励！" type="error" show-icon />
+                <div class="excuteTime">
+                  <div>用例数量：{{ this.excuteResult.allCount ?? 0 }} 个</div>
+                  <div>通过数量：{{ this.excuteResult.successCount ?? 0 }} 个</div>
+                  <div>通过率：{{ ((this.excuteResult.successCount / this.excuteResult.allCount) * 100).toFixed(2) }}%</div>
+                </div>
+                <div class="excuteTime">
+                  <div>执行时间：{{ this.excuteResult.excuteTime ?? 0 }} ms</div>
+                  <div>执行占用：{{ this.excuteResult.memory ?? 0 }} kb</div>
+                </div>
+                <div class="sampleError">
+                  <div v-if="!errorMsg">
+                    <b>用例输入：{{ this.errorTestCase.testCase ?? '' }}</b>
+                    <br>
+                    <b>程序输出：{{ this.errorTestCase.executeResult ?? '' }}</b>
+                    <br>
+                    <b>正确结果：{{ this.errorTestCase.correctResult ?? '' }}</b>
+                  </div>
+                  <div v-else>Error：{{ errorMsg }}</div>
+                </div>
+              </div>
+            </div>
           </a-tab-pane>
         </a-tabs>
       </div>
@@ -71,7 +108,7 @@
           </a-button>
         </div>
         <div class="right">
-          <a-button type="primary">运行</a-button>
+<!--          <a-button type="primary">运行</a-button>-->
           <a-button @click="submit()" style="background-color: #2db55d; color: white">提交</a-button>
         </div>
       </div>
@@ -83,7 +120,7 @@
 import { getProblem } from '@/api/business/problem'
 import commonEmit from '@/utils/commonEmit'
 import Codemirror from '@/components/Codemirror'
-import { addQueue } from '@/api/business/queue'
+import { addQueue, getQueue } from '@/api/business/queue'
 
 export default {
   name: 'ResolveProblem',
@@ -93,12 +130,17 @@ export default {
   data () {
     return {
       id: undefined,
+      activeKey: '1',
       problemInfo: {
         codeTemplatesParse: []
       },
       paramTypes: {},
       teseCase: [],
-      controllerIcon: 'up'
+      controllerIcon: 'up',
+      excuteStatus: 0,
+      excuteResult: {},
+      errorTestCase: {},
+      errorMsg: ''
     }
   },
   created () {
@@ -118,6 +160,10 @@ export default {
   },
   methods: {
     submit () {
+      this.excuteStatus = 0
+      this.excuteResult = {}
+      this.errorMsg = ''
+      this.errorTestCase = {}
       const data = {}
       data.code = this.$refs.editCode.getCodeValue()
       data.type = this.$refs.editCode.languageKey
@@ -127,7 +173,36 @@ export default {
         if (res.code !== 200) {
           this.$message.error(res.msg)
         } else {
-          this.$message.success('保存成功！')
+          this.$message.success('提交成功！')
+          this.controllerIcon = 'up'
+          this.excuteStatus = 1 // 执行中
+          let isComplete = false
+          setInterval(() => {
+            if (isComplete) {
+              return false
+            }
+            getQueue(res.data).then(res => {
+              const status = res.data.status
+              // 判断执行完成
+              if (status > 1) {
+                isComplete = true
+                this.excuteStatus = status
+                if (res.data.successMsg) {
+                  this.excuteResult = JSON.parse(res.data.successMsg)
+                  console.log('excuteResult:', this.excuteResult)
+                  if (this.excuteResult.errorTestCase) {
+                    this.errorTestCase = this.excuteResult.errorTestCase
+                  }
+                  if (this.excuteResult.errorMsg) {
+                    this.errorMsg = this.excuteResult.errorMsg
+                  }
+                } else {
+                  this.errorMsg = res.data.errorMsg
+                }
+                this.activeKey = '4'
+              }
+            })
+          }, 300)
         }
       })
     },
@@ -221,6 +296,7 @@ export default {
   background-color: white;
   box-shadow: 0 0 15px #f3f3f3;
   padding: 5px 10px;
+  overflow: auto;
 }
 
 .submit-plane {
@@ -264,5 +340,23 @@ export default {
   border-radius: 10px;
   width: 100%;
   font-size: 16px;
+}
+
+.sampleError {
+  background-color: #f7f7f8;
+  padding: 10px 10px;
+  margin: 10px 0 45px 0;
+  border-radius: 10px;
+  width: 100%;
+  font-size: 15px;
+  white-space: pre-wrap;
+}
+
+.excuteTime {
+  div {
+    display: inline-block;
+    margin: 10px 40px 0 10px;
+    font-size: 15px;
+  }
 }
 </style>

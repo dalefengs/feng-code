@@ -53,7 +53,7 @@ public class FengProblemQueueController extends BaseController
     @GetMapping("/excute")
     public AjaxResult excuteQuque(FengProblemQueue fengProblemQueue)
     {
-        FengProblemQueue result = fengProblemQueueService.excuteQuque(fengProblemQueue.getId(), fengProblemQueue.getProblemId());
+        FengProblemQueue result = fengProblemQueueService.excuteQuque(fengProblemQueue.getId());
         return AjaxResult.success(result);
     }
 
@@ -88,7 +88,7 @@ public class FengProblemQueueController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody FengProblemQueue fengProblemQueue)
     {
-        return toAjax(fengProblemQueueService.insertFengProblemQueue(fengProblemQueue));
+        return AjaxResult.success(fengProblemQueueService.insertFengProblemQueue(fengProblemQueue));
     }
 
     /**

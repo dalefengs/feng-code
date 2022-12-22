@@ -19,7 +19,7 @@ public interface IFengProblemQueueService {
      * @param
      * @return
      */
-     FengProblemQueue excuteQuque(long id, long problemId);
+     FengProblemQueue excuteQuque(long id);
 
 
     /**

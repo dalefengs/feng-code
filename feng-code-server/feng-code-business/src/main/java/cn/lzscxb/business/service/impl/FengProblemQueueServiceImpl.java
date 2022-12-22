@@ -6,14 +6,17 @@ import java.io.IOException;
 import java.util.List;
 
 import cn.lzscxb.business.mapper.FengProblemMapper;
+import cn.lzscxb.common.core.redis.RedisCache;
 import cn.lzscxb.common.utils.DateUtils;
 import cn.lzscxb.common.utils.SecurityUtils;
 import cn.lzscxb.common.utils.docker.DockerClientUtils;
 import cn.lzscxb.common.utils.file.FreeMarkerUtils;
-import cn.lzscxb.common.utils.file.SftpUtils;
+import cn.lzscxb.domain.constant.CacheConstants;
 import cn.lzscxb.domain.entity.FengProblem;
 import cn.lzscxb.domain.model.ExecuteResult;
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONException;
+import com.fasterxml.jackson.core.JsonParseException;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +47,9 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
     @Autowired
     private DockerClientUtils dockerClientUtils;
 
+    @Autowired
+    private RedisCache redisCache;
+
     /**
      * 存放执行任务的信息
      */
@@ -55,11 +61,16 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
     private FengProblem problemInfo;
 
     @Override
-    public FengProblemQueue excuteQuque(long id, long problemId) {
+    public FengProblemQueue excuteQuque(long id) {
         try {
             queueInfo = fengProblemQueueMapper.selectFengProblemQueueById(id);
-            problemInfo = fengProblemMapper.selectFengProblemById(problemId);
-            Long userId = SecurityUtils.getUserId();
+            if (queueInfo == null) {
+                log.error("ququeId：{} 记录信息不存在", id);
+                return null;
+            }
+            problemInfo = fengProblemMapper.selectFengProblemById(queueInfo.getProblemId());
+            Long problemId = problemInfo.getId();
+            Long userId = queueInfo.getUserId();
             queueInfo.setStatus(1); // 执行中
             fengProblemQueueMapper.updateFengProblemQueue(queueInfo);
             ExecuteResult executeResult = null;
@@ -74,18 +85,23 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
             queueInfo.setSuccessMsg(JSON.toJSONString(executeResult));
             if (!executeResult.isStatus()) {
                 queueInfo.setStatus(3); // 执行失败
-                queueInfo.setErrorMsg(JSON.toJSONString(executeResult.getErrorTestCase()));
+                if (executeResult.getErrorMsg() != null && !executeResult.getErrorMsg().equals("")) {
+                    queueInfo.setErrorMsg(JSON.toJSONString(executeResult.getErrorMsg()));
+                } else {
+                    queueInfo.setErrorMsg(JSON.toJSONString(executeResult.getErrorTestCase()));
+                }
                 log.error("ququeId: {}, 执行队列任务失败：{}", queueInfo.getId(), queueInfo.getErrorMsg());
-            }else {
+            } else {
                 // 执行成功
                 queueInfo.setStatus(2);
             }
 
         } catch (Exception e) {
             // 执行失败
-            queueInfo.setStatus(3);
+            queueInfo.setStatus(4);
             queueInfo.setErrorMsg(JSON.toJSONString(e.getMessage()));
             log.error("ququeId: {}, 执行队列任务异常：{}", queueInfo.getId(), e.getMessage());
+            e.printStackTrace();
         }
         fengProblemQueueMapper.updateFengProblemQueue(queueInfo);
 
@@ -136,8 +152,14 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
 
         // 删除容器
         dockerClientUtils.deleteContainer(container.getId());
-
-        return JSON.parseObject(containerLogs, ExecuteResult.class);
+        ExecuteResult executeResult = null;
+        try{
+            executeResult = JSON.parseObject(containerLogs, ExecuteResult.class);
+        }catch (JSONException e) {
+             executeResult = new ExecuteResult();
+             executeResult.setErrorMsg(containerLogs);
+        }
+        return executeResult;
 
     }
 
@@ -235,7 +257,10 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
     public int insertFengProblemQueue(FengProblemQueue fengProblemQueue) {
         fengProblemQueue.setCreateTime(DateUtils.getNowDate());
         fengProblemQueue.setUserId(SecurityUtils.getUserId());
-        long id = fengProblemQueueMapper.insertFengProblemQueue(fengProblemQueue);
+        long i = fengProblemQueueMapper.insertFengProblemQueue(fengProblemQueue);
+        long id = fengProblemQueue.getId();
+        // 放入 redis 中
+        redisCache.cacheListRpush(CacheConstants.QUQUE_EXECUTE, (int)id);
         return (int) id;
     }
 

@@ -32,6 +32,7 @@ server:
       max: 800
       # Tomcat启动初始化的线程数，默认值10
       min-spare: 100
+    connection-timeout: 30s
 
 # 日志配置
 logging:
@@ -79,8 +80,13 @@ spring:
     # 密码
     password: F6gQn4jVoaQKvn3BgE
     # 连接超时时间
-#    timeout: 30s
-#    lettuce:
+    timeout: 30s
+    jedis:
+      pool:
+        max-idle: 10
+        min-idle: 2
+        max-wait: -1
+  #    lettuce:
 #      pool:
 #        # 连接池中的最小空闲连接
 #        min-idle: 2

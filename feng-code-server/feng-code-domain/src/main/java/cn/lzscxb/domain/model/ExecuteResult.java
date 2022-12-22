@@ -20,6 +20,8 @@ public class ExecuteResult {
 
     private int memory; // 执行时间 kb
 
+    private String errorMsg; // 错误信息
+
     private ErrorTestCase errorTestCase;
 
 

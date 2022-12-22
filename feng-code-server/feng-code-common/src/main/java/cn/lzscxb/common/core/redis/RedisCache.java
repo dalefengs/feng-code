@@ -153,6 +153,19 @@ public class RedisCache
         return redisTemplate.opsForList().range(key, 0, -1);
     }
 
+    public <T> boolean cacheListRpush(final String key, T value) {
+        Long aLong = redisTemplate.opsForList().rightPush(key, value);
+        if (aLong == null) {
+            return false;
+        }
+        return aLong > 0;
+    }
+
+    public <T> T cacheListLPop(final String key) {
+        Object o = redisTemplate.opsForList().leftPop(key);
+        return (T) o;
+    }
+
     /**
      * 缓存Set
      *
