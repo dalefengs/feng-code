@@ -111,9 +111,9 @@
           type="info"
         >
           <template slot="description">
-            例：一行为一条测试用例；格式为：参数1,参数2,参数...=结果1,结果2,结果...<br />
-            param1,param2=result <br />
-            20,50=80
+            例：一行为一条测试用例；格式为：参数1;参数2;参数...=结果1;结果2;结果...<br />
+            param1;param2=result <br />
+            20;50=80
           </template>
         </a-alert>
         <!--     代码编辑器      -->

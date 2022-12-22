@@ -9,6 +9,15 @@ export function listQueue (query) {
   })
 }
 
+// 提交记录
+export function submitListQueue (query) {
+  return request({
+    url: '/business/queue/submit-list',
+    method: 'get',
+    params: query
+  })
+}
+
 // 查询任务管理详细
 export function getQueue (id) {
   return request({

@@ -58,4 +58,6 @@ public interface FengProblemQueueMapper
      * @return 结果
      */
     public int deleteFengProblemQueueByIds(Long[] ids);
+
+    List<FengProblemQueue> selectSubmitList(FengProblemQueue fengProblemQueue);
 }

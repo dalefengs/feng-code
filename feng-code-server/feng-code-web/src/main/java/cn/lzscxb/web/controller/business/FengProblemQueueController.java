@@ -47,6 +47,17 @@ public class FengProblemQueueController extends BaseController
     }
 
     /**
+     * 查询任务管理列表
+     */
+    @PreAuthorize("@ss.hasPermi('business:queue:submit-list')")
+    @GetMapping("/submit-list")
+    public AjaxResult submitList(FengProblemQueue fengProblemQueue)
+    {
+        List<FengProblemQueue> list = fengProblemQueueService.submitList(fengProblemQueue);
+        return AjaxResult.success(list);
+    }
+
+    /**
      * 执行任务
      */
     @PreAuthorize("@ss.hasPermi('business:queue:excute')")

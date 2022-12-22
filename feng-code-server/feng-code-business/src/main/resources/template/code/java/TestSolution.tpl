@@ -30,7 +30,7 @@ class TestSolution {
             String[] split = t.split("=");
 
             String paramStr = split[0]; // 参数
-            String[] paramArr = paramStr.split(",");
+            String[] paramArr = paramStr.split(";");
 
             String result = split[1]; // 结果
             Object obj = solution.[(${methodName})]([(${paramString})]);

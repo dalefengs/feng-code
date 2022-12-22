@@ -45,9 +45,6 @@ export default {
         return []
       }
     }
-  },
-  mounted () {
-    console.log('ooooooooooooo', this.options)
   }
 }
 </script>

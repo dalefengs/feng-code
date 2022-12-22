@@ -35,7 +35,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
         order by create_time desc
     </select>
-    
+
+    <select id="selectSubmitList" resultMap="FengProblemQueueResult">
+        <include refid="selectFengProblemQueueVo"/>
+        where user_id = #{userId}
+        and problem_id = #{problemId}
+        <if test="type != null and type != -1 "> and type = #{type}</if>
+        <if test="status != null "> and status = #{status}</if>
+        order by create_time desc
+    </select>
+
     <select id="selectFengProblemQueueById" parameterType="Long" resultMap="FengProblemQueueResult">
         <include refid="selectFengProblemQueueVo"/>
         where id = #{id}
@@ -107,4 +116,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
+
 </mapper>

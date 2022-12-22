@@ -297,4 +297,10 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
     public int deleteFengProblemQueueById(Long id) {
         return fengProblemQueueMapper.deleteFengProblemQueueById(id);
     }
+
+    @Override
+    public List<FengProblemQueue> submitList(FengProblemQueue fengProblemQueue) {
+        fengProblemQueue.setUserId(SecurityUtils.getUserId());
+        return fengProblemQueueMapper.selectSubmitList(fengProblemQueue);
+    }
 }

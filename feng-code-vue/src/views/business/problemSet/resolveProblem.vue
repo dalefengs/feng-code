@@ -1,7 +1,7 @@
 <template>
   <a-row class="body" ref="styleVar">
     <a-col :span="12" style="padding: 0 20px; overflow-y: auto; height: calc(100vh - 72px - 50px);">
-      <a-tabs default-active-key="1" :active-key="activeKey">
+      <a-tabs default-active-key="1" :active-key="activeKey" @tabClick="tabClick">
         <a-tab-pane key="1" tab="题目描述">
           <h2>{{ problemInfo.title }}</h2>
           <a-tag color="cyan" v-if="problemInfo.level === 0">简单</a-tag>
@@ -47,7 +47,26 @@
           题解
         </a-tab-pane>
         <a-tab-pane key="4" tab="提交记录">
-          提交记录
+          <!-- 数据展示 -->
+          <a-table
+            :loading="loading"
+            rowKey="id"
+            :columns="columns"
+            :data-source="submitList"
+            :pagination="false"
+          >
+            <span slot="type" slot-scope="text, record">
+              <dict-tag :options="dict.type['code_language']" :value="record.type" />
+            </span>
+            <span slot="status" slot-scope="text, record">
+              <dict-tag :options="dict.type['queue_status']" :value="record.status" />
+            </span>
+            <span slot="operation" slot-scope="text, record">
+              <a @click="$refs.createForm.handleUpdate(record, undefined)" v-hasPermi="['business:queue:edit']">
+                <a-icon type="search"/> 查看
+              </a>
+            </span>
+          </a-table>
         </a-tab-pane>
       </a-tabs>
     </a-col>
@@ -119,13 +138,16 @@
 import { getProblem } from '@/api/business/problem'
 import commonEmit from '@/utils/commonEmit'
 import Codemirror from '@/components/Codemirror'
-import { addQueue, getQueue } from '@/api/business/queue'
+import { addQueue, getQueue, submitListQueue } from '@/api/business/queue'
+import { tableMixin } from '@/store/table-mixin'
 
 export default {
   name: 'ResolveProblem',
   components: {
     Codemirror
   },
+  mixins: [tableMixin],
+  dicts: ['code_language', 'queue_status'],
   data () {
     return {
       id: undefined,
@@ -139,7 +161,40 @@ export default {
       excuteStatus: 0,
       excuteResult: {},
       errorTestCase: {},
-      errorMsg: ''
+      errorMsg: '',
+      submitList: [], // 提交列表
+      submitParam: {
+        type: -1
+      },
+      loading: false,
+      columns: [
+        {
+          title: '状态',
+          dataIndex: 'status',
+          scopedSlots: { customRender: 'status' },
+          ellipsis: true,
+          align: 'center'
+        },
+        {
+          title: '语言类型',
+          dataIndex: 'type',
+          scopedSlots: { customRender: 'type' },
+          ellipsis: true,
+          align: 'center'
+        },
+        {
+          title: '提交时间',
+          dataIndex: 'createTime',
+          ellipsis: true,
+          align: 'center'
+        },
+        {
+          title: '操作',
+          dataIndex: 'operation',
+          width: '18%',
+          scopedSlots: { customRender: 'operation' },
+          align: 'center'
+        }]
     }
   },
   created () {
@@ -149,6 +204,7 @@ export default {
     }
     this.id = this.$route.params.id
     this.getProblemInfo()
+    this.getSubmitList()
   },
   mounted () {
     // 隐藏底栏
@@ -173,6 +229,8 @@ export default {
           this.$message.error(res.msg)
         } else {
           this.$message.success('提交成功！')
+          this.getSubmitList()
+          this.activeKey = '4'
           this.controllerIcon = 'up'
           this.excuteStatus = 1 // 执行中
           let isComplete = false
@@ -180,8 +238,13 @@ export default {
             if (isComplete) {
               return false
             }
+            let isRefresh = true
             getQueue(res.data).then(res => {
               const status = res.data.status
+              if (status === 1 && isRefresh) {
+                this.getSubmitList()
+                isRefresh = false
+              }
               // 判断执行完成
               if (status > 1) {
                 isComplete = true
@@ -198,16 +261,21 @@ export default {
                 } else {
                   this.errorMsg = res.data.errorMsg
                 }
-                this.activeKey = '4'
+                this.getSubmitList()
               }
             })
           }, 300)
         }
       })
     },
+    getSubmitList () {
+      this.submitParam.problemId = this.id
+      submitListQueue(this.submitParam).then(res => {
+        this.submitList = res.data
+      })
+    },
     async getProblemInfo () {
       const { data, code } = await getProblem(this.id)
-      console.log(data)
       if (code !== 200 || !data) {
         this.$message.error('数据不存，非法访问')
         await this.$router.replace({ path: '/problemSet' })
@@ -255,6 +323,9 @@ export default {
       if (!paramData) {
         return false
       }
+    },
+    tabClick (index) {
+      this.activeKey = index
     }
   }
 }
