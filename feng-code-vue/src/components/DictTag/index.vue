@@ -3,7 +3,7 @@
     <template v-for="(item, index) in options">
       <template v-if="values.includes(item.value)">
         <span
-          v-if="item.raw.listClass == 'default' || item.raw.listClass == ''"
+          v-if="item.listClass === 'default' || item.listClass == ''"
           :key="item.value"
           :index="index"
           :class="item.raw.cssClass"
@@ -14,7 +14,7 @@
           v-else
           :key="item.value"
           :index="index"
-          :status="item.raw.listClass == 'primary' || 'info' ? 'processing' : (tem.raw.listClass == 'danger' ? 'error' : item.raw.listClass)"
+          :status="item.listClass === 'danger' ? 'error' : (item.listClass === 'success' ? 'success' : (item.listClass === 'warning' ? 'warning' : 'processing'))"
           :class="item.raw.cssClass"
           :text="item.label"
         >
@@ -45,6 +45,9 @@ export default {
         return []
       }
     }
+  },
+  mounted () {
+    console.log('ooooooooooooo', this.options)
   }
 }
 </script>

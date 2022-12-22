@@ -108,7 +108,6 @@
           </a-button>
         </div>
         <div class="right">
-<!--          <a-button type="primary">运行</a-button>-->
           <a-button @click="submit()" style="background-color: #2db55d; color: white">提交</a-button>
         </div>
       </div>

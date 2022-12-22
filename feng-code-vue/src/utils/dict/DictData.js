@@ -9,5 +9,6 @@ export default class DictData {
     this.label = label
     this.value = value
     this.raw = raw
+    this.listClass = raw.listClass
   }
 }
