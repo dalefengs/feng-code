@@ -91,7 +91,7 @@
                 </div>
                 <div class="excuteTime">
                   <div>执行时间：{{ this.excuteResult.excuteTime ?? 0 }} ms</div>
-                  <div>执行占用：{{ this.excuteResult.memory ?? 0 }} kb</div>
+                  <div>执行占用：{{ this.excuteResult.memory ?? 0 }} MB</div>
                 </div>
               </div>
               <div v-else>
@@ -103,7 +103,7 @@
                 </div>
                 <div class="excuteTime">
                   <div>执行时间：{{ this.excuteResult.excuteTime ?? 0 }} ms</div>
-                  <div>执行占用：{{ this.excuteResult.memory ?? 0 }} kb</div>
+                  <div>执行占用：{{ this.excuteResult.memory ?? 0 }} MB</div>
                 </div>
                 <div class="sampleError">
                   <div v-if="!errorMsg">
@@ -264,7 +264,7 @@ export default {
                 this.getSubmitList()
               }
             })
-          }, 300)
+          }, 800)
         }
       })
     },

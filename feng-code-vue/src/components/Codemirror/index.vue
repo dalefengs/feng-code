@@ -122,7 +122,6 @@ export default {
         this.languageDicts.forEach(d => {
           if (d.dictLabel === this.language) {
             this.languageKey = d.dictValue
-            console.log(this.languageKey, 333333333333333333)
           }
         })
       }
@@ -304,7 +303,7 @@ var your-method-name = function(s) {
         this.languageDicts = data
       }
     },
-    changeModes () {
+    async changeModes () {
       // 设置支持语言
       if (this.supportMode.length === 0) {
         this.modes = this.modesList
@@ -316,7 +315,9 @@ var your-method-name = function(s) {
           }
         }
       }
-
+      if (this.languageDicts.length === 0) {
+        await this.getLanguageDicts()
+      }
       // 设置代码模版
       if (this.codeTemplates.length > 0) {
         this.codeTemplates.forEach((item, index) => {
@@ -345,7 +346,6 @@ var your-method-name = function(s) {
       this.languageDicts.forEach(d => {
         if (d.dictLabel === this.language) {
           this.languageKey = d.dictValue
-          console.log(this.languageKey, 333333333333333333)
         }
       })
     }

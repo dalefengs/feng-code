@@ -3,16 +3,12 @@ package cn.lzscxb.business.service.impl;
 import cn.lzscxb.business.mapper.FengProblemMapper;
 import cn.lzscxb.common.core.redis.RedisCache;
 import cn.lzscxb.domain.constant.CacheConstants;
-import cn.lzscxb.domain.entity.FengProblem;
 import cn.lzscxb.domain.model.ExecuteResult;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @Auther: Likfees
@@ -37,7 +33,7 @@ public class FengProblemQueueServiceTest {
     @Test
     public void testExcuteQueue(){
 
-        ExecuteResult executeResult = fengProblemQueueService.excuteQueueJava(1, 101, 1);
+        ExecuteResult executeResult = fengProblemQueueService.excuteQueueSubmit(1, 101, 1, "java");
         System.out.println(executeResult);
 
     }

@@ -18,7 +18,7 @@ public class ExecuteResult {
 
     private int excuteTime; // 执行时间 ms
 
-    private int memory; // 执行时间 kb
+    private float memory; // 执行时间 kb
 
     private String errorMsg; // 错误信息
 

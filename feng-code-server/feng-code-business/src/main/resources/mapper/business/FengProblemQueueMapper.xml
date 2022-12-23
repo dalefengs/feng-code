@@ -15,6 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="type"    column="type"    />
         <result property="code"    column="code"    />
         <result property="status"    column="status"    />
+        <result property="retryCount"    column="retry_count"    />
         <result property="successMsg"    column="success_msg"    />
         <result property="errorMsg"    column="error_msg"    />
         <result property="createBy"    column="create_by"    />
@@ -24,7 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectFengProblemQueueVo">
-        select q.id, q.user_id, q.problem_id, q.task_id, q.task_join_id, q.type, q.code, q.status, q.success_msg, q.error_msg, q.create_by, q.create_time, q.update_by, q.update_time,
+        select q.id, q.user_id, q.problem_id, q.task_id, q.task_join_id, q.type, q.code, q.status, q.success_msg, q.error_msg, q.create_by, q.create_time, q.update_by, q.update_time, q.retry_count,
             fp.title, u.nick_name
         from feng_problem_queue as q
         left join feng_problem fp on q.problem_id = fp.id
@@ -68,6 +69,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="type != null">type,</if>
             <if test="code != null and code != ''">code,</if>
             <if test="status != null">status,</if>
+            <if test="retryCount != null">retry_count,</if>
             <if test="successMsg != null and successMsg != ''">success_msg,</if>
             <if test="errorMsg != null and errorMsg != ''">error_msg,</if>
             <if test="createBy != null">create_by,</if>
@@ -84,6 +86,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="type != null">#{type},</if>
             <if test="code != null and code != ''">#{code},</if>
             <if test="status != null">#{status},</if>
+            <if test="retryCount != null">#{retryCount},</if>
             <if test="successMsg != null and successMsg != ''">#{successMsg},</if>
             <if test="errorMsg != null and errorMsg != ''">#{errorMsg},</if>
             <if test="createBy != null">#{createBy},</if>
@@ -103,6 +106,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="type != null">type = #{type},</if>
             <if test="code != null and code != ''">code = #{code},</if>
             <if test="status != null">status = #{status},</if>
+            <if test="retryCount != null">retry_count = #{retryCount},</if>
             <if test="successMsg != null and successMsg != ''">success_msg = #{successMsg},</if>
             <if test="errorMsg != null and errorMsg != ''">error_msg = #{errorMsg},</if>
             <if test="createBy != null">create_by = #{createBy},</if>

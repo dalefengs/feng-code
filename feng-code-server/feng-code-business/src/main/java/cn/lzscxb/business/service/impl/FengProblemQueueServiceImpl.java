@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cn.lzscxb.business.mapper.FengProblemMapper;
 import cn.lzscxb.common.core.redis.RedisCache;
@@ -16,7 +18,6 @@ import cn.lzscxb.domain.entity.FengProblem;
 import cn.lzscxb.domain.model.ExecuteResult;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONException;
-import com.fasterxml.jackson.core.JsonParseException;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,7 +77,10 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
             ExecuteResult executeResult = null;
             switch (queueInfo.getType()) {
                 case 0:
-                    executeResult = excuteQueueJava(id, userId, problemId);
+                    executeResult = excuteQueueSubmit(id, userId, problemId, "java");
+                    break;
+                case 1:
+                    executeResult = excuteQueueSubmit(id, userId, problemId, "python");
                     break;
                 default:
                     throw new RuntimeException("未找到语言类型执行方案：" + queueInfo.getType());
@@ -95,7 +99,6 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
                 // 执行成功
                 queueInfo.setStatus(2);
             }
-
         } catch (Exception e) {
             // 执行失败
             queueInfo.setStatus(4);
@@ -103,6 +106,7 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
             log.error("ququeId: {}, 执行队列任务异常：{}", queueInfo.getId(), e.getMessage());
             e.printStackTrace();
         }
+        queueInfo.setRetryCount(queueInfo.getRetryCount() + 1);
         fengProblemQueueMapper.updateFengProblemQueue(queueInfo);
 
         return queueInfo;
@@ -114,14 +118,14 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
      * @param
      * @return
      */
-    public ExecuteResult excuteQueueJava(long id, long userId, long problemId) {
+    public ExecuteResult excuteQueueSubmit(long id, long userId, long problemId, String language) {
 
         // 临时目录
-        String workDir = String.format("%sfengcode/u%d-i%d-p%d/", System.getProperty("java.io.tmpdir"), userId, id, problemId);
+        String workDir = String.format("%sfengcode/u%d-id%d-p%d/", System.getProperty("java.io.tmpdir"), userId, id, problemId);
         // Dockerfile 是保存在本地的，为了方便测使用，和上传目录分开写
-        String dockerfileName = workDir + "JavaDockerfile";
+        String dockerfileName = workDir + language + "Dockerfile";
 
-        String codeDir = workDir + "java";
+        String codeDir = workDir + language;
         File javaCodeDirFile = new File(codeDir);
         if (!javaCodeDirFile.exists()) {
             if (!javaCodeDirFile.mkdirs()) {
@@ -130,14 +134,20 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
         }
         log.info("复制文件中");
         // 先将resource 中的代码复制到指指定目录
-        FreeMarkerUtils.BatCopyFileFromJar("/template/code/java", codeDir);
-        FreeMarkerUtils.CopyFileFromJar("/template/docker/java.tpl", dockerfileName);
+        FreeMarkerUtils.BatCopyFileFromJar("/template/code/" + language, codeDir);
+        FreeMarkerUtils.CopyFileFromJar("/template/docker/" + language + ".tpl", dockerfileName);
 
         // 填充代码模版
-        javaThymeleafFill(codeDir);
+        switch (language) {
+            case "java":
+                javaThymeleafFill(codeDir);
+                break;
+            case "python":
+                pythonThymeleafFill(codeDir);
+        }
 
         log.info("编译镜像中");
-        String imageId = dockerClientUtils.buildImage("test", new File(dockerfileName));
+        String imageId = dockerClientUtils.buildImage(String.format("solution-u%d-id%d-p%d", userId, id, problemId), new File(dockerfileName));
 
         // 创建容器
         log.info("创建容器中");
@@ -149,15 +159,15 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
         // 查看容器启动日志
         String containerLogs = dockerClientUtils.getContainerLogs(container.getId());
         log.info("日志内容：{}", containerLogs);
-
         // 删除容器
         dockerClientUtils.deleteContainer(container.getId());
         ExecuteResult executeResult = null;
-        try{
+        try {
             executeResult = JSON.parseObject(containerLogs, ExecuteResult.class);
-        }catch (JSONException e) {
-             executeResult = new ExecuteResult();
-             executeResult.setErrorMsg(containerLogs);
+        } catch (JSONException e) {
+            log.warn("解析容器日志JSON失败,err:{}，logs为:{}", e.getMessage(), containerLogs);
+            executeResult = new ExecuteResult();
+            executeResult.setErrorMsg(containerLogs);
         }
         return executeResult;
 
@@ -171,12 +181,44 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
      */
     public String joinParamType(int languageType) {
         String[] paramsArr = problemInfo.parseParamType(languageType);
-
-        StringBuffer stringBuffer = new StringBuffer();
-        for (int i = 0; i < paramsArr.length; i++) {
-            stringBuffer.append(String.format("ReflectUtils.conver(%s.class, paramArr[%d]), ", paramsArr[i], i));
+        String param = "  ";
+        StringBuilder stringBuffer = new StringBuilder();
+        switch (languageType) {
+            case 0:
+                for (int i = 0; i < paramsArr.length; i++) {
+                    stringBuffer.append(String.format("ReflectUtils.conver(%s.class, paramArr[%d]), ", paramsArr[i], i));
+                }
+                param = stringBuffer.toString();
+                break;
+            case 1:
+                System.out.println("");
+                for (int i = 0; i < paramsArr.length; i++) {
+                    stringBuffer.append(String.format("conver_param(param_arr[%d]), ", i));
+                }
+                param = stringBuffer.toString();
+                break;
         }
-        String param = stringBuffer.toString();
+        return param.substring(0, param.length() - 2);
+    }
+
+    /**
+     * 拼接参数列表 --- JAVA
+     *
+     * @param languageType 语言类型
+     * @return String
+     */
+    public String joinParamType(int languageType, int paramCount) {
+        String param = "--";
+        StringBuilder stringBuffer = new StringBuilder();
+        switch (languageType) {
+            case 1:
+                System.out.println("");
+                for (int i = 0; i < paramCount; i++) {
+                    stringBuffer.append(String.format("conver_param(param_arr[%d]), ", i));
+                }
+                param = stringBuffer.toString();
+                break;
+        }
         return param.substring(0, param.length() - 2);
     }
 
@@ -226,6 +268,50 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
     }
 
     /**
+     * Java 代码填充
+     */
+    public void pythonThymeleafFill(String codeDir) {
+        TemplateEngine engine = new TemplateEngine();
+        FileTemplateResolver templateResolver = new FileTemplateResolver();
+        templateResolver.setPrefix(codeDir + "/");
+        templateResolver.setSuffix(".tpl");
+        templateResolver.setTemplateMode(TemplateMode.TEXT);
+        templateResolver.setCacheable(false);
+        engine.setTemplateResolver(templateResolver);
+
+        // 测试类
+        FileWriter SolutionWriter = null;
+        try {
+            SolutionWriter = new FileWriter(codeDir + "/Solution.py");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        Context TestSolutionContext = new Context();
+        TestSolutionContext.setVariable("methodName", problemInfo.parseMethodName(queueInfo.getType()));
+
+        int paramCount = 0;
+        Pattern compile = Pattern.compile("def " + problemInfo.parseMethodName(queueInfo.getType()) + "(.*?):");
+        Matcher matcher = compile.matcher(queueInfo.getCode());
+        boolean b = matcher.find();
+        if (b) {
+            String s = matcher.group();
+            paramCount = s.split(",").length;
+            if (paramCount >= 1) {
+                paramCount -= 1;
+            }
+        }
+        String paramString = joinParamType(queueInfo.getType(), paramCount);
+        log.info("拼接所得的字符串参数为：{}", paramString);
+        TestSolutionContext.setVariable("codeText", queueInfo.getCode()); // 入参字符串
+        TestSolutionContext.setVariable("paramString", paramString); // 入参字符串
+        TestSolutionContext.setVariable("testCase", problemInfo.getTestCase());
+
+        engine.process("Solution", TestSolutionContext, SolutionWriter);
+
+    }
+
+    /**
      * 查询任务管理
      *
      * @param id 任务管理主键
@@ -260,7 +346,7 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
         long i = fengProblemQueueMapper.insertFengProblemQueue(fengProblemQueue);
         long id = fengProblemQueue.getId();
         // 放入 redis 中
-        redisCache.cacheListRpush(CacheConstants.QUQUE_EXECUTE, (int)id);
+        redisCache.cacheListRpush(CacheConstants.QUQUE_EXECUTE, (int) id);
         return (int) id;
     }
 

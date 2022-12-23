@@ -9,7 +9,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * 任务管理对象 feng_problem_queue
- * 
+ *
  * @author Likfees
  * @date 2022-12-08
  */
@@ -57,7 +57,18 @@ public class FengProblemQueue extends BaseEntity
     private ExecuteResult executeResult;
 
     private String title;
+
     private String nickname;
+
+    private int retryCount;
+
+    public int getRetryCount() {
+        return retryCount;
+    }
+
+    public void setRetryCount(int retryCount) {
+        this.retryCount = retryCount;
+    }
 
     public String getNickname() {
         return nickname;

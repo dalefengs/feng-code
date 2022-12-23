@@ -5,40 +5,34 @@
       <div class="table-page-search-wrapper">
         <a-form layout="inline">
           <a-row :gutter="48">
-            <a-col :md="8" :sm="24">
-              <a-form-item label="用户名" prop="userId">
-                <a-input v-model="queryParam.userId" placeholder="请输入用户名" allow-clear/>
+            <a-col :md="6" :sm="24">
+              <a-form-item label="昵称" prop="userId">
+                <a-input v-model="queryParam.nickname" placeholder="请输入用户昵称" allow-clear/>
               </a-form-item>
             </a-col>
-            <a-col :md="8" :sm="24">
-              <a-form-item label="题目" prop="problemId">
-                <a-input v-model="queryParam.problemId" placeholder="请输入题目" allow-clear/>
+            <a-col :md="6" :sm="24">
+              <a-form-item label="题目标题" prop="title">
+                <a-input v-model="queryParam.title" placeholder="请输入题目标题" allow-clear/>
               </a-form-item>
             </a-col>
-            <template v-if="advanced">
-              <a-col :md="8" :sm="24">
-                <a-form-item label="语言类型" prop="type">
-                  <a-select placeholder="请选择语言类型" v-model="queryParam.type" style="width: 100%" allow-clear>
-                    <a-select-option v-for="(d, index) in dict.type.code_language" :key="index" :value="d.value">{{ d.label }}</a-select-option>
-                  </a-select>
-                </a-form-item>
-              </a-col>
-              <a-col :md="8" :sm="24">
-                <a-form-item label="状态" prop="status">
-                  <a-select placeholder="请选择状态" v-model="queryParam.status" style="width: 100%" allow-clear>
-                    <a-select-option v-for="(d, index) in dict.type.queue_status" :key="index" :value="d.value">{{ d.label }}</a-select-option>
-                  </a-select>
-                </a-form-item>
-              </a-col>
-            </template>
-            <a-col :md="!advanced && 8 || 24" :sm="24">
+            <a-col :md="5" :sm="24">
+              <a-form-item label="语言类型" prop="type">
+                <a-select placeholder="请选择语言类型" v-model="queryParam.type" style="width: 100%" allow-clear>
+                  <a-select-option key="-1" :value="-1">全部语言</a-select-option>
+                  <a-select-option v-for="(d, index) in dict.type.code_language" :key="index" :value="d.value">{{ d.label }}</a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+            <a-col :md="5" :sm="24">
+              <a-form-item label="状态" prop="status">
+                <a-select placeholder="请选择状态" v-model="queryParam.status" style="width: 100%" allow-clear>
+                  <a-select-option v-for="(d, index) in dict.type.queue_status" :key="index" :value="d.value">{{ d.label }}</a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+            <a-col :md="!advanced && 2 || 24" :sm="24">
               <span class="table-page-search-submitButtons" :style="advanced && { float: 'right', overflow: 'hidden' } || {} ">
                 <a-button type="primary" @click="handleQuery"><a-icon type="search" />查询</a-button>
-                <a-button style="margin-left: 8px" @click="resetQuery"><a-icon type="redo" />重置</a-button>
-                <a @click="toggleAdvanced" style="margin-left: 8px">
-                  {{ advanced ? '收起' : '展开' }}
-                  <a-icon :type="advanced ? 'up' : 'down'"/>
-                </a>
               </span>
             </a-col>
           </a-row>
@@ -46,12 +40,6 @@
       </div>
       <!-- 操作 -->
       <div class="table-operations">
-        <a-button type="danger" :disabled="multiple" @click="handleDelete" v-hasPermi="['business:queue:remove']">
-          <a-icon type="delete" />删除
-        </a-button>
-        <a-button type="primary" @click="handleExport" v-hasPermi="['business:queue:export']">
-          <a-icon type="download" />导出
-        </a-button>
         <table-setting
           :style="{float: 'right'}"
           :table-size.sync="tableSize"
@@ -73,7 +61,6 @@
         rowKey="id"
         :columns="columns"
         :data-source="list"
-        :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }"
         :pagination="false"
         :bordered="tableBordered"
         @change="tableChange"
@@ -83,16 +70,6 @@
         </span>
         <span slot="status" slot-scope="text, record">
           <dict-tag :options="dict.type['queue_status']" :value="record.status"/>
-        </span>
-        <span slot="operation" slot-scope="text, record">
-          <a-divider type="vertical" v-hasPermi="['business:queue:edit']" />
-          <a @click="$refs.createForm.handleUpdate(record, undefined)" v-hasPermi="['business:queue:edit']">
-            <a-icon type="edit" />修改
-          </a>
-          <a-divider type="vertical" v-hasPermi="['business:queue:remove']" />
-          <a @click="handleDelete(record)" v-hasPermi="['business:queue:remove']">
-            <a-icon type="delete" />删除
-          </a>
         </span>
       </a-table>
       <!-- 分页 -->
@@ -139,10 +116,10 @@ export default {
       total: 0,
       // 查询参数
       queryParam: {
-        userId: null,
-        problemId: null,
+        nickname: null,
+        title: null,
         type: -1,
-        status: null,
+        status: undefined,
         pageNum: 1,
         pageSize: 10
       },
@@ -154,26 +131,14 @@ export default {
           align: 'center'
         },
         {
-          title: '用户名',
-          dataIndex: 'userId',
+          title: '昵称',
+          dataIndex: 'nickname',
           ellipsis: true,
           align: 'center'
         },
         {
           title: '题目',
-          dataIndex: 'problemId',
-          ellipsis: true,
-          align: 'center'
-        },
-        // {
-        //   title: '学习任务',
-        //   dataIndex: 'taskId',
-        //   ellipsis: true,
-        //   align: 'center'
-        // },
-        {
-          title: '学生参与学习任务',
-          dataIndex: 'taskJoinId',
+          dataIndex: 'title',
           ellipsis: true,
           align: 'center'
         },
@@ -201,13 +166,6 @@ export default {
           title: '失败信息',
           dataIndex: 'errorMsg',
           ellipsis: true,
-          align: 'center'
-        },
-        {
-          title: '操作',
-          dataIndex: 'operation',
-          width: '18%',
-          scopedSlots: { customRender: 'operation' },
           align: 'center'
         }
       ]

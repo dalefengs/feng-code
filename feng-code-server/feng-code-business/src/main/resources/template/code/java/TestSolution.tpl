@@ -1,5 +1,8 @@
 import com.alibaba.fastjson.JSON;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.lang.management.MemoryUsage;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -7,9 +10,6 @@ import java.util.List;
 class TestSolution {
 
     public static void main(String[] args) throws Exception {
-        Runtime r = Runtime.getRuntime();
-        r.gc();//计算内存前先垃圾回收一次
-        long startMem = r.freeMemory(); // 开始Memory
         long startTime = System.currentTimeMillis();   //获取开始时间
         Solution solution = new Solution();
 
@@ -53,13 +53,15 @@ class TestSolution {
             }
         }
         long endTime = System.currentTimeMillis(); //获取结束时间
-        long endMem =r.freeMemory(); // 末尾Memory
+        MemoryMXBean bean = ManagementFactory.getMemoryMXBean();
+        MemoryUsage memoryUsage = bean.getHeapMemoryUsage();
+        long used = memoryUsage.getUsed();
         HashMap<String, Object> resMap = new HashMap<>();
         resMap.put("status", status);
         resMap.put("allCount", allCount);
         resMap.put("successCount", successCount);
         resMap.put("excuteTime", endTime - startTime); // ms
-        resMap.put("memory", (startMem- endMem) / 1024); // kb
+        resMap.put("memory", String.format("%.2f", used / 1024.0 / 1024.0)); // kb
         resMap.put("errorTestCase", errMap);
         System.out.println(JSON.toJSONString(resMap));
     }

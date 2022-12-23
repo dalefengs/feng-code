@@ -87,13 +87,8 @@
         <!--    Python不显示参数类型选择框和按钮    -->
         <template v-for="(count, index) in paramTypeCount[item]" v-if="!['1', '5'].includes(item)">
           <a-form-model-item :label="languageList[item] + '第'+ count +'个参数类型'" prop="" :key="index + item">
-            <a-select v-model="formData.paramTypes[item][count - 1]" placeholder="请选择参数类型" allow-clear :style="{width: '100%'}">
-              <a-select-option
-                v-for="(v, i) in languageTypeOptions[item]"
-                :key="i"
-                :value="v.value"
-                :disabled="v.disabled">{{ v.label }}</a-select-option>
-            </a-select>
+            <a-input v-model="formData.paramTypes[item][count - 1]" placeholder="请输入代码模版中参数类型" :style="{width: '100%'}" allow-clear>
+            </a-input>
           </a-form-model-item>
         </template>
         <a-form-model-item label="参数操作" :key="key + 300" v-if="item !== '1'">
@@ -105,7 +100,7 @@
           </a-button>
         </a-form-model-item>
       </template>
-      <a-form-model-item label="测试用例" prop="testCase">
+      <a-form-model-item label="测试用例" prop="testCase" v-if="formData.isAuto === '0'">
         <a-alert
           message="测试用例说明"
           type="info"
@@ -275,7 +270,6 @@ export default {
     this.getProblemCategoryList()
     this.getProblemTagsList()
     this.getDictsList()
-    this.getLanguageTypeDicts()
     this.id = this.$route.query.id
     if (this.id) {
       this.setProblemInfo(this.id)
@@ -294,7 +288,9 @@ export default {
         this.formData.codeTemplates[item] = this.$refs[ref][0].getCodeValue()
       })
       // 获取测试用例
-      this.formData.testCase = this.$refs.testCase.getCodeValue()
+      if (this.formData.isAuto === '0') {
+        this.formData.testCase = this.$refs.testCase.getCodeValue()
+      }
       // 表单验证并提交
       this.$refs['elForm'].validate(valid => {
         console.log('form', this.formData)
@@ -470,33 +466,6 @@ export default {
           this.languageOptions.push(data)
         })
       })
-    },
-    // 获取语言类型字典
-    async getLanguageTypeDicts () {
-      const languageDictType = {
-        '0': 'java_type',
-        '2': 'go_type',
-        '3': 'c_type'
-      }
-      const lanuageTypeObject = {}
-      for (const key in languageDictType) {
-        const languageList = []
-        // 获取语言类型字典
-        const res = await getDicts(languageDictType[key])
-        if (res.code !== 200) {
-          this.$message.error('获取语言类型失败')
-          return false
-        }
-        res.data.forEach(item => {
-          const data = {
-            'label': item.dictLabel,
-            'value': item.dictValue
-          }
-          languageList.push(data)
-        })
-        lanuageTypeObject[key] = languageList
-        this.languageTypeOptions = lanuageTypeObject
-      }
     }
   }
 }

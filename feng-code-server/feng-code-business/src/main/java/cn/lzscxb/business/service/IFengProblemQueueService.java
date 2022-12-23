@@ -21,16 +21,6 @@ public interface IFengProblemQueueService {
      */
      FengProblemQueue excuteQuque(long id);
 
-
-    /**
-     * 执行 Java 任务
-     *
-     * @param id 任务管理主键
-     * @param problemId 题目id
-     * @return
-     */
-    public ExecuteResult excuteQueueJava(long id, long userId, long problemId);
-
     /**
      * 查询任务管理
      *
