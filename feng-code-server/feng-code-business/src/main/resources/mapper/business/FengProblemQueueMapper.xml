@@ -7,7 +7,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="cn.lzscxb.domain.entity.FengProblemQueue" id="FengProblemQueueResult">
         <result property="id"    column="id"    />
         <result property="userId"    column="user_id"    />
+        <result property="nickname"    column="nick_name"    />
         <result property="problemId"    column="problem_id"    />
+        <result property="title"    column="title"    />
         <result property="taskId"    column="task_id"    />
         <result property="taskJoinId"    column="task_join_id"    />
         <result property="type"    column="type"    />
@@ -22,32 +24,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectFengProblemQueueVo">
-        select id, user_id, problem_id, task_id, task_join_id, type, code, status, success_msg, error_msg, create_by, create_time, update_by, update_time from feng_problem_queue
+        select q.id, q.user_id, q.problem_id, q.task_id, q.task_join_id, q.type, q.code, q.status, q.success_msg, q.error_msg, q.create_by, q.create_time, q.update_by, q.update_time,
+            fp.title, u.nick_name
+        from feng_problem_queue as q
+        left join feng_problem fp on q.problem_id = fp.id
+        left join feng_users u on fp.user_id = u.user_id
+
     </sql>
 
     <select id="selectFengProblemQueueList" parameterType="cn.lzscxb.domain.entity.FengProblemQueue" resultMap="FengProblemQueueResult">
         <include refid="selectFengProblemQueueVo"/>
         <where>  
-            <if test="userId != null "> and user_id like concat('%', #{userId}, '%')</if>
-            <if test="problemId != null "> and problem_id = #{problemId}</if>
-            <if test="type != null and type != -1 "> and type = #{type}</if>
-            <if test="status != null "> and status = #{status}</if>
+            <if test="nickname != null "> and u.nick_name like concat('%', #{nickname}, '%')</if>
+            <if test="type != null and type != -1 "> and q.type = #{type}</if>
+            <if test="status != null "> and q.status = #{status}</if>
+            <if test="title != null "> and fp.title like concat('%', #{title}, '%')</if>
         </where>
-        order by create_time desc
+        order by q.create_time desc
     </select>
 
     <select id="selectSubmitList" resultMap="FengProblemQueueResult">
         <include refid="selectFengProblemQueueVo"/>
-        where user_id = #{userId}
-        and problem_id = #{problemId}
-        <if test="type != null and type != -1 "> and type = #{type}</if>
-        <if test="status != null "> and status = #{status}</if>
-        order by create_time desc
+        where q.user_id = #{userId}
+        and q.problem_id = #{problemId}
+        <if test="type != null and type != -1 "> and q.type = #{type}</if>
+        <if test="status != null "> and q.status = #{status}</if>
+        order by q.create_time desc
     </select>
 
     <select id="selectFengProblemQueueById" parameterType="Long" resultMap="FengProblemQueueResult">
         <include refid="selectFengProblemQueueVo"/>
-        where id = #{id}
+        where q.id = #{id}
     </select>
         
     <insert id="insertFengProblemQueue" useGeneratedKeys="true" keyProperty="id" parameterType="cn.lzscxb.domain.entity.FengProblemQueue">
