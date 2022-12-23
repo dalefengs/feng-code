@@ -51,8 +51,7 @@ public class FengCollegeController extends BaseController
      * 查询所有学院信息列表
      * @return
      */
-    @PreAuthorize("@ss.hasPermi('business:college:listAll')")
-    @GetMapping("/list-all")
+    @GetMapping(value = {"/list-all", "/list-all-any"})
     public AjaxResult listAll(){
         List<FengCollege> fengColleges = fengCollegeService.selectFengCollegeListAll();
         return AjaxResult.success(fengColleges);

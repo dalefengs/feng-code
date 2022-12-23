@@ -46,8 +46,7 @@ public class FengClassController extends BaseController
      * @param collegeId 学院主键
      * @return 班级管理
      */
-    @PreAuthorize("@ss.hasPermi('business:class:listByCollegeId')")
-    @GetMapping("/list-by-college-id")
+    @GetMapping(value = {"/list-by-college-id", "/list-by-college-id-any"})
     public AjaxResult list(@RequestParam("collegeId") Long collegeId)
     {
         List<FengClass> list = fengClassService.selectFengClassListByCollegeId(collegeId);

@@ -258,7 +258,9 @@ public class FengUsersServiceImpl implements IFengUsersService
     @Override
     public boolean registerUser(FengUsers user)
     {
-        return userMapper.insertUser(user) > 0;
+        int i = userMapper.insertUser(user);
+        insertUserRole(user);
+        return i > 0;
     }
 
     /**

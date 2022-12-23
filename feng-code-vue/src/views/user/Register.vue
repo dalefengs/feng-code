@@ -11,13 +11,26 @@
         closable
         :after-close="handleCloseRegisterError"
       />
-      <a-form-model-item prop="username">
+      <a-form-model-item prop="username" label="用户名">
         <a-input v-model="form.username" size="large" autocomplete="off" placeholder="账户" />
       </a-form-model-item>
-      <a-form-model-item has-feedback prop="password">
+      <a-form-model-item prop="nickName" label="昵称">
+        <a-input v-model="form.nickName" size="large" autocomplete="off" placeholder="昵称" />
+      </a-form-model-item>
+      <a-form-item label="学院" prop="collegeId">
+        <a-select placeholder="请选择学院" v-model="form.collegeId" style="width: 100%" allow-clear>
+          <a-select-option v-for="(d, index) in collegeList" :key="index" :value="d.id">{{ d.name }}</a-select-option>
+        </a-select>
+      </a-form-item>
+      <a-form-item label="班级" prop="classId">
+        <a-select placeholder="请选择班级" v-model="form.classId" style="width: 100%" allow-clear>
+          <a-select-option v-for="(d, index) in classList" :key="index" :value="d.id">{{ d.name }}</a-select-option>
+        </a-select>
+      </a-form-item>
+      <a-form-model-item has-feedback prop="password" label="密码">
         <a-input-password v-model="form.password" size="large" autocomplete="off" placeholder="密码" :maxLength="20" />
       </a-form-model-item>
-      <a-form-model-item has-feedback prop="confirmPassword">
+      <a-form-model-item has-feedback prop="confirmPassword" label="确认密码">
         <a-input-password v-model="form.confirmPassword" size="large" autocomplete="off" placeholder="确认密码" :maxLength="20" />
       </a-form-model-item>
       <a-row :gutter="16" v-if="captchaEnabled">
@@ -52,6 +65,8 @@
 
 <script>
 import { getCodeImg, register } from '@/api/login'
+import { listCollegeAllAny } from '@/api/business/college'
+import { listClassByCollegeIdAny } from '@/api/business/class'
 export default {
   name: 'Register',
   components: {},
@@ -81,12 +96,17 @@ export default {
       codeUrl: '',
       isRegisterError: false,
       registerErrorInfo: '',
+      collegeList: [],
+      classList: [],
       form: {
         username: undefined,
+        nickName: undefined,
         password: undefined,
         confirmPassword: undefined,
         code: undefined,
-        uuid: undefined
+        uuid: undefined,
+        collegeId: undefined,
+        classId: undefined
       },
       rules: {
         username: [
@@ -109,8 +129,17 @@ export default {
     }
   },
   computed: {},
+  watch: {
+    'form.collegeId': {
+      handler (newVal, oldVal) {
+        listClassByCollegeIdAny({ collegeId: this.form.collegeId }).then(res => { this.classList = res.data })
+      },
+      deep: true
+    }
+  },
   created () {
     this.getCode()
+    listCollegeAllAny().then(res => { this.collegeList = res.data })
   },
   methods: {
     getCode () {
