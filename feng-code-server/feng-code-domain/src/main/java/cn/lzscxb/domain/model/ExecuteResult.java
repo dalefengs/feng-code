@@ -22,6 +22,8 @@ public class ExecuteResult {
 
     private String errorMsg; // 错误信息
 
+    private String msg; // 错误信息
+
     private ErrorTestCase errorTestCase;
 
 

@@ -82,6 +82,9 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
                 case 1:
                     executeResult = excuteQueueSubmit(id, userId, problemId, "python");
                     break;
+                case 6:
+                    executeResult = excuteQueueSubmit(id, userId, problemId, "shell");
+                    break;
                 default:
                     throw new RuntimeException("未找到语言类型执行方案：" + queueInfo.getType());
             }
@@ -98,6 +101,9 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
             } else {
                 // 执行成功
                 queueInfo.setStatus(2);
+            }
+            if (problemInfo.getIsAuto() == 1 || queueInfo.getType() == 6) {
+                queueInfo.setStatus(5);
             }
         } catch (Exception e) {
             // 执行失败
@@ -144,6 +150,8 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
                 break;
             case "python":
                 pythonThymeleafFill(codeDir);
+            case "shell":
+                shellThymeleafFill(codeDir);
         }
 
         log.info("编译镜像中");
@@ -161,6 +169,8 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
         log.info("日志内容：{}", containerLogs);
         // 删除容器
         dockerClientUtils.deleteContainer(container.getId());
+        // 删除镜像
+        dockerClientUtils.deleteImage(imageId);
         ExecuteResult executeResult = null;
         try {
             executeResult = JSON.parseObject(containerLogs, ExecuteResult.class);
@@ -268,7 +278,7 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
     }
 
     /**
-     * Java 代码填充
+     * Python 代码填充
      */
     public void pythonThymeleafFill(String codeDir) {
         TemplateEngine engine = new TemplateEngine();
@@ -307,6 +317,32 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
         TestSolutionContext.setVariable("paramString", paramString); // 入参字符串
         TestSolutionContext.setVariable("testCase", problemInfo.getTestCase());
 
+        engine.process("Solution", TestSolutionContext, SolutionWriter);
+
+    }
+
+    /**
+     * Shell 代码填充
+     */
+    public void shellThymeleafFill(String codeDir) {
+        TemplateEngine engine = new TemplateEngine();
+        FileTemplateResolver templateResolver = new FileTemplateResolver();
+        templateResolver.setPrefix(codeDir + "/");
+        templateResolver.setSuffix(".tpl");
+        templateResolver.setTemplateMode(TemplateMode.TEXT);
+        templateResolver.setCacheable(false);
+        engine.setTemplateResolver(templateResolver);
+
+        // 测试类
+        FileWriter SolutionWriter = null;
+        try {
+            SolutionWriter = new FileWriter(codeDir + "/Solution.py");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        Context TestSolutionContext = new Context();
+        TestSolutionContext.setVariable("codeText", queueInfo.getCode()); // 入参字符串
         engine.process("Solution", TestSolutionContext, SolutionWriter);
 
     }

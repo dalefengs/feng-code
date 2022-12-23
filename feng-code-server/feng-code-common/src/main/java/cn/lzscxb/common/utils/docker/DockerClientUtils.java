@@ -208,5 +208,9 @@ public class DockerClientUtils {
         this.dockerClient.removeContainerCmd(id).exec();
     }
 
+    public void deleteImage(String id) {
+        this.dockerClient.removeImageCmd(id).exec();
+    }
+
 
 }

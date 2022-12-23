@@ -94,6 +94,19 @@
                   <div>执行占用：{{ this.excuteResult.memory ?? 0 }} MB</div>
                 </div>
               </div>
+              <div v-else-if="excuteStatus === 5">
+                <a-alert message="恭喜你提交成功，请耐心等待教师批阅！" type="info" show-icon />
+                <div class="excuteTime">
+                  <div>执行时间：{{ this.excuteResult.excuteTime ?? 0 }} ms</div>
+                  <div>执行占用：{{ this.excuteResult.memory ?? 0 }} MB</div>
+                </div>
+                <div class="sampleError">
+                  <div v-if="msg">
+                    <b>程序输出：<br>{{ this.msg ?? '' }}</b>
+                  </div>
+                  <div v-else>Error：{{ errorMsg }}</div>
+                </div>
+              </div>
               <div v-else>
                 <a-alert message="很遗憾，您的程序发生了错误，请再接再励！" type="error" show-icon />
                 <div class="excuteTime">
@@ -162,6 +175,7 @@ export default {
       excuteResult: {},
       errorTestCase: {},
       errorMsg: '',
+      msg: '',
       submitList: [], // 提交列表
       submitParam: {
         type: -1
@@ -218,6 +232,7 @@ export default {
       this.excuteStatus = 0
       this.excuteResult = {}
       this.errorMsg = ''
+      this.msg = ''
       this.errorTestCase = {}
       const data = {}
       data.code = this.$refs.editCode.getCodeValue()
@@ -254,6 +269,9 @@ export default {
                   console.log('excuteResult:', this.excuteResult)
                   if (this.excuteResult.errorTestCase) {
                     this.errorTestCase = this.excuteResult.errorTestCase
+                  }
+                  if (this.excuteResult.msg) {
+                    this.msg = this.excuteResult.msg
                   }
                   if (this.excuteResult.errorMsg) {
                     this.errorMsg = this.excuteResult.errorMsg
