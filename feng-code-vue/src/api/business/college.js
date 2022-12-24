@@ -17,6 +17,14 @@ export function listCollegeAll () {
   })
 }
 
+// 查询学院管理列表
+export function listCollegeAllAny () {
+  return request({
+    url: '/business/college/list-all-any',
+    method: 'get'
+  })
+}
+
 // 查询学院管理详细
 export function getCollege (id) {
   return request({

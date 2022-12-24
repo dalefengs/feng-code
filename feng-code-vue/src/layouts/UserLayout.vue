@@ -9,7 +9,7 @@
           </a>
         </div>
         <div class="desc">
-          基于SpringBoot，Spring Security，JWT，Vue 的前后端分离权限管理系统
+          基于 SpringBoot 在线编程实践系统
         </div>
       </div>
 
@@ -113,7 +113,7 @@ export default {
 
       .main {
         min-width: 260px;
-        width: 368px;
+        width: 400px;
         margin: 0 auto;
       }
 

@@ -29,7 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             fp.title, u.nick_name
         from feng_problem_queue as q
         left join feng_problem fp on q.problem_id = fp.id
-        left join feng_users u on fp.user_id = u.user_id
+        left join feng_users u on q.user_id = u.user_id
 
     </sql>
 

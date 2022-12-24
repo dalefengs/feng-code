@@ -38,22 +38,6 @@
           </a-row>
         </a-form>
       </div>
-      <!-- 操作 -->
-      <div class="table-operations">
-        <table-setting
-          :style="{float: 'right'}"
-          :table-size.sync="tableSize"
-          v-model="columns"
-          :refresh-loading="loading"
-          @refresh="getList" />
-      </div>
-      <!-- 增加修改 -->
-      <create-form
-        ref="createForm"
-        :typeOptions="dict.type.code_language"
-        :statusOptions="dict.type.queue_status"
-        @ok="getList"
-      />
       <!-- 数据展示 -->
       <a-table
         :loading="loading"
@@ -90,14 +74,11 @@
 
 <script>
 import { listQueue, delQueue } from '@/api/business/queue'
-import CreateForm from './modules/CreateForm'
 import { tableMixin } from '@/store/table-mixin'
 
 export default {
   name: 'Queue',
-  components: {
-    CreateForm
-  },
+  components: {},
   mixins: [tableMixin],
   dicts: ['code_language', 'queue_status'],
   data () {

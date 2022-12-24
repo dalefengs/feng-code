@@ -14,6 +14,9 @@
       <a-form-model-item prop="username" label="用户名">
         <a-input v-model="form.username" size="large" autocomplete="off" placeholder="账户" />
       </a-form-model-item>
+      <a-form-model-item prop="studentNumber" label="学号">
+        <a-input v-model="form.studentNumber" size="large" autocomplete="off" placeholder="学号" />
+      </a-form-model-item>
       <a-form-model-item prop="nickName" label="昵称">
         <a-input v-model="form.nickName" size="large" autocomplete="off" placeholder="昵称" />
       </a-form-model-item>
@@ -100,6 +103,7 @@ export default {
       classList: [],
       form: {
         username: undefined,
+        studentNumber: undefined,
         nickName: undefined,
         password: undefined,
         confirmPassword: undefined,
