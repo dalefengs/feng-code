@@ -28,6 +28,12 @@ public class LoginBody {
      * 昵称
      */
     private String nickName;
+
+    /**
+     * 学号
+     */
+    private String studentNumber;
+
     /**
      * 学院ID
      */

@@ -12,11 +12,11 @@ import org.springframework.stereotype.Component;
 /**
  * @Auther: Likfees
  * @Date: 2022/12/21 19:22
- * @Description:
+ * @Description: 定时任务
  */
 @Component
 @Slf4j
-public class FengTask {
+public class FengTaskScheduled {
 
     @Autowired
     private RedisCache redisCache;

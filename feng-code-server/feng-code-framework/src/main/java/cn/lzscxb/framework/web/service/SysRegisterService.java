@@ -44,6 +44,7 @@ public class SysRegisterService {
         fengUsers.setCollegeId((long) registerBody.getCollegeId());
         fengUsers.setClassId((long) registerBody.getClassId());
         fengUsers.setNickName(registerBody.getNickName());
+        fengUsers.setStudentNumber(registerBody.getStudentNumber());
         fengUsers.setRoleIds(new Long[]{ 101L });
 
         // 验证码开关
@@ -70,6 +71,8 @@ public class SysRegisterService {
             msg = "请选择班级";
         }  else if (registerBody.getNickName().equals("")) {
             msg = "请输入昵称";
+        }  else if (registerBody.getStudentNumber().equals("")) {
+            msg = "请输入学号";
         } else {
             fengUsers.setPassword(SecurityUtils.encryptPassword(password));
             boolean regFlag = userService.registerUser(fengUsers);

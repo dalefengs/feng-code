@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.lzscxb.business.mapper.FengTaskMapper">
+    
+    <resultMap type="cn.lzscxb.domain.entity.FengTask" id="FengTaskResult">
+        <result property="id"    column="id"    />
+        <result property="teacherId"    column="teacher_id"    />
+        <result property="title"    column="title"    />
+        <result property="subTitle"    column="sub_title"    />
+        <result property="imgUrl"    column="img_url"    />
+        <result property="taskExplain"    column="task_explain"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectFengTaskVo">
+        select id, teacher_id, title, sub_title, img_url, task_explain, create_by, create_time, update_by, update_time from feng_task
+    </sql>
+
+    <select id="selectFengTaskList" parameterType="cn.lzscxb.domain.entity.FengTask" resultMap="FengTaskResult">
+        <include refid="selectFengTaskVo"/>
+        <where>  
+            <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectFengTaskById" parameterType="Long" resultMap="FengTaskResult">
+        <include refid="selectFengTaskVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertFengTask" parameterType="cn.lzscxb.domain.entity.FengTask" useGeneratedKeys="true" keyProperty="id">
+        insert into feng_task
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="teacherId != null">teacher_id,</if>
+            <if test="title != null and title != ''">title,</if>
+            <if test="subTitle != null and subTitle != ''">sub_title,</if>
+            <if test="imgUrl != null and imgUrl != ''">img_url,</if>
+            <if test="taskExplain != null and taskExplain != ''">task_explain,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="teacherId != null">#{teacherId},</if>
+            <if test="title != null and title != ''">#{title},</if>
+            <if test="subTitle != null and subTitle != ''">#{subTitle},</if>
+            <if test="imgUrl != null and imgUrl != ''">#{imgUrl},</if>
+            <if test="taskExplain != null and taskExplain != ''">#{taskExplain},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFengTask" parameterType="cn.lzscxb.domain.entity.FengTask">
+        update feng_task
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="teacherId != null">teacher_id = #{teacherId},</if>
+            <if test="title != null and title != ''">title = #{title},</if>
+            <if test="subTitle != null and subTitle != ''">sub_title = #{subTitle},</if>
+            <if test="imgUrl != null and imgUrl != ''">img_url = #{imgUrl},</if>
+            <if test="taskExplain != null and taskExplain != ''">task_explain = #{taskExplain},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFengTaskById" parameterType="Long">
+        delete from feng_task where id = #{id}
+    </delete>
+
+    <delete id="deleteFengTaskByIds" parameterType="String">
+        delete from feng_task where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
