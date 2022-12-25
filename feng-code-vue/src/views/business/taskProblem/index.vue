@@ -6,13 +6,8 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
-              <a-form-item label="题目id" prop="problemId">
-                <a-input v-model="queryParam.problemId" placeholder="请输入题目id" allow-clear/>
-              </a-form-item>
-            </a-col>
-            <a-col :md="8" :sm="24">
-              <a-form-item label="排序" prop="soft">
-                <a-input v-model="queryParam.soft" placeholder="请输入排序" allow-clear/>
+              <a-form-item label="题目标题" prop="problemTitle">
+                <a-input v-model="queryParam.problemTitle" placeholder="请输入题目标题" allow-clear/>
               </a-form-item>
             </a-col>
             <a-col :md="!advanced && 8 || 24" :sm="24">
@@ -26,17 +21,11 @@
       </div>
       <!-- 操作 -->
       <div class="table-operations">
-        <a-button type="primary" @click="$refs.createForm.handleAdd()" v-hasPermi="['business:taskProblem:add']">
+        <a-button type="primary" @click="$refs.selectProblem.handleAdd()" v-hasPermi="['business:taskProblem:add']">
           <a-icon type="plus" />新增
-        </a-button>
-        <a-button type="primary" :disabled="single" @click="$refs.createForm.handleUpdate(undefined, ids)" v-hasPermi="['business:taskProblem:edit']">
-          <a-icon type="edit" />修改
         </a-button>
         <a-button type="danger" :disabled="multiple" @click="handleDelete" v-hasPermi="['business:taskProblem:remove']">
           <a-icon type="delete" />删除
-        </a-button>
-        <a-button type="primary" @click="handleExport" v-hasPermi="['business:taskProblem:export']">
-          <a-icon type="download" />导出
         </a-button>
         <table-setting
           :style="{float: 'right'}"
@@ -45,9 +34,9 @@
           :refresh-loading="loading"
           @refresh="getList" />
       </div>
-      <!-- 增加修改 -->
-      <create-form
-        ref="createForm"
+      <select-problem
+        ref="selectProblem"
+        :task-id="taskId"
         @ok="getList"
       />
       <!-- 数据展示 -->
@@ -63,13 +52,8 @@
         @change="tableChange"
       >
         <span slot="operation" slot-scope="text, record">
-          <a-divider type="vertical" v-hasPermi="['business:taskProblem:edit']" />
-          <a @click="$refs.createForm.handleUpdate(record, undefined)" v-hasPermi="['business:taskProblem:edit']">
-            <a-icon type="edit" />修改
-          </a>
-          <a-divider type="vertical" v-hasPermi="['business:taskProblem:remove']" />
           <a @click="handleDelete(record)" v-hasPermi="['business:taskProblem:remove']">
-            <a-icon type="delete" />删除
+            <a-icon type="delete" /> 删除
           </a>
         </span>
       </a-table>
@@ -91,17 +75,18 @@
 
 <script>
 import { listTaskProblem, delTaskProblem } from '@/api/business/taskProblem'
-import CreateForm from './modules/CreateForm'
+import SelectProblem from './modules/SelectProblem'
 import { tableMixin } from '@/store/table-mixin'
 
 export default {
   name: 'TaskProblem',
   components: {
-    CreateForm
+    SelectProblem
   },
   mixins: [tableMixin],
   data () {
     return {
+      taskId: undefined,
       list: [],
       selectedRowKeys: [],
       selectedRows: [],
@@ -116,6 +101,7 @@ export default {
       total: 0,
       // 查询参数
       queryParam: {
+        id: undefined,
         problemId: null,
         soft: null,
         pageNum: 1,
@@ -129,8 +115,8 @@ export default {
           align: 'center'
         },
         {
-          title: '题目id',
-          dataIndex: 'problemId',
+          title: '题目标题',
+          dataIndex: 'problemTitle',
           ellipsis: true,
           align: 'center'
         },
@@ -153,6 +139,7 @@ export default {
   filters: {
   },
   created () {
+    this.taskId = this.$route.query.taskId
     this.getList()
   },
   computed: {
@@ -163,6 +150,7 @@ export default {
     /** 查询学习任务与题目关联列表 */
     getList () {
       this.loading = true
+      this.queryParam.taskId = this.taskId
       listTaskProblem(this.queryParam).then(response => {
         this.list = response.rows
         this.total = response.total
@@ -178,7 +166,7 @@ export default {
     /** 重置按钮操作 */
     resetQuery () {
       this.queryParam = {
-        problemId: undefined,
+        taskId: undefined,
         soft: undefined,
         pageNum: 1,
         pageSize: 10,

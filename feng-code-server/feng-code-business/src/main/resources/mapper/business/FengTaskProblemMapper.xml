@@ -8,6 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="id"    column="id"    />
         <result property="taskId"    column="task_id"    />
         <result property="problemId"    column="problem_id"    />
+        <result property="problemTitle"    column="problem_title"    />
         <result property="soft"    column="soft"    />
         <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
@@ -16,20 +17,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectFengTaskProblemVo">
-        select id, task_id, problem_id, soft, create_by, create_time, update_by, update_time from feng_task_problem
+        select tp.id, tp.task_id, tp.problem_id, tp.soft, tp.create_by, tp.create_time, tp.update_by, tp.update_time,
+            fp.title as problem_title
+        from feng_task_problem as tp
+        left join feng_problem fp on fp.id = tp.problem_id
     </sql>
 
     <select id="selectFengTaskProblemList" parameterType="cn.lzscxb.domain.entity.FengTaskProblem" resultMap="FengTaskProblemResult">
         <include refid="selectFengTaskProblemVo"/>
         <where>  
-            <if test="problemId != null  and problemId != ''"> and problem_id = #{problemId}</if>
-            <if test="soft != null "> and soft = #{soft}</if>
+            <if test="problemId != null  and problemId != ''"> and tp.problem_id = #{problemId}</if>
+            <if test="problemTitle != null  and problemTitle != ''"> and fp.title like concat('%', #{problemTitle}, '%')</if>
+            <if test="taskId != null  and taskId != ''"> and tp.task_id = #{taskId}</if>
+            <if test="soft != null "> and tp.soft = #{soft}</if>
         </where>
     </select>
     
     <select id="selectFengTaskProblemById" parameterType="Long" resultMap="FengTaskProblemResult">
         <include refid="selectFengTaskProblemVo"/>
-        where id = #{id}
+        where tp.id = #{id}
     </select>
         
     <insert id="insertFengTaskProblem" parameterType="cn.lzscxb.domain.entity.FengTaskProblem">
@@ -80,4 +86,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
+    <insert id="batchFengTaskProblem">
+        insert into feng_task_problem(task_id, problem_id, create_time) value
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.taskId}, #{item.problemId}, #{item.createTime})
+        </foreach>
+    </insert>
 </mapper>

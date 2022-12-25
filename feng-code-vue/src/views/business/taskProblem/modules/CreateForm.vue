@@ -101,11 +101,11 @@ export default {
     reset () {
       this.formType = 1
       this.form = {
-        id: null,
+        taskId: null,
 
         taskId: null,
 
-        problemId: null,
+        taskId: null,
 
         soft: null,
 

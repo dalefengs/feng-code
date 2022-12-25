@@ -1,5 +1,6 @@
 package cn.lzscxb.business.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import cn.lzscxb.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,20 +42,32 @@ public class FengTaskProblemServiceImpl implements IFengTaskProblemService
     @Override
     public List<FengTaskProblem> selectFengTaskProblemList(FengTaskProblem fengTaskProblem)
     {
-        return fengTaskProblemMapper.selectFengTaskProblemList(fengTaskProblem);
+        if (fengTaskProblem.getTaskId() == null) {
+            throw new RuntimeException("非法访问");
+        }
+        List<FengTaskProblem> fengTaskProblems = fengTaskProblemMapper.selectFengTaskProblemList(fengTaskProblem);
+        return fengTaskProblems;
     }
 
     /**
      * 新增学习任务与题目关联
      * 
-     * @param fengTaskProblem 学习任务与题目关联
+     * @param taskId, long[] problemIds 学习任务与题目关联
      * @return 结果
      */
     @Override
-    public int insertFengTaskProblem(FengTaskProblem fengTaskProblem)
+    public int insertFengTaskProblem(Long taskId, Long[] problemIds)
     {
-        fengTaskProblem.setCreateTime(DateUtils.getNowDate());
-        return fengTaskProblemMapper.insertFengTaskProblem(fengTaskProblem);
+        List<FengTaskProblem> list = new ArrayList<>();
+        for (long problemId : problemIds) {
+            FengTaskProblem fengTaskProblem = new FengTaskProblem();
+            fengTaskProblem.setTaskId(taskId);
+            fengTaskProblem.setProblemId(problemId);
+            fengTaskProblem.setCreateTime(DateUtils.getNowDate());
+            list.add(fengTaskProblem);
+        }
+
+        return fengTaskProblemMapper.batchFengTaskProblem(list);
     }
 
     /**

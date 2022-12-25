@@ -52,6 +52,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isAuto != null "> and p.is_auto = #{isAuto}</if>
             <if test="language != null  and language != ''"> and p.language = #{language}</if>
             <if test="createTime != null "> and p.create_time = #{createTime}</if>
+            <if test="taskId != null ">
+                and p.id not in (select DISTINCT problem_id from feng_task_problem where task_id = #{taskId})
+            </if>
         </where>
     </select>
     

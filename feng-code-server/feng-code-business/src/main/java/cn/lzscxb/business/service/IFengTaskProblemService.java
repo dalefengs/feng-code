@@ -30,10 +30,10 @@ public interface IFengTaskProblemService
     /**
      * 新增学习任务与题目关联
      * 
-     * @param fengTaskProblem 学习任务与题目关联
+     * @param taskId, problemIds 学习任务与题目关联
      * @return 结果
      */
-    public int insertFengTaskProblem(FengTaskProblem fengTaskProblem);
+    public int insertFengTaskProblem(Long taskId, Long[] problemIds);
 
     /**
      * 修改学习任务与题目关联

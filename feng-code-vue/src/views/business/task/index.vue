@@ -66,7 +66,7 @@
             <a-icon type="edit" /> 修改
           </a>
           <a-divider type="vertical" v-hasPermi="['business:task:management']" />
-          <a @click="$refs.createForm.handleUpdate(record, undefined)" v-hasPermi="['business:task:management']">
+          <a @click="goManagement(record)" v-hasPermi="['business:task:management']">
             <a-icon type="solution" /> 管理计划
           </a>
           <br>
@@ -175,6 +175,10 @@ export default {
   watch: {
   },
   methods: {
+    // 跳转管理页面 添加题目
+    goManagement (record) {
+      this.$router.push({ path: '/task/taskProblem', query: { taskId: record.id } })
+    },
     /** 查询学习任务列表 */
     getList () {
       this.loading = true

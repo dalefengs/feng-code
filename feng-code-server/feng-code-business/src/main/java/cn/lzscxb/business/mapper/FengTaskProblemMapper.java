@@ -58,4 +58,6 @@ public interface FengTaskProblemMapper
      * @return 结果
      */
     public int deleteFengTaskProblemByIds(Long[] ids);
+
+    int batchFengTaskProblem(List<FengTaskProblem> list);
 }

@@ -32,6 +32,9 @@ public class FengProblem extends BaseEntity
     /** 作者id */
     private Long userId;
 
+    /** 学习计划id */
+    private Long taskId;
+
     /** 作者 */
     private String nickName;
 
