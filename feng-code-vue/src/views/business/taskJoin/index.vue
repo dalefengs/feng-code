@@ -32,17 +32,11 @@
       </div>
       <!-- 操作 -->
       <div class="table-operations">
-        <a-button type="primary" @click="$refs.createForm.handleAdd()" v-hasPermi="['business:taskJoin:add']">
-          <a-icon type="plus" />新增
-        </a-button>
-        <a-button type="primary" :disabled="single" @click="$refs.createForm.handleUpdate(undefined, ids)" v-hasPermi="['business:taskJoin:edit']">
-          <a-icon type="edit" />修改
+        <a-button type="primary" @click="$refs.selectProblemJoin.handleAdd()" v-hasPermi="['business:taskJoin:add']" v-if="taskId !== ''">
+          <a-icon type="plus" /> 指定班级
         </a-button>
         <a-button type="danger" :disabled="multiple" @click="handleDelete" v-hasPermi="['business:taskJoin:remove']">
-          <a-icon type="delete" />删除
-        </a-button>
-        <a-button type="primary" @click="handleExport" v-hasPermi="['business:taskJoin:export']">
-          <a-icon type="download" />导出
+          <a-icon type="delete" /> 删除
         </a-button>
         <table-setting
           :style="{float: 'right'}"
@@ -51,9 +45,9 @@
           :refresh-loading="loading"
           @refresh="getList" />
       </div>
-      <!-- 增加修改 -->
-      <create-form
-        ref="createForm"
+      <select-problem-join
+        ref="selectProblemJoin"
+        :task-id="taskId"
         @ok="getList"
       />
       <!-- 数据展示 -->
@@ -68,13 +62,16 @@
         :bordered="tableBordered"
         @change="tableChange"
       >
-        <span slot="endTime" slot-scope="text, record">
+        <span slot="status" slot-scope="text, record">
+          <dict-tag :options="dict.type['task_status']" :value="record.status"/>
+        </span>
+        <span slot="endTime" slot-scope="text, record" :title="parseTime(record.endTime)">
           {{ parseTime(record.endTime) }}
         </span>
-        <span slot="submitTime" slot-scope="text, record">
+        <span slot="submitTime" slot-scope="text, record" :title="parseTime(record.submitTime)">
           {{ parseTime(record.submitTime) }}
         </span>
-        <span slot="checkTime" slot-scope="text, record">
+        <span slot="checkTime" slot-scope="text, record" :title="parseTime(record.checkTime)">
           {{ parseTime(record.checkTime) }}
         </span>
         <span slot="operation" slot-scope="text, record">
@@ -106,17 +103,19 @@
 
 <script>
 import { listTaskJoin, delTaskJoin } from '@/api/business/taskJoin'
-import CreateForm from './modules/CreateForm'
+import SelectProblemJoin from '@/views/business/taskJoin/modules/SelectProblemJoin'
 import { tableMixin } from '@/store/table-mixin'
 
 export default {
   name: 'TaskJoin',
-  components: {
-    CreateForm
-  },
   mixins: [tableMixin],
+  components: {
+    SelectProblemJoin
+  },
+  dicts: ['task_status'],
   data () {
     return {
+      taskId: '',
       list: [],
       selectedRowKeys: [],
       selectedRows: [],
@@ -145,14 +144,14 @@ export default {
           align: 'center'
         },
         {
-          title: '班级id',
-          dataIndex: 'classId',
+          title: '班级',
+          dataIndex: 'className',
           ellipsis: true,
           align: 'center'
         },
         {
-          title: '用户id',
-          dataIndex: 'userId',
+          title: '用户昵称',
+          dataIndex: 'nickName',
           ellipsis: true,
           align: 'center'
         },
@@ -160,24 +159,18 @@ export default {
           title: '状态',
           dataIndex: 'status',
           ellipsis: true,
-          align: 'center'
+          align: 'center',
+          scopedSlots: { customRender: 'status' }
         },
-        {
-          title: '正确题目数量',
-          dataIndex: 'correctCount',
-          ellipsis: true,
-          align: 'center'
-        },
+        // {
+        //   title: '正确题目数',
+        //   dataIndex: 'correctCount',
+        //   ellipsis: true,
+        //   align: 'center'
+        // },
         {
           title: '分数',
           dataIndex: 'score',
-          ellipsis: true,
-          align: 'center'
-        },
-        {
-          title: '结束时间',
-          dataIndex: 'endTime',
-          scopedSlots: { customRender: 'endTime' },
           ellipsis: true,
           align: 'center'
         },
@@ -196,6 +189,13 @@ export default {
           align: 'center'
         },
         {
+          title: '结束时间',
+          dataIndex: 'endTime',
+          scopedSlots: { customRender: 'endTime' },
+          ellipsis: true,
+          align: 'center'
+        },
+        {
           title: '操作',
           dataIndex: 'operation',
           width: '18%',
@@ -208,16 +208,25 @@ export default {
   filters: {
   },
   created () {
+    if (this.$route.query.taskId) {
+      this.taskId = this.$route.query.taskId
+    }
     this.getList()
   },
   computed: {
   },
   watch: {
+    $route (to, from) {
+      if (this.$route.query.taskId) {
+        this.taskId = this.$route.query.taskId
+      }
+    }
   },
   methods: {
     /** 查询学习任务学生参与列表 */
     getList () {
       this.loading = true
+      this.queryParam.taskId = this.taskId
       listTaskJoin(this.queryParam).then(response => {
         this.list = response.rows
         this.total = response.total

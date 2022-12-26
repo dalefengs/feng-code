@@ -145,6 +145,11 @@ export default {
   computed: {
   },
   watch: {
+    $route (to, from) {
+      if (this.$route.query.taskId) {
+        this.taskId = this.$route.query.taskId
+      }
+    }
   },
   methods: {
     /** 查询学习任务与题目关联列表 */

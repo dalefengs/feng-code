@@ -1,9 +1,12 @@
 package cn.lzscxb.domain.entity;
 
 import java.util.Date;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import cn.lzscxb.domain.annotation.Excel;
 import cn.lzscxb.domain.BaseEntity;
+import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -13,6 +16,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @author Likfees
  * @date 2022-12-25
  */
+@Data
 public class FengTaskJoin extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -26,10 +30,13 @@ public class FengTaskJoin extends BaseEntity
 
     /** 用户id */
     @Excel(name = "用户id")
-    private String userId;
+    private Long userId;
 
     /** 学习任务 */
     private Long taskId;
+
+    /** 学习任务 */
+    private List<Long> classIds;
 
     /** 状态 */
     @Excel(name = "状态")
@@ -58,114 +65,22 @@ public class FengTaskJoin extends BaseEntity
     @Excel(name = "批阅时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date checkTime;
 
-    public void setId(Long id) 
-    {
-        this.id = id;
+    private String nickName;
+    private String className;
+
+    public String getClassName() {
+        return className;
     }
 
-    public Long getId() 
-    {
-        return id;
-    }
-    public void setClassId(Long classId) 
-    {
-        this.classId = classId;
+    public void setClassName(String className) {
+        this.className = className;
     }
 
-    public Long getClassId() 
-    {
-        return classId;
-    }
-    public void setUserId(String userId) 
-    {
-        this.userId = userId;
+    public String getNickName() {
+        return nickName;
     }
 
-    public String getUserId() 
-    {
-        return userId;
-    }
-    public void setTaskId(Long taskId) 
-    {
-        this.taskId = taskId;
-    }
-
-    public Long getTaskId() 
-    {
-        return taskId;
-    }
-    public void setStatus(Integer status) 
-    {
-        this.status = status;
-    }
-
-    public Integer getStatus() 
-    {
-        return status;
-    }
-    public void setCorrectCount(Integer correctCount) 
-    {
-        this.correctCount = correctCount;
-    }
-
-    public Integer getCorrectCount() 
-    {
-        return correctCount;
-    }
-    public void setScore(Integer score) 
-    {
-        this.score = score;
-    }
-
-    public Integer getScore() 
-    {
-        return score;
-    }
-    public void setEndTime(Date endTime) 
-    {
-        this.endTime = endTime;
-    }
-
-    public Date getEndTime() 
-    {
-        return endTime;
-    }
-    public void setSubmitTime(Date submitTime) 
-    {
-        this.submitTime = submitTime;
-    }
-
-    public Date getSubmitTime() 
-    {
-        return submitTime;
-    }
-    public void setCheckTime(Date checkTime) 
-    {
-        this.checkTime = checkTime;
-    }
-
-    public Date getCheckTime() 
-    {
-        return checkTime;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("classId", getClassId())
-            .append("userId", getUserId())
-            .append("taskId", getTaskId())
-            .append("status", getStatus())
-            .append("correctCount", getCorrectCount())
-            .append("score", getScore())
-            .append("endTime", getEndTime())
-            .append("submitTime", getSubmitTime())
-            .append("checkTime", getCheckTime())
-            .append("createBy", getCreateBy())
-            .append("createTime", getCreateTime())
-            .append("updateBy", getUpdateBy())
-            .append("updateTime", getUpdateTime())
-            .toString();
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 }

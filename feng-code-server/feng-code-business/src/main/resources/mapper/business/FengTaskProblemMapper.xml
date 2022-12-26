@@ -88,7 +88,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <insert id="batchFengTaskProblem">
-        insert into feng_task_problem(task_id, problem_id, create_time) value
+        insert into feng_task_problem(task_id, problem_id, create_time) values
         <foreach collection="list" item="item" index="index" separator=",">
             (#{item.taskId}, #{item.problemId}, #{item.createTime})
         </foreach>

@@ -7,7 +7,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="cn.lzscxb.domain.entity.FengClass" id="FengClassResult">
         <result property="id"    column="id"    />
         <result property="name"    column="name"    />
+        <result property="collegeName"    column="collegeName"    />
         <result property="collegeId"    column="college_id"    />
+        <result property="classCount"    column="classCount"    />
         <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateBy"    column="update_by"    />
@@ -15,7 +17,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectFengClassVo">
-        select c.id, c.name, c.college_id, c.create_by, c.create_time, c.update_by, c.update_time from feng_class as c
+        select c.id, c.name, c.college_id, c.create_by, c.create_time, c.update_by, c.update_time,
+            fc.name as collegeName, (select COUNT(1) from feng_users where class_id = c.id) as classCount
+        from feng_class as c
+        left join feng_college fc on c.college_id = fc.id
 
     </sql>
 
@@ -38,7 +43,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectFengClassVo" />
         where c.college_id = #{collegeId}
     </select>
-        
+
+    <select id="selectClassListByTaskId" resultMap="FengClassResult">
+        <include refid="selectFengClassVo" />
+        where c.id not in (select DISTINCT class_id from feng_task_join where task_id = #{taskId})
+    </select>
+
+    <select id="selectUserIdByClassId" resultType="java.lang.Long">
+        select u.user_id from feng_users u
+        where u.class_id = #{classId}
+    </select>
+
+
+
     <insert id="insertFengClass" parameterType="cn.lzscxb.domain.entity.FengClass" useGeneratedKeys="true" keyProperty="id">
         insert into feng_class
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -82,5 +99,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
 
 </mapper>

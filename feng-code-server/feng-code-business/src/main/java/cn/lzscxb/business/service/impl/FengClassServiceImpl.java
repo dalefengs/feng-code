@@ -55,6 +55,12 @@ public class FengClassServiceImpl implements IFengClassService
         return fengClassMapper.selectFengClassList(fengClass);
     }
 
+
+    @Override
+    public List<FengClass> selectFengClassListByTaskId(Long taskId) {
+        return fengClassMapper.selectClassListByTaskId(taskId);
+    }
+
     /**
      * 新增班级管理
      * 
@@ -104,4 +110,5 @@ public class FengClassServiceImpl implements IFengClassService
     {
         return fengClassMapper.deleteFengClassById(id);
     }
+
 }

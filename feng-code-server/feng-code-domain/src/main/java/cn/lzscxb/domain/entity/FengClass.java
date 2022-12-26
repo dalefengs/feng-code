@@ -28,9 +28,28 @@ public class FengClass extends BaseEntity
     /** 学院id */
     private Long collegeId;
 
-    /** 专业名称 */
+
+    /** 学习认为id */
+    private Long taskId;
+
+    /**
+     * 专业名称
+     */
     @Excel(name = "所属名称")
     private String collegeName;
+
+    /**
+     * 班级人数
+     */
+    private String classCount;
+
+    public String getClassCount() {
+        return classCount;
+    }
+
+    public void setClassCount(String classCount) {
+        this.classCount = classCount;
+    }
 
 
     public void setId(Long id) 

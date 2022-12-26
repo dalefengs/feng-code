@@ -58,4 +58,7 @@ public interface FengTaskJoinMapper
      * @return 结果
      */
     public int deleteFengTaskJoinByIds(Long[] ids);
+
+
+    public int batchInsertTaskJoin(List<FengTaskJoin> list);
 }

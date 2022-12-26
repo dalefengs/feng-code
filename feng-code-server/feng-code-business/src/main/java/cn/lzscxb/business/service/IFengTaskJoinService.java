@@ -58,4 +58,12 @@ public interface IFengTaskJoinService
      * @return 结果
      */
     public int deleteFengTaskJoinById(Long id);
+
+    /**
+     * 通过班级批量添加参与学生
+     * 
+     * @param 
+     * @return 
+     */
+    int insertFengTaskJoinByClass(FengTaskJoin fengTaskJoin);
 }

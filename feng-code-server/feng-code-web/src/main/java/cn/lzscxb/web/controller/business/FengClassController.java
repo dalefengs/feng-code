@@ -41,6 +41,18 @@ public class FengClassController extends BaseController
     }
 
     /**
+     * 查询班级管理列表
+     */
+    @PreAuthorize("@ss.hasPermi('business:class:list-by-task-id')")
+    @GetMapping("/list-by-task-id")
+    public TableDataInfo listByTaskId(FengClass fengClass)
+    {
+        startPage();
+        List<FengClass> list = fengClassService.selectFengClassListByTaskId(fengClass.getTaskId());
+        return getDataTable(list);
+    }
+
+    /**
      * 通过学院id查询班级列表
      *
      * @param collegeId 学院主键

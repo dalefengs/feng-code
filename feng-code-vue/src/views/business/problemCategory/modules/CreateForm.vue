@@ -79,7 +79,7 @@ export default {
     reset () {
       this.formType = 1
       this.form = {
-        id: null,
+        problemId: null,
 
         title: null,
 

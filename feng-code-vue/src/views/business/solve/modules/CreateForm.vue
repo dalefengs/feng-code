@@ -103,7 +103,7 @@ export default {
 
         userId: null,
 
-        problemId: null,
+        taskId: null,
 
         content: null
 

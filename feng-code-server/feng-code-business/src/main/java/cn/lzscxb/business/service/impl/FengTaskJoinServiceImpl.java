@@ -1,7 +1,13 @@
 package cn.lzscxb.business.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import cn.lzscxb.business.mapper.FengClassMapper;
 import cn.lzscxb.common.utils.DateUtils;
+import cn.lzscxb.domain.entity.FengClass;
+import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cn.lzscxb.business.mapper.FengTaskJoinMapper;
@@ -15,8 +21,14 @@ import cn.lzscxb.business.service.IFengTaskJoinService;
  * @date 2022-12-25
  */
 @Service
-public class FengTaskJoinServiceImpl implements IFengTaskJoinService 
+@Slf4j
+public class FengTaskJoinServiceImpl implements IFengTaskJoinService
 {
+
+
+    @Autowired
+    private FengClassMapper fengClassMapper;
+
     @Autowired
     private FengTaskJoinMapper fengTaskJoinMapper;
 
@@ -42,6 +54,31 @@ public class FengTaskJoinServiceImpl implements IFengTaskJoinService
     public List<FengTaskJoin> selectFengTaskJoinList(FengTaskJoin fengTaskJoin)
     {
         return fengTaskJoinMapper.selectFengTaskJoinList(fengTaskJoin);
+    }
+
+
+    @Override
+    public int insertFengTaskJoinByClass(FengTaskJoin fengTaskJoin) {
+        // 查询班级下所有学生
+        for (Long classId : fengTaskJoin.getClassIds()) {
+            List<Long> userIds = fengClassMapper.selectUserIdByClassId(classId);
+            log.info("classId:{}, 当前班级学生为：{} 个",fengTaskJoin.getClassId(), userIds.size());
+            if (userIds.size() > 0) {
+                List<FengTaskJoin> list = new ArrayList<>();
+                for (Long userId : userIds) {
+                    FengTaskJoin join = new FengTaskJoin();
+                    join.setClassId(classId);
+                    join.setUserId(userId);
+                    join.setTaskId(fengTaskJoin.getTaskId());
+                    join.setCreateTime(DateUtils.getNowDate());
+                    join.setEndTime(fengTaskJoin.getEndTime());
+                    log.info("------------------{}", join);
+                    list.add(join);
+                }
+                int i = fengTaskJoinMapper.batchInsertTaskJoin(list);
+            }
+        }
+        return 1;
     }
 
     /**
@@ -93,4 +130,5 @@ public class FengTaskJoinServiceImpl implements IFengTaskJoinService
     {
         return fengTaskJoinMapper.deleteFengTaskJoinById(id);
     }
+
 }

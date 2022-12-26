@@ -198,7 +198,7 @@ export default {
     resetQuery () {
       this.daterangeCreateTime = []
       this.queryParam = {
-        id: undefined,
+        problemId: undefined,
         title: undefined,
         pageNum: 1,
         pageSize: 10,

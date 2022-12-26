@@ -61,15 +61,19 @@
           <img :src="text" style="max-width: 100px; height: auto" alt="">
         </span>
         <span slot="operation" slot-scope="text, record">
-          <a-divider type="vertical" v-hasPermi="['business:task:edit']" />
-          <a @click="$refs.createForm.handleUpdate(record, undefined)" v-hasPermi="['business:task:edit']">
-            <a-icon type="edit" /> 修改
-          </a>
           <a-divider type="vertical" v-hasPermi="['business:task:management']" />
           <a @click="goManagement(record)" v-hasPermi="['business:task:management']">
             <a-icon type="solution" /> 管理计划
           </a>
+          <a-divider type="vertical" v-hasPermi="['business:superviseClass:management']" />
+          <a @click="goSuperviseClass(record)" v-hasPermi="['business:task:superviseClass']">
+            <a-icon type="solution" /> 管理班级
+          </a>
           <br>
+          <a-divider type="vertical" v-hasPermi="['business:task:edit']" />
+          <a @click="$refs.createForm.handleUpdate(record, undefined)" v-hasPermi="['business:task:edit']">
+            <a-icon type="edit" /> 修改
+          </a>
           <a-divider type="vertical" v-hasPermi="['business:task:remove']" />
           <a @click="handleDelete(record)" v-hasPermi="['business:task:remove']">
             <a-icon type="delete" /> 删除
@@ -178,6 +182,10 @@ export default {
     // 跳转管理页面 添加题目
     goManagement (record) {
       this.$router.push({ path: '/task/taskProblem', query: { taskId: record.id } })
+    },
+    // 跳转管理页面 添加班级
+    goSuperviseClass (record) {
+      this.$router.replace({ path: '/task/taskJoin', query: { taskId: record.id } })
     },
     /** 查询学习任务列表 */
     getList () {

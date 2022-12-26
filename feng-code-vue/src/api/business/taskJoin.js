@@ -26,6 +26,15 @@ export function addTaskJoin (data) {
   })
 }
 
+// 新增学习任务学生参与
+export function addTaskJoinByClass (data) {
+  return request({
+    url: '/business/taskJoin/addByClass',
+    method: 'post',
+    data: data
+  })
+}
+
 // 修改学习任务学生参与
 export function updateTaskJoin (data) {
   return request({

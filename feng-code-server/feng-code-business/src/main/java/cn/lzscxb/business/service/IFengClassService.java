@@ -66,4 +66,6 @@ public interface IFengClassService
      * @return 结果
      */
     public int deleteFengClassById(Long id);
+
+    List<FengClass> selectFengClassListByTaskId(Long taskId);
 }

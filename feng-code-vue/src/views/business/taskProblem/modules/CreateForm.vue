@@ -103,10 +103,6 @@ export default {
       this.form = {
         taskId: null,
 
-        taskId: null,
-
-        taskId: null,
-
         soft: null,
 
         createBy: null,

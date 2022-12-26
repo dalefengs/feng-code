@@ -81,6 +81,17 @@ public class FengTaskJoinController extends BaseController
     }
 
     /**
+     * 新增学习任务学生参与
+     */
+    @PreAuthorize("@ss.hasPermi('business:taskJoin:addByClass')")
+    @Log(title = "学习任务学生参与", businessType = BusinessType.INSERT)
+    @PostMapping("/addByClass")
+    public AjaxResult addByClass(@RequestBody FengTaskJoin fengTaskJoin)
+    {
+        return toAjax(fengTaskJoinService.insertFengTaskJoinByClass(fengTaskJoin));
+    }
+
+    /**
      * 修改学习任务学生参与
      */
     @PreAuthorize("@ss.hasPermi('business:taskJoin:edit')")

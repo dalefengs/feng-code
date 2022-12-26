@@ -1,6 +1,7 @@
 package cn.lzscxb.business.mapper;
 
 import cn.lzscxb.domain.entity.FengClass;
+import cn.lzscxb.domain.entity.FengTaskJoin;
 
 import java.util.List;
 
@@ -67,4 +68,9 @@ public interface FengClassMapper
      * @return 结果
      */
     public int deleteFengClassByIds(Long[] ids);
+
+    public List<Long> selectUserIdByClassId(Long classId);
+
+    public List<FengClass> selectClassListByTaskId(Long taskId);
+
 }
