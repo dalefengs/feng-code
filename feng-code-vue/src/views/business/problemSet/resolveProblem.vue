@@ -238,6 +238,8 @@ export default {
       data.code = this.$refs.editCode.getCodeValue()
       data.type = this.$refs.editCode.languageKey
       data.problemId = this.id
+      data.taskId = this.$route.query.taskId
+
       console.log('submit data', data)
       addQueue(data).then(res => {
         if (res.code !== 200) {

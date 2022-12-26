@@ -16,6 +16,14 @@ export function listProblemSet (query) {
     params: query
   })
 }
+// 查询题目管理列表
+export function listProblemTask (query) {
+  return request({
+    url: '/business/problem/problem-task-list',
+    method: 'get',
+    params: query
+  })
+}
 
 // 查询题目管理详细
 export function getProblem (id) {

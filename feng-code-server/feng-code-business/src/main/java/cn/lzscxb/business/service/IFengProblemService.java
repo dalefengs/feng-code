@@ -67,4 +67,6 @@ public interface IFengProblemService
      * @return 结果
      */
     public int deleteFengProblemById(Long id);
+
+    List<FengProblem> selectFengProblemTaskList(FengProblem fengProblem);
 }

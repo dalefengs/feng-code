@@ -61,6 +61,18 @@ public class FengProblemController extends BaseController
     }
 
     /**
+     * 查询题目管理列表
+     */
+    @PreAuthorize("@ss.hasPermi('business:problem:task-list')")
+    @GetMapping("/problem-task-list")
+    public TableDataInfo problemTasklist(FengProblem fengProblem)
+    {
+        startPage();
+        List<FengProblem> list = fengProblemService.selectFengProblemTaskList(fengProblem);
+        return getDataTable(list);
+    }
+
+    /**
      * 导出题目管理列表
      */
     @PreAuthorize("@ss.hasPermi('business:problem:export')")

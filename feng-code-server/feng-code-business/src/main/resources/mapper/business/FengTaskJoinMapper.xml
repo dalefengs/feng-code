@@ -44,7 +44,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <select id="selectFengTaskJoinById" parameterType="Long" resultMap="FengTaskJoinResult">
         <include refid="selectFengTaskJoinVo"/>
-        where id = #{id}
+        where tj.id = #{id}
+    </select>
+
+    <select id="selectFengTaskJoinByTaskId" parameterType="cn.lzscxb.domain.entity.FengTaskJoin" resultMap="FengTaskJoinResult">
+        select id, class_id, user_id, task_id, status, correct_count, score, end_time, submit_time, check_time, create_by, create_time, update_by, update_time from feng_task_join
+        where task_id = #{taskId} and user_id = #{userId}
     </select>
 
     <insert id="batchInsertTaskJoin">
@@ -120,4 +125,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
+
 </mapper>

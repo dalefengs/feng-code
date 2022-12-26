@@ -147,7 +147,10 @@ export default {
   watch: {
     $route (to, from) {
       if (this.$route.query.taskId) {
+        this.selectedRowKeys = []
+        this.selectedRows = []
         this.taskId = this.$route.query.taskId
+        this.getList()
       }
     }
   },

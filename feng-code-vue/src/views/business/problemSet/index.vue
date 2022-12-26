@@ -6,6 +6,14 @@
       <a-col :span="18">
         <a-row>
           <a-col id="left">
+            <h3 class="task-h3">学习计划</h3>
+            <div style="margin-left: 30px">
+              <div v-for="(item, index) in taskList" :key="index" class="task" :title="item.title" @click="goTaskInfo(item.id)">
+                <img :src="item.imgUrl" alt="" class="task-img">
+                <div class="task-title">{{ item.title }}</div>
+              </div>
+            </div>
+            <br>
             <a-radio-group default-value="a" button-style="solid" v-model="queryParam.categoryId" style="margin-left: 15px" >
               <a-radio-button :value="0" class="category-button">
                 <div class="category-all-icon">
@@ -82,7 +90,7 @@
         </a-card>
       </a-col>
       <!--   右   -->
-      <a-col :span="5">
+      <a-col :span="6">
         <a-card class="right-shadow" style="margin-top: 64px">
           <!--    每日一题      -->
           <a-calendar :fullscreen="false" :header-render="headerRender" @panelChange="onPanelChange" />
@@ -111,6 +119,7 @@
 import { listAllProblemCategory } from '@/api/business/problemCategory'
 import { listAllTags } from '@/api/business/tags'
 import { listProblemSet } from '@/api/business/problem'
+import { listTask } from '@/api/business/task'
 import { tableMixin } from '@/store/table-mixin'
 export default {
   name: 'ProblemSet',
@@ -119,6 +128,7 @@ export default {
   data () {
     return {
       list: [],
+      taskList: [],
       // 非单个禁用
       single: true,
       // 非多个禁用
@@ -194,6 +204,13 @@ export default {
     listAllTags().then(res => {
       this.tsgsList = res.data
     })
+    const taskParam = {
+      pageNum: 1,
+      pageSize: 7
+    }
+    listTask(taskParam).then(res => {
+      this.taskList = res.rows
+    })
     this.getList()
   },
   watch: {
@@ -233,6 +250,9 @@ export default {
         this.total = response.total
         this.loading = false
       })
+    },
+    goTaskInfo (id) {
+      this.$router.push({ path: 'task/' + id })
     },
     onShowSizeChange (current, pageSize) {
       this.queryParam.pageSize = pageSize
@@ -342,11 +362,13 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .body{
-  padding: 30px 60px;
+  padding: 30px 10px;
   min-width: 1280px;
+  width: 1280px;
   height: 100%;
+  margin: 0 auto;
 }
 
 .category-button {
@@ -377,5 +399,28 @@ export default {
 .right-shadow {
   box-shadow: 0 0 5px #f0f2f5;
   margin-bottom: 15px;
+}
+
+.task-h3 {
+  font-size: 1.125rem;
+  color: rgba(38,38,38,.75);
+  margin-bottom: 14px;
+  margin-left: 32px;
+}
+
+.task {
+  width: 130px;
+  height: 130px;
+  display: inline-block;
+  margin-right: 28px;
+  .task-img {
+    width: 128px;
+    height: 128px;
+    border-radius: 10px;
+  }
+  .task-title {
+    margin-top: 6px;
+    text-align: center;
+  }
 }
 </style>

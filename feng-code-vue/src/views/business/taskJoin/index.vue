@@ -219,6 +219,9 @@ export default {
     $route (to, from) {
       if (this.$route.query.taskId) {
         this.taskId = this.$route.query.taskId
+        this.selectedRowKeys = []
+        this.selectedRows = []
+        this.getList()
       }
     }
   },

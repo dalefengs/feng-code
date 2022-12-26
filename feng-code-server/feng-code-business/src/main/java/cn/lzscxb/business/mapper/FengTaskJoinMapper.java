@@ -19,6 +19,9 @@ public interface FengTaskJoinMapper
      */
     public FengTaskJoin selectFengTaskJoinById(Long id);
 
+    FengTaskJoin selectFengTaskJoinByTaskId(FengTaskJoin fengTaskJoin);
+
+
     /**
      * 查询学习任务学生参与列表
      * 
@@ -61,4 +64,5 @@ public interface FengTaskJoinMapper
 
 
     public int batchInsertTaskJoin(List<FengTaskJoin> list);
+
 }

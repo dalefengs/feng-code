@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cn.lzscxb.business.mapper.FengProblemMapper;
+import cn.lzscxb.business.mapper.FengTaskJoinMapper;
 import cn.lzscxb.common.core.redis.RedisCache;
 import cn.lzscxb.common.utils.DateUtils;
 import cn.lzscxb.common.utils.SecurityUtils;
@@ -15,11 +16,13 @@ import cn.lzscxb.common.utils.docker.DockerClientUtils;
 import cn.lzscxb.common.utils.file.FreeMarkerUtils;
 import cn.lzscxb.domain.constant.CacheConstants;
 import cn.lzscxb.domain.entity.FengProblem;
+import cn.lzscxb.domain.entity.FengTaskJoin;
 import cn.lzscxb.domain.model.ExecuteResult;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONException;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cn.lzscxb.business.mapper.FengProblemQueueMapper;
@@ -46,6 +49,9 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
     private FengProblemMapper fengProblemMapper;
 
     @Autowired
+    private FengTaskJoinMapper fengTaskJoinMapper;
+
+    @Autowired
     private DockerClientUtils dockerClientUtils;
 
     @Autowired
@@ -63,8 +69,17 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
 
     @Override
     public FengProblemQueue excuteQuque(long id) {
+        FengTaskJoin joinInfo = null;
         try {
             queueInfo = fengProblemQueueMapper.selectFengProblemQueueById(id);
+            if (queueInfo.getTaskId() > 0) {
+                FengTaskJoin join = new FengTaskJoin();
+                join.setUserId(queueInfo.getUserId());
+                join.setTaskId(queueInfo.getTaskId());
+                joinInfo = fengTaskJoinMapper.selectFengTaskJoinByTaskId(join);
+                joinInfo.setSubmitTime(DateUtils.getNowDate());
+                joinInfo.setCheckTime(DateUtils.getNowDate());
+            }
             if (queueInfo == null) {
                 log.error("ququeId：{} 记录信息不存在", id);
                 return null;
@@ -101,6 +116,10 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
             } else {
                 // 执行成功
                 queueInfo.setStatus(2);
+                problemInfo.setSuccessCount(problemInfo.getSuccessCount() + 1); // 添加成功次数
+                if (joinInfo != null) {
+                    joinInfo.setScore(100);
+                }
             }
             if (problemInfo.getIsAuto() == 1 || queueInfo.getType() == 6) {
                 queueInfo.setStatus(5);
@@ -111,9 +130,15 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
             queueInfo.setErrorMsg(JSON.toJSONString(e.getMessage()));
             log.error("ququeId: {}, 执行队列任务异常：{}", queueInfo.getId(), e.getMessage());
             e.printStackTrace();
+        } finally {
+            queueInfo.setRetryCount(queueInfo.getRetryCount() + 1);
+            problemInfo.setSubmitCount(problemInfo.getSubmitCount() + 1);
+            fengProblemMapper.updateFengProblem(problemInfo);
+            fengProblemQueueMapper.updateFengProblemQueue(queueInfo);
+            if (joinInfo != null) {
+                fengTaskJoinMapper.updateFengTaskJoin(joinInfo);
+            }
         }
-        queueInfo.setRetryCount(queueInfo.getRetryCount() + 1);
-        fengProblemQueueMapper.updateFengProblemQueue(queueInfo);
 
         return queueInfo;
     }
@@ -377,8 +402,21 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
      */
     @Override
     public int insertFengProblemQueue(FengProblemQueue fengProblemQueue) {
+        Long userId = SecurityUtils.getUserId();
         fengProblemQueue.setCreateTime(DateUtils.getNowDate());
         fengProblemQueue.setUserId(SecurityUtils.getUserId());
+        Long taskId = fengProblemQueue.getTaskId();
+        // 如果有 taskId 就是学习任务中答题
+        if (taskId != null && taskId > 0) {
+            fengProblemQueue.setTaskId(taskId);
+            FengTaskJoin join = new FengTaskJoin();
+            join.setTaskId(taskId);
+            join.setUserId(userId);
+            FengTaskJoin fengTaskJoin = fengTaskJoinMapper.selectFengTaskJoinByTaskId(join);
+            fengProblemQueue.setTaskJoinId(fengTaskJoin.getId());
+        }
+
+
         long i = fengProblemQueueMapper.insertFengProblemQueue(fengProblemQueue);
         long id = fengProblemQueue.getId();
         // 放入 redis 中

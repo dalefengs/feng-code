@@ -2,9 +2,12 @@ package cn.lzscxb.business.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.lzscxb.business.mapper.FengTaskJoinMapper;
 import cn.lzscxb.common.utils.DateUtils;
 import cn.lzscxb.common.utils.DictUtils;
 import cn.lzscxb.common.utils.SecurityUtils;
+import cn.lzscxb.domain.entity.FengTaskJoin;
 import cn.lzscxb.domain.entity.FengUsers;
 import cn.lzscxb.domain.model.LoginUser;
 import cn.lzscxb.domain.model.ProblemCreateBody;
@@ -26,6 +29,9 @@ public class FengProblemServiceImpl implements IFengProblemService
 {
     @Autowired
     private FengProblemMapper fengProblemMapper;
+
+    @Autowired
+    private FengTaskJoinMapper fengTaskJoinMapper;
 
     /**
      * 查询题目管理
@@ -71,6 +77,21 @@ public class FengProblemServiceImpl implements IFengProblemService
     {
         // TODO 查询当前用户题目的状态
         return fengProblemMapper.selectFengProblemList(fengProblem);
+    }
+
+    /**
+     * 查询首页题目管理列表
+     *
+     * @param fengProblem 题目管理
+     * @return 题目管理
+     */
+    @Override
+    public List<FengProblem> selectFengProblemTaskList(FengProblem fengProblem)
+    {
+        // TODO 查询当前用户题目的状态
+        Long userId = SecurityUtils.getUserId();
+        fengProblem.setCurrentUserId(userId);
+        return fengProblemMapper.selectFengProblemTaskList(fengProblem);
     }
 
     /**

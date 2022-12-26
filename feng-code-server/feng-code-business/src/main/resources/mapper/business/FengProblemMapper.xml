@@ -57,7 +57,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             </if>
         </where>
     </select>
-    
+
+    <select id="selectFengProblemTaskList" parameterType="cn.lzscxb.domain.entity.FengProblem" resultMap="FengProblemResult">
+        <include refid="selectFengProblemVo"/>
+        <where>
+            <if test="title != null  and title != ''"> and p.title like concat('%', #{title}, '%')</if>
+            <if test="level != null "> and p.level = #{level}</if>
+            <if test="categoryId != null "> and p.category_id = #{categoryId}</if>
+            <if test="tagId != null "> and p.tag_id = #{tagId}</if>
+            <if test="isAuto != null "> and p.is_auto = #{isAuto}</if>
+            <if test="language != null  and language != ''"> and p.language = #{language}</if>
+            <if test="createTime != null "> and p.create_time = #{createTime}</if>
+            <if test="taskId != null ">
+                and p.id in (select problem_id from feng_task_problem where task_id = #{taskId})
+            </if>
+        </where>
+    </select>
+
     <select id="selectFengProblemById" parameterType="Long" resultMap="FengProblemResult">
         <include refid="selectFengProblemVo"/>
         where p.id = #{id}
@@ -153,4 +169,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
+
 </mapper>

@@ -61,16 +61,14 @@
           <img :src="text" style="max-width: 100px; height: auto" alt="">
         </span>
         <span slot="operation" slot-scope="text, record">
-          <a-divider type="vertical" v-hasPermi="['business:task:management']" />
-          <a @click="goManagement(record)" v-hasPermi="['business:task:management']">
+          <a @click="goManagement(record)" v-hasPermi="['business:task:list']">
             <a-icon type="solution" /> 管理计划
           </a>
-          <a-divider type="vertical" v-hasPermi="['business:superviseClass:management']" />
+          <a-divider type="vertical" v-hasPermi="['business:task:superviseClass']" />
           <a @click="goSuperviseClass(record)" v-hasPermi="['business:task:superviseClass']">
             <a-icon type="solution" /> 管理班级
           </a>
           <br>
-          <a-divider type="vertical" v-hasPermi="['business:task:edit']" />
           <a @click="$refs.createForm.handleUpdate(record, undefined)" v-hasPermi="['business:task:edit']">
             <a-icon type="edit" /> 修改
           </a>
