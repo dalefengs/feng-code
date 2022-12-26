@@ -141,6 +141,12 @@ export default {
           align: 'center'
         },
         {
+          title: '班级人数',
+          dataIndex: 'classCount',
+          ellipsis: true,
+          align: 'center'
+        },
+        {
           title: '创建时间',
           dataIndex: 'createTime',
           scopedSlots: { customRender: 'createTime' },

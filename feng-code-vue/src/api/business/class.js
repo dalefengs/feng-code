@@ -9,6 +9,15 @@ export function listClass (query) {
   })
 }
 
+// 查询班级管理列表
+export function listClassByTaskId (query) {
+  return request({
+    url: '/business/class/list-by-task-id',
+    method: 'get',
+    params: query
+  })
+}
+
 // 通过学院 Id 查询班级管理列表
 export function listClassByCollegeId (query) {
   return request({
