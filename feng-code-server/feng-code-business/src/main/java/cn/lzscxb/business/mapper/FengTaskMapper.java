@@ -17,7 +17,7 @@ public interface FengTaskMapper
      * @param id 学习任务主键
      * @return 学习任务
      */
-    public FengTask selectFengTaskById(Long id);
+    public FengTask selectFengTaskById(FengTask fengTask);
 
     /**
      * 查询学习任务列表

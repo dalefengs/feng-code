@@ -8,6 +8,7 @@ import cn.lzscxb.business.mapper.FengTaskMapper;
 import cn.lzscxb.common.utils.DateUtils;
 import cn.lzscxb.common.utils.SecurityUtils;
 import cn.lzscxb.domain.entity.FengClass;
+import cn.lzscxb.domain.entity.FengTask;
 import lombok.extern.slf4j.Slf4j;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,7 +74,9 @@ public class FengTaskJoinServiceImpl implements IFengTaskJoinService
         fengTaskJoin.setUserId(SecurityUtils.getUserId());
         List<FengTaskJoin> fengTaskJoins = fengTaskJoinMapper.selectFengTaskJoinMyTaskList(fengTaskJoin);
         for (FengTaskJoin taskJoin : fengTaskJoins) {
-            taskJoin.setFengTaskInfo(fengTaskMapper.selectFengTaskById(taskJoin.getTaskId()));
+            FengTask fengTask = new FengTask();
+            fengTask.setId(taskJoin.getId());
+            taskJoin.setFengTaskInfo(fengTaskMapper.selectFengTaskById(fengTask));
         }
         return fengTaskJoins;
     }

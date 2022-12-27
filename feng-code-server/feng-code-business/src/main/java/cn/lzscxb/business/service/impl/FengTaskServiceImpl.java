@@ -2,6 +2,7 @@ package cn.lzscxb.business.service.impl;
 
 import java.util.List;
 import cn.lzscxb.common.utils.DateUtils;
+import cn.lzscxb.common.utils.SecurityUtils;
 import cn.lzscxb.domain.entity.FengTaskProblem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,11 @@ public class FengTaskServiceImpl implements IFengTaskService
     @Override
     public FengTask selectFengTaskById(Long id)
     {
-        return fengTaskMapper.selectFengTaskById(id);
+        FengTask task = new FengTask();
+        task.setId(id);
+        task.setCurrentUserId(SecurityUtils.getUserId());
+        FengTask fengTask = fengTaskMapper.selectFengTaskById(task);
+        return fengTask;
     }
 
     /**

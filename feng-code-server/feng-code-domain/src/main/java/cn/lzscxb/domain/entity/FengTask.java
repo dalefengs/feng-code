@@ -27,6 +27,11 @@ public class FengTask extends BaseEntity {
     private Integer teacherId;
 
     /**
+     * 当前用户Id
+     */
+    private Long CurrentUserId;
+
+    /**
      * 学习任务名称
      */
     @Excel(name = "学习任务名称")
@@ -46,4 +51,14 @@ public class FengTask extends BaseEntity {
 
     @Excel(name = "任务简介说明")
     private String taskExplain;
+
+    private String isJoin;
+
+    public String getIsJoin() {
+        return isJoin;
+    }
+
+    public void setIsJoin(String isJoin) {
+        this.isJoin = isJoin;
+    }
 }
