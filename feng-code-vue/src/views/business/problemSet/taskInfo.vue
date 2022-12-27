@@ -1,6 +1,6 @@
 <template>
   <a-card class="body">
-    <div class="go-back" @click="$router.push({ path: '/problemSet' })">
+    <div class="go-back" @click="$router.go(-1)">
       <a-icon type="caret-left" style="margin-right: 8px;" />
       <span>返回</span>
     </div>

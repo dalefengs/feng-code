@@ -35,6 +35,8 @@ public class FengTaskJoin extends BaseEntity
     /** 学习任务 */
     private Long taskId;
 
+    private FengTask fengTaskInfo;
+
     /** 学习任务 */
     private List<Long> classIds;
 

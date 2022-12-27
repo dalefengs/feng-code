@@ -65,4 +65,5 @@ public interface FengTaskJoinMapper
 
     public int batchInsertTaskJoin(List<FengTaskJoin> list);
 
+    List<FengTaskJoin> selectFengTaskJoinMyTaskList(FengTaskJoin fengTaskJoin);
 }

@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.lzscxb.business.mapper.FengClassMapper;
+import cn.lzscxb.business.mapper.FengTaskMapper;
 import cn.lzscxb.common.utils.DateUtils;
+import cn.lzscxb.common.utils.SecurityUtils;
 import cn.lzscxb.domain.entity.FengClass;
 import lombok.extern.slf4j.Slf4j;
 import org.checkerframework.checker.units.qual.A;
@@ -32,6 +34,9 @@ public class FengTaskJoinServiceImpl implements IFengTaskJoinService
     @Autowired
     private FengTaskJoinMapper fengTaskJoinMapper;
 
+    @Autowired
+    private FengTaskMapper fengTaskMapper;
+
     /**
      * 查询学习任务学生参与
      * 
@@ -54,6 +59,23 @@ public class FengTaskJoinServiceImpl implements IFengTaskJoinService
     public List<FengTaskJoin> selectFengTaskJoinList(FengTaskJoin fengTaskJoin)
     {
         return fengTaskJoinMapper.selectFengTaskJoinList(fengTaskJoin);
+    }
+
+    /**
+     * 查询学习任务学生参与列表
+     *
+     * @param fengTaskJoin 学习任务学生参与
+     * @return 学习任务学生参与
+     */
+    @Override
+    public List<FengTaskJoin> selectFengTaskJoinMyTaskList(FengTaskJoin fengTaskJoin)
+    {
+        fengTaskJoin.setUserId(SecurityUtils.getUserId());
+        List<FengTaskJoin> fengTaskJoins = fengTaskJoinMapper.selectFengTaskJoinMyTaskList(fengTaskJoin);
+        for (FengTaskJoin taskJoin : fengTaskJoins) {
+            taskJoin.setFengTaskInfo(fengTaskMapper.selectFengTaskById(taskJoin.getTaskId()));
+        }
+        return fengTaskJoins;
     }
 
 

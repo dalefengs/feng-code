@@ -66,4 +66,6 @@ public interface IFengTaskJoinService
      * @return 
      */
     int insertFengTaskJoinByClass(FengTaskJoin fengTaskJoin);
+
+    List<FengTaskJoin> selectFengTaskJoinMyTaskList(FengTaskJoin fengTaskJoin);
 }

@@ -47,6 +47,18 @@ public class FengTaskJoinController extends BaseController
     }
 
     /**
+     * 查询学习任务学生参与列表
+     */
+    @PreAuthorize("@ss.hasPermi('business:taskJoin:my-task-list')")
+    @GetMapping("/my-task-list")
+    public TableDataInfo myTaskList(FengTaskJoin fengTaskJoin)
+    {
+        startPage();
+        List<FengTaskJoin> list = fengTaskJoinService.selectFengTaskJoinMyTaskList(fengTaskJoin);
+        return getDataTable(list);
+    }
+
+    /**
      * 导出学习任务学生参与列表
      */
     @PreAuthorize("@ss.hasPermi('business:taskJoin:export')")
