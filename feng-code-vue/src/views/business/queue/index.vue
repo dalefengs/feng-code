@@ -1,75 +1,73 @@
 <template>
-  <page-header-wrapper>
-    <a-card :bordered="false">
-      <!-- 条件搜索 -->
-      <div class="table-page-search-wrapper">
-        <a-form layout="inline">
-          <a-row :gutter="48">
-            <a-col :md="6" :sm="24">
-              <a-form-item label="昵称" prop="userId">
-                <a-input v-model="queryParam.nickname" placeholder="请输入用户昵称" allow-clear/>
-              </a-form-item>
-            </a-col>
-            <a-col :md="6" :sm="24">
-              <a-form-item label="题目标题" prop="title">
-                <a-input v-model="queryParam.title" placeholder="请输入题目标题" allow-clear/>
-              </a-form-item>
-            </a-col>
-            <a-col :md="5" :sm="24">
-              <a-form-item label="语言类型" prop="type">
-                <a-select placeholder="请选择语言类型" v-model="queryParam.type" style="width: 100%" allow-clear>
-                  <a-select-option key="-1" :value="-1">全部语言</a-select-option>
-                  <a-select-option v-for="(d, index) in dict.type.code_language" :key="index" :value="d.value">{{ d.label }}</a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
-            <a-col :md="5" :sm="24">
-              <a-form-item label="状态" prop="status">
-                <a-select placeholder="请选择状态" v-model="queryParam.status" style="width: 100%" allow-clear>
-                  <a-select-option v-for="(d, index) in dict.type.queue_status" :key="index" :value="d.value">{{ d.label }}</a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
-            <a-col :md="!advanced && 2 || 24" :sm="24">
-              <span class="table-page-search-submitButtons" :style="advanced && { float: 'right', overflow: 'hidden' } || {} ">
-                <a-button type="primary" @click="handleQuery"><a-icon type="search" />查询</a-button>
-              </span>
-            </a-col>
-          </a-row>
-        </a-form>
-      </div>
-      <!-- 数据展示 -->
-      <a-table
-        :loading="loading"
-        :size="tableSize"
-        rowKey="id"
-        :columns="columns"
-        :data-source="list"
-        :pagination="false"
-        :bordered="tableBordered"
-        @change="tableChange"
-      >
-        <span slot="type" slot-scope="text, record">
-          <dict-tag :options="dict.type['code_language']" :value="record.type"/>
-        </span>
-        <span slot="status" slot-scope="text, record">
-          <dict-tag :options="dict.type['queue_status']" :value="record.status"/>
-        </span>
-      </a-table>
-      <!-- 分页 -->
-      <a-pagination
-        class="ant-table-pagination"
-        show-size-changer
-        show-quick-jumper
-        :current="queryParam.pageNum"
-        :total="total"
-        :page-size="queryParam.pageSize"
-        :showTotal="total => `共 ${total} 条`"
-        @showSizeChange="onShowSizeChange"
-        @change="changeSize"
-      />
-    </a-card>
-  </page-header-wrapper>
+  <a-card :bordered="false" class="body">
+    <!-- 条件搜索 -->
+    <div class="table-page-search-wrapper">
+      <a-form layout="inline">
+        <a-row :gutter="48">
+          <a-col :md="5" :sm="24">
+            <a-form-item label="昵称" prop="userId">
+              <a-input v-model="queryParam.nickname" placeholder="请输入昵称" allow-clear/>
+            </a-form-item>
+          </a-col>
+          <a-col :md="5" :sm="24">
+            <a-form-item label="题目标题" prop="title">
+              <a-input v-model="queryParam.title" placeholder="请输入标题" allow-clear/>
+            </a-form-item>
+          </a-col>
+          <a-col :md="5" :sm="24">
+            <a-form-item label="语言类型" prop="type">
+              <a-select placeholder="请选择语言类型" v-model="queryParam.type" style="width: 100%" allow-clear>
+                <a-select-option key="-1" :value="-1">全部语言</a-select-option>
+                <a-select-option v-for="(d, index) in dict.type.code_language" :key="index" :value="d.value">{{ d.label }}</a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+          <a-col :md="5" :sm="24">
+            <a-form-item label="状态" prop="status">
+              <a-select placeholder="请选择状态" v-model="queryParam.status" style="width: 100%" allow-clear>
+                <a-select-option v-for="(d, index) in dict.type.queue_status" :key="index" :value="d.value">{{ d.label }}</a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+          <a-col :md="!advanced && 2 || 24" :sm="24">
+            <span class="table-page-search-submitButtons" :style="advanced && { float: 'right', overflow: 'hidden' } || {} ">
+              <a-button type="primary" @click="handleQuery"><a-icon type="search" />查询</a-button>
+            </span>
+          </a-col>
+        </a-row>
+      </a-form>
+    </div>
+    <!-- 数据展示 -->
+    <a-table
+      :loading="loading"
+      :size="tableSize"
+      rowKey="id"
+      :columns="columns"
+      :data-source="list"
+      :pagination="false"
+      :bordered="tableBordered"
+      @change="tableChange"
+    >
+      <span slot="type" slot-scope="text, record">
+        <dict-tag :options="dict.type['code_language']" :value="record.type"/>
+      </span>
+      <span slot="status" slot-scope="text, record">
+        <dict-tag :options="dict.type['queue_status']" :value="record.status"/>
+      </span>
+    </a-table>
+    <!-- 分页 -->
+    <a-pagination
+      class="ant-table-pagination"
+      show-size-changer
+      show-quick-jumper
+      :current="queryParam.pageNum"
+      :total="total"
+      :page-size="queryParam.pageSize"
+      :showTotal="total => `共 ${total} 条`"
+      @showSizeChange="onShowSizeChange"
+      @change="changeSize"
+    />
+  </a-card>
 </template>
 
 <script>
@@ -136,7 +134,7 @@ export default {
           scopedSlots: { customRender: 'status' },
           ellipsis: true,
           align: 'center'
-        },
+        }/* ,
         {
           title: '执行信息',
           dataIndex: 'successMsg',
@@ -148,7 +146,7 @@ export default {
           dataIndex: 'errorMsg',
           ellipsis: true,
           align: 'center'
-        }
+        } */
       ]
     }
   },
@@ -253,3 +251,12 @@ export default {
   }
 }
 </script>
+<style lang="less">
+.body {
+  padding: 0 10px;
+  margin: 0 auto;
+  max-width: 1280px;
+  min-width: 700px;
+  height: 100%;
+}
+</style>

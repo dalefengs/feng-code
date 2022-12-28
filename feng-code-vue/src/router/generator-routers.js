@@ -17,7 +17,6 @@ const constantRouterComponents = {
   // 你需要动态引入的页面组件
   'Index': () => import('@/views/index'),
   // account
-  'AccountCenter': () => import('@/views/account/center'),
   'AccountSettings': () => import('@/views/account/settings'),
   // job log
   'JobLog': () => import('@/views/monitor/job/log'),

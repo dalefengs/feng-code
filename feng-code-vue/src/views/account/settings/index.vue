@@ -1,5 +1,5 @@
 <template>
-  <div class="page-header-index-wide">
+  <div class="page-header-index-wide body">
     <a-card :bordered="false" :bodyStyle="{ padding: '16px 0', height: '100%' }" :style="{ height: '100%' }">
       <div class="account-settings-info-main" :class="{ 'mobile': isMobile }">
         <div class="account-settings-info-left">
@@ -58,6 +58,13 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  .body {
+    padding: 0 10px;
+    margin: 0 auto;
+    max-width: 1375px;
+    min-width: 600px;
+    height: 100%;
+  }
   .account-settings-info-main {
     width: 100%;
     display: flex;

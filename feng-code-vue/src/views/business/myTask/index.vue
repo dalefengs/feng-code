@@ -162,8 +162,8 @@ export default {
 .body {
   padding: 0 10px;
   margin: 0 auto;
-  width: 1280px;
-  min-width: 1280px;
+  max-width: 1280px;
+  min-width: 700px;
   height: 100%;
 }
 
