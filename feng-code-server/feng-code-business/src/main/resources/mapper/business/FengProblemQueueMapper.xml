@@ -57,6 +57,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectFengProblemQueueVo"/>
         where q.id = #{id}
     </select>
+
+    <!-- 查询当前用户的题目所有状态 -->
+    <select id="selectProblemQuqueStatusList"  resultType="java.lang.Integer">
+        select DISTINCT status from feng_problem_queue
+        where problem_id = #{problemId}
+        and user_id = #{userId}
+        <if test="taskId != null "> and task_id = #{taskId}</if>
+    </select>
         
     <insert id="insertFengProblemQueue" useGeneratedKeys="true" keyProperty="id" parameterType="cn.lzscxb.domain.entity.FengProblemQueue">
         insert into feng_problem_queue

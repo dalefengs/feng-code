@@ -1,17 +1,18 @@
 package cn.lzscxb.business.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
-import cn.lzscxb.business.mapper.FengTaskJoinMapper;
+import cn.lzscxb.business.mapper.FengProblemQueueMapper;
 import cn.lzscxb.common.utils.DateUtils;
 import cn.lzscxb.common.utils.DictUtils;
 import cn.lzscxb.common.utils.SecurityUtils;
-import cn.lzscxb.domain.entity.FengTaskJoin;
-import cn.lzscxb.domain.entity.FengUsers;
+import cn.lzscxb.domain.entity.FengProblemQueue;
 import cn.lzscxb.domain.model.LoginUser;
 import cn.lzscxb.domain.model.ProblemCreateBody;
 import com.alibaba.fastjson2.JSON;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cn.lzscxb.business.mapper.FengProblemMapper;
@@ -25,13 +26,14 @@ import cn.lzscxb.business.service.IFengProblemService;
  * @date 2022-11-21
  */
 @Service
+@Slf4j
 public class FengProblemServiceImpl implements IFengProblemService 
 {
     @Autowired
     private FengProblemMapper fengProblemMapper;
 
     @Autowired
-    private FengTaskJoinMapper fengTaskJoinMapper;
+    private FengProblemQueueMapper fengProblemQueueMapper;
 
     /**
      * 查询题目管理
@@ -75,8 +77,24 @@ public class FengProblemServiceImpl implements IFengProblemService
     @Override
     public List<FengProblem> selectFengProblemSetList(FengProblem fengProblem)
     {
-        // TODO 查询当前用户题目的状态
-        return fengProblemMapper.selectFengProblemList(fengProblem);
+        Long userId = SecurityUtils.getUserId();
+        List<FengProblem> fengProblems = fengProblemMapper.selectFengProblemList(fengProblem);
+        for (FengProblem problem : fengProblems) {
+            FengProblemQueue fengProblemQueue = new FengProblemQueue();
+            fengProblemQueue.setUserId(userId);
+            fengProblemQueue.setProblemId(problem.getId());
+            HashSet<Integer> statusList = fengProblemQueueMapper.selectProblemQuqueStatusList(fengProblemQueue);
+            if (statusList.contains(2)) { // 2 执行完成
+                problem.setOwnness(1); // 解答过
+            }else if (statusList.contains(5)) { // 5 待批阅
+                problem.setOwnness(3); // 待批阅
+            }else if (statusList.contains(3) || statusList.contains(4)) {
+                problem.setOwnness(2); // 尝试过
+            } else {
+                problem.setOwnness(0); // 未开始
+            }
+        }
+        return fengProblems;
     }
 
     /**
@@ -91,7 +109,23 @@ public class FengProblemServiceImpl implements IFengProblemService
         // TODO 查询当前用户题目的状态
         Long userId = SecurityUtils.getUserId();
         fengProblem.setCurrentUserId(userId);
-        return fengProblemMapper.selectFengProblemTaskList(fengProblem);
+        List<FengProblem> fengProblems = fengProblemMapper.selectFengProblemTaskList(fengProblem);
+        for (FengProblem problem : fengProblems) {
+            FengProblemQueue fengProblemQueue = new FengProblemQueue();
+            fengProblemQueue.setUserId(userId);
+            fengProblemQueue.setProblemId(problem.getId());
+            HashSet<Integer> statusList = fengProblemQueueMapper.selectProblemQuqueStatusList(fengProblemQueue);
+            if (statusList.contains(2)) { // 2 执行完成
+                problem.setOwnness(1); // 解答过
+            }else if (statusList.contains(5)) { // 5 待批阅
+                problem.setOwnness(3); // 待批阅
+            }else if (statusList.contains(3) || statusList.contains(4)) {
+                problem.setOwnness(2); // 尝试过
+            } else {
+                problem.setOwnness(0); // 未开始
+            }
+        }
+        return fengProblems;
     }
 
     /**

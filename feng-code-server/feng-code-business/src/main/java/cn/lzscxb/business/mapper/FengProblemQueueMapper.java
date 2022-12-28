@@ -1,6 +1,9 @@
 package cn.lzscxb.business.mapper;
 
+import java.util.HashSet;
 import java.util.List;
+
+import cn.lzscxb.domain.entity.FengProblem;
 import cn.lzscxb.domain.entity.FengProblemQueue;
 
 /**
@@ -60,4 +63,6 @@ public interface FengProblemQueueMapper
     public int deleteFengProblemQueueByIds(Long[] ids);
 
     List<FengProblemQueue> selectSubmitList(FengProblemQueue fengProblemQueue);
+
+    HashSet<Integer> selectProblemQuqueStatusList(FengProblemQueue problemQueue);
 }

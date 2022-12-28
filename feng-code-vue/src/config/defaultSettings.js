@@ -59,10 +59,8 @@ const topmenu = {
 export function dynamicMenu (roles) {
   if (!roles) {
     roles = storage.get(ROLES)
-    console.log(`roles is false, get storage:`, roles)
   }
   // 如果是学生
-  console.log('dynamicMenu Roles', roles)
   if (roles && isDesignatedRole(roles, STUDENT_ROLE)) {
     return topmenu
   } else {

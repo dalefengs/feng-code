@@ -12,13 +12,14 @@
         </span>
         <a-badge
           v-else
+          v-show="showBadge"
           :key="item.value"
           :index="index"
           :status="item.listClass === 'danger' ? 'error' : (item.listClass === 'success' ? 'success' : (item.listClass === 'warning' ? 'warning' : 'processing'))"
           :class="item.raw.cssClass"
-          :text="item.label"
         >
-        </a-badge>
+        </a-badge>{{ item.label }}
+
       </template>
     </template>
   </div>
@@ -35,6 +36,10 @@ export default {
     value: {
       type: [Number, String, Array],
       default: null
+    },
+    showBadge: {
+      type: Boolean,
+      default: true
     }
   },
   computed: {

@@ -40,12 +40,44 @@
         :customRow="problemRowClick"
         @change="tableChange"
       >
+        <div slot="ownness" slot-scope="text, record">
+          <div v-if="text === 1" class="ownness" > <!-- 已解答 -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              style="color: rgb(45 181 93)"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M20 12.005v-.828a1 1 0 112 0v.829a10 10 0 11-5.93-9.14 1 1 0 01-.814 1.826A8 8 0 1020 12.005zM8.593 10.852a1 1 0 011.414 0L12 12.844l8.293-8.3a1 1 0 011.415 1.413l-9 9.009a1 1 0 01-1.415 0l-2.7-2.7a1 1 0 010-1.414z"
+                clip-rule="evenodd"></path>
+            </svg>
+            <dict-tag :showBadge="false" :options="dict.type['ownness']" :value="record.ownness" />
+          </div>
+          <div v-if="text === 2" class="ownness"> <!-- 尝试过 -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="1em"
+              height="1em"
+              fill="currentColor"
+              style="color: orange">
+              <path fill-rule="evenodd" d="M8.972 3a1 1 0 01.964.649l4.978 13.274 1.632-5.221A1 1 0 0117.5 11H21a1 1 0 110 2h-2.765l-2.28 7.298a1 1 0 01-1.891.053L9.086 7.077l-1.632 5.221A1 1 0 016.5 13H3a1 1 0 110-2h2.765l2.28-7.298A1 1 0 018.973 3z" clip-rule="evenodd"></path>
+            </svg>
+            <dict-tag :showBadge="false" :options="dict.type['ownness']" :value="record.ownness" />
+          </div>
+          <div v-if="text === 3" class="ownness"> <!-- 待批阅 -->
+            <a-icon class="ownness-icon" type="file-search" style="color: #1890ff" />
+            <dict-tag :showBadge="false" :options="dict.type['ownness']" :value="record.ownness" />
+          </div>
+        </div>
         <span slot="level" slot-scope="text, record">
           <dict-tag :options="dict.type['difficulty_level']" :value="record.level" />
         </span>
-        <span slot="ownness" slot-scope="text, record">
-          <dict-tag :options="dict.type['ownness']" :value="record.ownness" />
-        </span>
+
       </a-table>
       <!-- 分页 -->
       <a-pagination
@@ -216,6 +248,19 @@ export default {
   width: 950px;
   min-width: 950px;
   height: 100%;
+}
+
+.ownness {
+  vertical-align: middle;
+  svg, .ownness-icon {
+    font-size: 18px;
+    margin-right: 4px;
+    vertical-align: middle;
+  }
+  div {
+    display: inline-block;
+    vertical-align: middle;
+  }
 }
 
 .cover-block {
