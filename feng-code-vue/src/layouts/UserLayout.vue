@@ -4,8 +4,8 @@
       <div class="top">
         <div class="header">
           <a href="/">
-            <img src="~@/assets/logo.png" class="logo" alt="logo">
-            <span class="title">FengCode</span>
+            <img src="~@/assets/logo.png" class="custom-logo" alt="logo">
+            <!--            <span class="title">FengCode</span>-->
           </a>
         </div>
         <div class="desc">
@@ -46,6 +46,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.custom-logo {
+  width: 256px !important;
+  height: auto !important;
+}
+
 #userLayout.user-layout-wrapper {
     height: 100%;
 
@@ -106,7 +111,7 @@ export default {
         .desc {
           font-size: 14px;
           color: rgba(0, 0, 0, 0.45);
-          margin-top: 12px;
+          margin-top: 55px;
           margin-bottom: 40px;
         }
       }

@@ -28,8 +28,8 @@
     -->
     <template v-slot:menuHeaderRender>
       <div>
-        <img src="~@/assets/logo.png" class="logo" alt="logo">
-        <h1>{{ title }}</h1>
+        <img src="~@/assets/logo-white.png" class="custom-logo-sidemenu" alt="logo" v-if="settings.layout === 'sidemenu'">
+        <img src="~@/assets/logo.png" class="custom-logo" alt="logo" v-else>
       </div>
     </template>
 
@@ -273,4 +273,18 @@ export default {
 
 <style lang="less">
 @import "./BasicLayout.less";
+
+.ant-pro-top-nav-header-logo img, .ant-pro-top-nav-header-logo svg {
+  width: unset;
+  height: unset;
+}
+.custom-logo {
+  width: 130px !important;
+  height: auto !important;
+}
+.custom-logo-sidemenu {
+  width: 140px !important;
+  height: auto !important;
+  margin-left: 20px;
+}
 </style>
