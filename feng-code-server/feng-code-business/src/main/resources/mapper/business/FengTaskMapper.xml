@@ -31,8 +31,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <select id="selectFengTaskById" parameterType="Long" resultMap="FengTaskResult">
         select t.id, t.teacher_id, t.title, t.sub_title, t.img_url, t.task_explain, t.create_by, t.create_time,
-        t.update_by, t.update_time,
-        ifnull((select 1 from feng_task_join where task_id = t.id and user_id = #{currentUserId}), 0) as is_join
+        t.update_by, t.update_time
+        <if test="currentUserId != null">
+        ,ifnull((select 1 from feng_task_join where task_id = t.id and user_id = #{currentUserId}), 0) as is_join
+        </if>
         from feng_task as t
         where t.id = #{id}
     </select>

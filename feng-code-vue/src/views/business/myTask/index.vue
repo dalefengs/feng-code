@@ -87,6 +87,7 @@ export default {
         {
           title: '学习任务名称',
           scopedSlots: { customRender: 'title' },
+          dataIndex: 'fengTaskInfo.title',
           ellipsis: true,
           align: 'left'
         },
@@ -161,8 +162,8 @@ export default {
 .body {
   padding: 0 10px;
   margin: 0 auto;
-  width: 950px;
-  min-width: 950px;
+  width: 1280px;
+  min-width: 1280px;
   height: 100%;
 }
 

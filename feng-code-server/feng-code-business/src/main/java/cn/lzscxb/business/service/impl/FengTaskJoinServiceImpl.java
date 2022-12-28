@@ -75,7 +75,7 @@ public class FengTaskJoinServiceImpl implements IFengTaskJoinService
         List<FengTaskJoin> fengTaskJoins = fengTaskJoinMapper.selectFengTaskJoinMyTaskList(fengTaskJoin);
         for (FengTaskJoin taskJoin : fengTaskJoins) {
             FengTask fengTask = new FengTask();
-            fengTask.setId(taskJoin.getId());
+            fengTask.setId(taskJoin.getTaskId());
             taskJoin.setFengTaskInfo(fengTaskMapper.selectFengTaskById(fengTask));
         }
         return fengTaskJoins;
@@ -116,6 +116,7 @@ public class FengTaskJoinServiceImpl implements IFengTaskJoinService
     public int insertFengTaskJoin(FengTaskJoin fengTaskJoin)
     {
         fengTaskJoin.setCreateTime(DateUtils.getNowDate());
+        fengTaskJoin.setUserId(SecurityUtils.getUserId());
         return fengTaskJoinMapper.insertFengTaskJoin(fengTaskJoin);
     }
 

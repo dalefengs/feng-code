@@ -6,18 +6,28 @@
     </div>
     <div class="task-tilte">
       <div class="task-tilte-left">
-        <img :src="taskInfo.imgUrl" alt="" class="task-img">
+        <img :src="taskInfo.imgUrl" alt="" class="task-img" v-show="taskInfo.imgUrl">
       </div>
-      <div class="task-tilte-right">
+      <div class="task-tilte-center">
         <span>{{ taskInfo.title }}</span>
         <br>
         <div class="task-sub-title">
           <h1>{{ taskInfo.subTitle }}</h1>
         </div>
       </div>
+      <div class="task-tilte-right" v-show="taskInfo.isJoin === '0'">
+        <a-button type="primary" @click="showConfirm">
+          立即参与
+        </a-button>
+      </div>
     </div>
     <div class="task-explain">{{ taskInfo.taskExplain }}</div>
-    <div style="margin-top: 24px">
+    <div style="margin-top: 24px; position: relative">
+      <div class="cover-block" v-show="taskInfo.isJoin === '0'">
+        <div class="cover-block-join">
+          <a-icon type="lock" />
+        </div>
+      </div>
       <!-- 数据展示 -->
       <a-table
         :loading="loading"
@@ -56,6 +66,7 @@
 <script>
 
 import { getTask } from '@/api/business/task'
+import { addTaskJoin } from '@/api/business/taskJoin'
 import { tableMixin } from '@/store/table-mixin'
 import { listProblemTask } from '@/api/business/problem'
 
@@ -133,10 +144,37 @@ export default {
       this.$router.replace({ path: '/problemSet' })
     }
     this.taskId = this.$route.params.id
-    getTask(this.taskId).then(res => { this.taskInfo = res.data })
+    getTask(this.taskId).then(res => {
+      this.taskInfo = res.data
+    })
     this.getList()
   },
   methods: {
+    showConfirm () {
+      const param = {
+        taskId: this.taskId
+      }
+      const self = this
+      this.$confirm({
+        title: '确认提示',
+        content: `您是否要参加 ${this.taskInfo.title} 学习计划？`,
+        onOk () {
+          return new Promise((resolve, reject) => {
+            addTaskJoin(param).then(res => {
+              if (res.code === 200) {
+                self.$message.success('加入学习计划成功！')
+                getTask(self.taskId).then(res => {
+                  self.taskInfo = res.data
+                })
+              }
+              resolve()
+            })
+          })
+        },
+        onCancel () {
+        }
+      })
+    },
     /** 查询题目管理列表 */
     getList () {
       this.loading = true
@@ -180,24 +218,52 @@ export default {
   height: 100%;
 }
 
+.cover-block {
+  position: absolute;
+  z-index: 2000;
+  background-color: rgba(0, 0, 0, 0.2);
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  .cover-block-join {
+    position: relative;
+    top: 50%;
+    margin-top: -20px;
+    display: inline-block;
+    z-index: 2001;
+    cursor: pointer;
+    width: 150px;
+    height: 50px;
+    line-height: 50px;
+    color: #ffffff;
+    text-align: center;
+    font-size: 50px;
+  }
+}
+
 .go-back{
   cursor: pointer;
 }
 
 .task-tilte {
   .task-tilte-left {
-    width: 100px;
+    width: 12%;
     height: 100px;
     margin-top: 22px;
     margin-right: 20px;
   }
-  .task-tilte-right {
+  .task-tilte-center {
+    width: 65%;
     vertical-align: middle;
     span {
       display: inline-block;
       font-weight: bold;
       font-size: 23px;
     }
+  }
+  .task-tilte-right {
+    width: 15%;
+    text-align: right;
   }
   div {
     display: inline-block;
