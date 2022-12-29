@@ -53,9 +53,13 @@ public interface FengProblemEverydayMapper
 
     /**
      * 批量删除每日一题
-     * 
+     *
      * @param ids 需要删除的数据主键集合
      * @return 结果
      */
     public int deleteFengProblemEverydayByIds(Long[] ids);
+
+    FengProblemEveryday selectFengProblemEverydayByDay(String date);
+
+    List<FengProblemEveryday> selectMonthList(FengProblemEveryday fengProblemEveryday);
 }

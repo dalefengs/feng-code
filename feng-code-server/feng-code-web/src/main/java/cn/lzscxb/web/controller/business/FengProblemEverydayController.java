@@ -45,6 +45,16 @@ public class FengProblemEverydayController extends BaseController
         List<FengProblemEveryday> list = fengProblemEverydayService.selectFengProblemEverydayList(fengProblemEveryday);
         return getDataTable(list);
     }
+    /**
+     * 查询当月每日一题列表
+     */
+    @PreAuthorize("@ss.hasPermi('business:everyday:month-list')")
+    @GetMapping("/month-list")
+    public AjaxResult monthList(FengProblemEveryday fengProblemEveryday)
+    {
+        List<FengProblemEveryday> list = fengProblemEverydayService.selectMonthList(fengProblemEveryday);
+        return AjaxResult.success(list);
+    }
 
     /**
      * 导出每日一题列表

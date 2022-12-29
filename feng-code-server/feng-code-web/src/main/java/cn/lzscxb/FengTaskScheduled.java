@@ -1,7 +1,9 @@
 package cn.lzscxb;
 
+import cn.lzscxb.business.service.impl.FengProblemEverydayServiceImpl;
 import cn.lzscxb.business.service.impl.FengProblemQueueServiceImpl;
 import cn.lzscxb.common.core.redis.RedisCache;
+import cn.lzscxb.common.utils.DateUtils;
 import cn.lzscxb.domain.constant.CacheConstants;
 import cn.lzscxb.domain.entity.FengProblemQueue;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +26,18 @@ public class FengTaskScheduled {
     @Autowired
     private FengProblemQueueServiceImpl fengProblemQueueService;
 
+    @Autowired
+    private FengProblemEverydayServiceImpl everydayService;
+
+    //    @Scheduled(cron = "0 0 0 * * ?") // 每日凌晨执行，正式环境
+    @Scheduled(cron = "0 0 */1 * * ?") // 每小时执行一次
+//    @Scheduled(fixedRate = 10000)
+    public void everydayAddProblem() {
+        log.info("每日一题 - 定时任务执行啦！ 当前时间：{} {}", DateUtils.getDate(), DateUtils.getTime());
+        everydayService.everydayAddProblem();
+
+    }
+
     @Scheduled(fixedRate = 100)
     public void executeQuque() {
 //        log.info("定时任务");
@@ -32,7 +46,7 @@ public class FengTaskScheduled {
             return;
         }
         try {
-            log.info("定时任务 - 正在执行任务 queueId: {}", ququeId);
+            log.info("执行代码 - 定时任务 - 正在执行任务 queueId: {}", ququeId);
             FengProblemQueue fengProblemQueue = fengProblemQueueService.excuteQuque(ququeId);
             if (fengProblemQueue != null && fengProblemQueue.getStatus() == 4 && fengProblemQueue.getRetryCount() < 3) { // 执行异常，重新执行
                 redisCache.cacheListRpush(CacheConstants.QUQUE_EXECUTE, ququeId);

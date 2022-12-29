@@ -133,14 +133,16 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
             } else {
                 // 执行成功
                 queueInfo.setStatus(2);
-                problemInfo.setSuccessCount(problemInfo.getSuccessCount() + 1); // 添加成功次数
+                if (problemInfo.getIsAuto() == 1 || queueInfo.getType() == 6) { // 待批阅状态
+                    queueInfo.setStatus(5);
+                }else {
+                    problemInfo.setSuccessCount(problemInfo.getSuccessCount() + 1); // 添加成功次数
+                }
                 if (joinInfo != null) {
                     joinInfo.setScore(100);
                 }
             }
-            if (problemInfo.getIsAuto() == 1 || queueInfo.getType() == 6) {
-                queueInfo.setStatus(5);
-            }
+
         } catch (Exception e) {
             // 执行失败
             queueInfo.setStatus(4);

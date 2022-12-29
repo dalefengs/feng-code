@@ -127,8 +127,32 @@
         <a-card class="right-shadow" style="margin-top: 64px">
           <!--    每日一题      -->
           <a-calendar :fullscreen="false" :header-render="headerRender" @panelChange="onPanelChange" @select="onCalendarSelect" >
-            <div slot="dateCellRender" slot-scope="value" title="666666" >
-              <a-badge status="processing" style=" width: 5px!important; margin-top: 0!important;" v-if="value.isSame(moment(), 'day')"/>
+            <div slot="dateFullCellRender" slot-scope="value" style="position: absolute; cursor: pointer">
+              <a-tooltip>
+                <template slot="title">
+                  {{ value.format('YYYY-MM-DD') }}
+                  {{ everydayListObj[value.format('YYYY-MM-DD')] ? everydayListObj[value.format('YYYY-MM-DD')].title : '暂无' }}
+                  <span v-if="everydayListObj[value.format('YYYY-MM-DD')]">
+                    <span v-if="everydayListObj[value.format('YYYY-MM-DD')].ownness === 1"> - 已解答</span>
+                    <span v-else-if="everydayListObj[value.format('YYYY-MM-DD')].ownness === 2"> - 尝试过</span>
+                    <span v-else> - 未开始</span>
+                  </span>
+                </template>
+                <td role="gridcell" class="ant-fullcalendar-cell">
+                  <div class="ant-fullcalendar-date">
+                    <div class="ant-fullcalendar-value">{{ value.date() }}</div>
+                    <div class="ant-fullcalendar-content"></div>
+                  </div>
+                </td>
+                <div style="width:100%; position: absolute; left: 35%; top: 18px">
+                  <div v-if="everydayListObj[value.format('YYYY-MM-DD')]" >
+                    <a-badge status="success" v-if="everydayListObj[value.format('YYYY-MM-DD')].ownness === 1" /> <!-- 已解答 -->
+                    <a-badge status="warning" v-else-if="everydayListObj[value.format('YYYY-MM-DD')].ownness === 2" /> <!-- 尝试过 -->
+                    <a-badge status="processing" v-else /> <!-- 未执行 -->
+                  </div>
+                </div>
+              </a-tooltip>
+
             </div>
           </a-calendar>
         </a-card>
@@ -157,7 +181,9 @@ import { listAllProblemCategory } from '@/api/business/problemCategory'
 import { listAllTags } from '@/api/business/tags'
 import { listProblemSet } from '@/api/business/problem'
 import { listTask } from '@/api/business/task'
+import { monthListEveryday } from '@/api/business/everyday'
 import { tableMixin } from '@/store/table-mixin'
+
 import moment from 'moment'
 
 export default {
@@ -168,6 +194,7 @@ export default {
     return {
       list: [],
       taskList: [],
+      everydayListObj: {},
       // 非单个禁用
       single: true,
       // 非多个禁用
@@ -244,7 +271,6 @@ export default {
     }
   },
   created () {
-    console.log('mommmm', moment().isSame(moment(), 'day'))
     listAllProblemCategory().then(res => {
       this.categoryList = res.data
     })
@@ -259,6 +285,7 @@ export default {
       this.taskList = res.rows
     })
     this.getList()
+    this.getEverydayList(moment())
   },
   watch: {
     'queryParam.categoryId': {
@@ -283,6 +310,19 @@ export default {
     }
   },
   methods: {
+    getEverydayList (momentObj) {
+      const dateTime = momentObj.format('YYYY-MM-DD HH:mm:ss')
+      const query = {
+        dateTime: dateTime
+      }
+      const obj = {}
+      monthListEveryday(query).then(res => {
+        res.data.forEach(item => {
+          obj[item.dateDay] = item
+        })
+        this.everydayListObj = Object.assign({}, this.everydayListObj, obj)
+      })
+    },
     /** 查询题目管理列表 */
     getList () {
       this.loading = true
@@ -291,7 +331,6 @@ export default {
       if (query.categoryId === 0) {
         query.categoryId = undefined
       }
-      console.log(this.queryParam)
       listProblemSet(query).then(response => {
         this.list = response.rows
         this.total = response.total
@@ -337,10 +376,16 @@ export default {
       this.handleQuery()
     },
     onPanelChange (value, mode) {
-      console.log(value, mode)
+      console.log('面板发生了更改', value, mode)
+      this.getEverydayList(value)
     },
+    // 日历点击话跳转
     onCalendarSelect (m) {
-      console.log(m.format())
+      const index = m.format('YYYY-MM-DD')
+      if (this.everydayListObj[index]) {
+        const everyday = this.everydayListObj[index]
+        this.$router.push({ path: '/problemSet/' + everyday.problemId, query: { everydayId: everyday.id } })
+      }
     },
     /* 渲染日历头部内容 */
     headerRender ({ value, type, onChange, onTypeChange }) {

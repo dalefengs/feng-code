@@ -60,4 +60,6 @@ public interface FengProblemMapper
     public int deleteFengProblemByIds(Long[] ids);
 
     List<FengProblem> selectFengProblemTaskList(FengProblem fengProblem);
+
+    List<Long> selectFengProblemAllIds();
 }

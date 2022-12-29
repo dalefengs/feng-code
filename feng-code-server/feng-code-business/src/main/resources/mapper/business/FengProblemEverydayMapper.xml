@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <resultMap type="cn.lzscxb.domain.entity.FengProblemEveryday" id="FengProblemEverydayResult">
         <result property="id"    column="id"    />
-        <result property="problemid"    column="problem_id"    />
+        <result property="problemId"    column="problem_id"    />
         <result property="title"    column="title"    />
         <result property="dateDay"    column="date_day"    />
         <result property="createBy"    column="create_by"    />
@@ -25,7 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectFengProblemEverydayList" parameterType="cn.lzscxb.domain.entity.FengProblemEveryday" resultMap="FengProblemEverydayResult">
         <include refid="selectFengProblemEverydayVo"/>
         <where>  
-            <if test="problemid != null "> and p.title like concat('%', #{title}, '%')</if>
+            <if test="problemId != null "> and p.title like concat('%', #{title}, '%')</if>
             <if test="dateDay != null "> and date_day = #{dateDay}</if>
         </where>
         order by e.date_day desc
@@ -35,11 +35,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectFengProblemEverydayVo"/>
         where e.id = #{id}
     </select>
+
+    <select id="selectFengProblemEverydayByDay" resultMap="FengProblemEverydayResult">
+        <include refid="selectFengProblemEverydayVo"/>
+        where e.date_day = #{date}
+    </select>
+
+    <select id="selectMonthList" resultMap="FengProblemEverydayResult">
+        <include refid="selectFengProblemEverydayVo"/>
+        where DATE_SUB(#{dateTime}, INTERVAL 40 DAY) &lt;= DATE(e.date_day);
+    </select>
         
     <insert id="insertFengProblemEveryday" parameterType="cn.lzscxb.domain.entity.FengProblemEveryday" useGeneratedKeys="true" keyProperty="id">
         insert into feng_problem_everyday
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="problemid != null">problem_id,</if>
+            <if test="problemId != null">problem_id,</if>
             <if test="dateDay != null">date_day,</if>
             <if test="createBy != null">create_by,</if>
             <if test="createTime != null">create_time,</if>
@@ -47,7 +57,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null">update_time,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="problemid != null">#{problemid},</if>
+            <if test="problemId != null">#{problemId},</if>
             <if test="dateDay != null">#{dateDay},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="createTime != null">#{createTime},</if>
@@ -59,7 +69,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateFengProblemEveryday" parameterType="cn.lzscxb.domain.entity.FengProblemEveryday">
         update feng_problem_everyday
         <trim prefix="SET" suffixOverrides=",">
-            <if test="problemid != null">problem_id = #{problemid},</if>
+            <if test="problemId != null">problem_id = #{problemId},</if>
             <if test="dateDay != null">date_day = #{dateDay},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
@@ -79,4 +89,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
 </mapper>

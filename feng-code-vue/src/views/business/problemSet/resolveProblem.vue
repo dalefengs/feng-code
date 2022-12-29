@@ -177,6 +177,7 @@ export default {
       errorMsg: '',
       msg: '',
       taskId: 0,
+      everydayId: 0,
       submitList: [], // 提交列表
       submitParam: {
         type: -1
@@ -220,6 +221,9 @@ export default {
     if (this.$route.query.taskId) {
       this.taskId = this.$route.query.taskId
     }
+    if (this.$route.query.everydayId) {
+      this.everydayId = this.$route.query.everydayId
+    }
     this.id = this.$route.params.id
     this.getProblemInfo()
     this.getSubmitList()
@@ -243,6 +247,7 @@ export default {
       data.type = this.$refs.editCode.languageKey
       data.problemId = this.id
       data.taskId = this.$route.query.taskId
+      data.everydayId = this.$route.query.everydayId
 
       console.log('submit data', data)
       addQueue(data).then(res => {
@@ -295,6 +300,7 @@ export default {
     getSubmitList () {
       this.submitParam.problemId = this.id
       this.submitParam.taskId = this.taskId
+      this.submitParam.everydayId = this.everydayId
       submitListQueue(this.submitParam).then(res => {
         this.submitList = res.data
       })

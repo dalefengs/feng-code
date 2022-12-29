@@ -23,10 +23,6 @@ public class FengProblemQueueServiceTest {
     @Autowired
     private FengProblemQueueServiceImpl fengProblemQueueService;
 
-
-    @Autowired
-    private FengProblemMapper fengProblemMapper;
-
     @Autowired
     private RedisCache redisCache;
 

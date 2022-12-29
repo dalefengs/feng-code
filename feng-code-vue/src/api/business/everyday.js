@@ -9,6 +9,15 @@ export function listEveryday (query) {
   })
 }
 
+// 查询每日一题列表
+export function monthListEveryday (query) {
+  return request({
+    url: '/business/everyday/month-list',
+    method: 'get',
+    params: query
+  })
+}
+
 // 查询每日一题详细
 export function getEveryday (id) {
   return request({

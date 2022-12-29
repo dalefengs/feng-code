@@ -11,6 +11,12 @@ import cn.lzscxb.domain.entity.FengProblemEveryday;
  */
 public interface IFengProblemEverydayService 
 {
+
+    public void everydayAddProblem();
+
+
+    public List<FengProblemEveryday> selectMonthList(FengProblemEveryday fengProblemEveryday);
+
     /**
      * 查询每日一题
      * 

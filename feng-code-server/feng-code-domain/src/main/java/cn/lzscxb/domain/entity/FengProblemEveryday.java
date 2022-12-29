@@ -24,7 +24,11 @@ public class FengProblemEveryday extends BaseEntity
 
     /** 题目id */
     @Excel(name = "题目id")
-    private Long problemid;
+    private Long problemId;
+
+    private Long currentUserId;
+
+    private Integer ownness;
 
     /** 题目标题 */
     @Excel(name = "题目标题")
@@ -35,44 +39,6 @@ public class FengProblemEveryday extends BaseEntity
     @Excel(name = "当天时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date dateDay;
 
-    public void setId(Long id) 
-    {
-        this.id = id;
-    }
+    private String dateTime;
 
-    public Long getId() 
-    {
-        return id;
-    }
-    public void setProblemid(Long problemid) 
-    {
-        this.problemid = problemid;
-    }
-
-    public Long getProblemid() 
-    {
-        return problemid;
-    }
-    public void setDateDay(Date dateDay) 
-    {
-        this.dateDay = dateDay;
-    }
-
-    public Date getDateDay() 
-    {
-        return dateDay;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("problemid", getProblemid())
-            .append("dateDay", getDateDay())
-            .append("createBy", getCreateBy())
-            .append("createTime", getCreateTime())
-            .append("updateBy", getUpdateBy())
-            .append("updateTime", getUpdateTime())
-            .toString();
-    }
 }
