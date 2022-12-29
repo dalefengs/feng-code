@@ -29,6 +29,7 @@ import { getDicts } from '@/api/system/dict/data'
 import { getConfigKey } from '@/api/system/config'
 import { parseTime, resetForm, addDateRange, selectDictLabel, selectDictLabels, handleTree, tableSorter } from '@/utils/ruoyi'
 import { download } from '@/utils/request'
+import moment from 'moment'
 
 // 全局方法挂载
 Vue.prototype.getDicts = getDicts
@@ -57,6 +58,12 @@ Vue.component('dict-tag', DictTag)
 Vue.use(permission)
 Vue.use(style)
 DictData.install()
+
+Vue.prototype.moment = moment
+
+Vue.prototype.log = function log (...arg) {
+  return console.log(...arg)
+}
 
 window.umi_plugin_ant_themeVar = themePluginConfig.theme
 new Vue({

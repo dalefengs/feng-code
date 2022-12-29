@@ -9,6 +9,15 @@ export function listQueue (query) {
   })
 }
 
+// 查询任务管理列表
+export function listRank (query) {
+  return request({
+    url: '/business/queue/rank-list',
+    method: 'get',
+    params: query
+  })
+}
+
 // 提交记录
 export function submitListQueue (query) {
   return request({

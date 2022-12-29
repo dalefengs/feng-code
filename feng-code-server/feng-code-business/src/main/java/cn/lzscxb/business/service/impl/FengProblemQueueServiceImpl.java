@@ -18,6 +18,8 @@ import cn.lzscxb.domain.constant.CacheConstants;
 import cn.lzscxb.domain.entity.FengProblem;
 import cn.lzscxb.domain.entity.FengTaskJoin;
 import cn.lzscxb.domain.model.ExecuteResult;
+import cn.lzscxb.domain.page.PageDomain;
+import cn.lzscxb.domain.page.TableSupport;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONException;
 import com.github.dockerjava.api.command.CreateContainerResponse;
@@ -66,6 +68,21 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
      * 存放执行任务的题目信息
      */
     private FengProblem problemInfo;
+
+
+    @Override
+    public List<FengProblemQueue> selectFengProblemRankList(FengProblemQueue fengProblemQueue) {
+        List<FengProblemQueue> fengProblemQueues = fengProblemQueueMapper.selectFengProblemRankList(fengProblemQueue);
+        PageDomain pageDomain = TableSupport.buildPageRequest();
+        Integer pageNum = pageDomain.getPageNum();
+        Integer pageSize = pageDomain.getPageSize();
+        log.info("当前 PageNum:{}, pageSize: {}", pageNum, pageSize);
+        int ranking = (pageNum - 1) * pageSize;
+        for (int i = 0; i < fengProblemQueues.size(); i++) {
+            fengProblemQueues.get(i).setRanking(ranking + i + 1);
+        }
+        return fengProblemQueues;
+    }
 
     @Override
     public FengProblemQueue excuteQuque(long id) {
@@ -463,4 +480,5 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
         fengProblemQueue.setUserId(SecurityUtils.getUserId());
         return fengProblemQueueMapper.selectSubmitList(fengProblemQueue);
     }
+
 }

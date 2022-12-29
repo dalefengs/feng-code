@@ -1,5 +1,5 @@
 <template>
-  <a-row class="body" ref="styleVar">
+  <a-row class="body-code" ref="styleVar">
     <a-col :span="12" style="padding: 0 20px; overflow-y: auto; height: calc(100vh - 72px - 50px);">
       <a-tabs default-active-key="1" :active-key="activeKey" @tabClick="tabClick">
         <a-tab-pane key="1" tab="题目描述">
@@ -176,6 +176,7 @@ export default {
       errorTestCase: {},
       errorMsg: '',
       msg: '',
+      taskId: 0,
       submitList: [], // 提交列表
       submitParam: {
         type: -1
@@ -215,6 +216,9 @@ export default {
     if (!this.$route.params.id || this.$route.params.id === '0') {
       this.$message.error('非法访问')
       this.$router.replace({ path: '/problemSet' })
+    }
+    if (this.$route.query.taskId) {
+      this.taskId = this.$route.query.taskId
     }
     this.id = this.$route.params.id
     this.getProblemInfo()
@@ -290,6 +294,7 @@ export default {
     },
     getSubmitList () {
       this.submitParam.problemId = this.id
+      this.submitParam.taskId = this.taskId
       submitListQueue(this.submitParam).then(res => {
         this.submitList = res.data
       })
@@ -353,7 +358,7 @@ export default {
 
 <style lang="less">
 /* 编辑器高度 */
-.body {
+.body-code {
   height: calc(100vh - 72px - 44px);
   min-width: 1280px;
   background-color: white;

@@ -1,5 +1,4 @@
 <template>
-
   <a-card class="body">
     <a-row>
       <!--   左   -->
@@ -71,6 +70,9 @@
             <span slot="level" slot-scope="text, record">
               <dict-tag :options="dict.type['difficulty_level']" :value="record.level" />
             </span>
+            <span slot="successRate" slot-scope="text, record">
+              {{ record.submitCount > 0 ? ((record.successCount / record.submitCount) * 100).toFixed(2) : '0.00' }} %
+            </span>
             <div slot="ownness" slot-scope="text, record">
               <div v-if="text === 1" class="ownness" > <!-- 已解答 -->
                 <svg
@@ -124,7 +126,11 @@
       <a-col :span="6">
         <a-card class="right-shadow" style="margin-top: 64px">
           <!--    每日一题      -->
-          <a-calendar :fullscreen="false" :header-render="headerRender" @panelChange="onPanelChange" />
+          <a-calendar :fullscreen="false" :header-render="headerRender" @panelChange="onPanelChange" @select="onCalendarSelect" >
+            <div slot="dateCellRender" slot-scope="value" title="666666" >
+              <a-badge status="processing" style=" width: 5px!important; margin-top: 0!important;" v-if="value.isSame(moment(), 'day')"/>
+            </div>
+          </a-calendar>
         </a-card>
         <a-card class="right-shadow" style="height: 95px">
           <div style="display: inline-block; vertical-align: text-bottom">
@@ -152,6 +158,8 @@ import { listAllTags } from '@/api/business/tags'
 import { listProblemSet } from '@/api/business/problem'
 import { listTask } from '@/api/business/task'
 import { tableMixin } from '@/store/table-mixin'
+import moment from 'moment'
+
 export default {
   name: 'ProblemSet',
   mixins: [tableMixin],
@@ -203,17 +211,24 @@ export default {
           align: 'center'
         },
         {
-          title: '提交次数',
-          dataIndex: 'submitCount',
-          ellipsis: true,
-          align: 'center'
-        },
-        {
-          title: '通过次数',
-          dataIndex: 'successCount',
+          title: '通过率',
+          dataIndex: 'successRate',
+          scopedSlots: { customRender: 'successRate' },
           ellipsis: true,
           align: 'center'
         }
+        // {
+        //   title: '提交次数',
+        //   dataIndex: 'submitCount',
+        //   ellipsis: true,
+        //   align: 'center'
+        // },
+        // {
+        //   title: '通过次数',
+        //   dataIndex: 'successCount',
+        //   ellipsis: true,
+        //   align: 'center'
+        // }
       ],
       categoryList: [],
       tsgsList: [],
@@ -229,6 +244,7 @@ export default {
     }
   },
   created () {
+    console.log('mommmm', moment().isSame(moment(), 'day'))
     listAllProblemCategory().then(res => {
       this.categoryList = res.data
     })
@@ -322,6 +338,9 @@ export default {
     },
     onPanelChange (value, mode) {
       console.log(value, mode)
+    },
+    onCalendarSelect (m) {
+      console.log(m.format())
     },
     /* 渲染日历头部内容 */
     headerRender ({ value, type, onChange, onTypeChange }) {
@@ -453,13 +472,13 @@ export default {
 }
 
 .task {
-  width: 130px;
-  height: 130px;
+  width: 100px;
+  height: 100px;
   display: inline-block;
   margin-right: 28px;
   .task-img {
-    width: 128px;
-    height: 128px;
+    width: 100px;
+    height: 100px;
     border-radius: 10px;
   }
   .task-title {

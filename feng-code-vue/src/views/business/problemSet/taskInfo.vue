@@ -24,7 +24,7 @@
     <div class="task-explain">{{ taskInfo.taskExplain }}</div>
     <div style="margin-top: 24px; position: relative">
       <div class="cover-block" v-show="taskInfo.isJoin === '0'">
-        <div class="cover-block-join">
+        <div class="cover-block-join" @click="showConfirm">
           <a-icon type="lock" />
         </div>
       </div>

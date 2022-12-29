@@ -65,4 +65,6 @@ public interface FengProblemQueueMapper
     List<FengProblemQueue> selectSubmitList(FengProblemQueue fengProblemQueue);
 
     HashSet<Integer> selectProblemQuqueStatusList(FengProblemQueue problemQueue);
+
+    List<FengProblemQueue> selectFengProblemRankList(FengProblemQueue fengProblemQueue);
 }

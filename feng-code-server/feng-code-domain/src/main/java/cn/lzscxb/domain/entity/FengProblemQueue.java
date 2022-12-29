@@ -35,6 +35,10 @@ public class FengProblemQueue extends BaseEntity
     @Excel(name = "学习任务")
     private Long taskId;
 
+    /** 每日一题 */
+    @Excel(name = "每日一题")
+    private Long everydayId;
+
     /** 学生参与学习任务 */
     @Excel(name = "学生参与学习任务")
     private Long taskJoinId;
@@ -63,6 +67,35 @@ public class FengProblemQueue extends BaseEntity
     private String nickname;
 
     private int retryCount;
+
+    private String totalCount;
+
+    private String successCount;
+    private Integer ranking;
+
+    public Integer getRanking() {
+        return ranking;
+    }
+
+    public void setRanking(Integer ranking) {
+        this.ranking = ranking;
+    }
+
+    public String getSuccessCount() {
+        return successCount;
+    }
+
+    public void setSuccessCount(String successCount) {
+        this.successCount = successCount;
+    }
+
+    public String getTotalCount() {
+        return totalCount;
+    }
+
+    public void setTotalCount(String totalCount) {
+        this.totalCount = totalCount;
+    }
 
     public int getRetryCount() {
         return retryCount;

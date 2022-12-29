@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.lzscxb.business.mapper.FengProblemEverydayMapper">
+    
+    <resultMap type="cn.lzscxb.domain.entity.FengProblemEveryday" id="FengProblemEverydayResult">
+        <result property="id"    column="id"    />
+        <result property="problemid"    column="problem_id"    />
+        <result property="title"    column="title"    />
+        <result property="dateDay"    column="date_day"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectFengProblemEverydayVo">
+        select e.id, e.problem_id, e.date_day, e.create_by, e.create_time, e.update_by, e.update_time,
+            p.title
+        from feng_problem_everyday as e
+        left join feng_problem p on p.id = e.problem_id
+    </sql>
+
+    <select id="selectFengProblemEverydayList" parameterType="cn.lzscxb.domain.entity.FengProblemEveryday" resultMap="FengProblemEverydayResult">
+        <include refid="selectFengProblemEverydayVo"/>
+        <where>  
+            <if test="problemid != null "> and p.title like concat('%', #{title}, '%')</if>
+            <if test="dateDay != null "> and date_day = #{dateDay}</if>
+        </where>
+        order by e.date_day desc
+    </select>
+    
+    <select id="selectFengProblemEverydayById" parameterType="Long" resultMap="FengProblemEverydayResult">
+        <include refid="selectFengProblemEverydayVo"/>
+        where e.id = #{id}
+    </select>
+        
+    <insert id="insertFengProblemEveryday" parameterType="cn.lzscxb.domain.entity.FengProblemEveryday" useGeneratedKeys="true" keyProperty="id">
+        insert into feng_problem_everyday
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="problemid != null">problem_id,</if>
+            <if test="dateDay != null">date_day,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="problemid != null">#{problemid},</if>
+            <if test="dateDay != null">#{dateDay},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFengProblemEveryday" parameterType="cn.lzscxb.domain.entity.FengProblemEveryday">
+        update feng_problem_everyday
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="problemid != null">problem_id = #{problemid},</if>
+            <if test="dateDay != null">date_day = #{dateDay},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFengProblemEverydayById" parameterType="Long">
+        delete from feng_problem_everyday where id = #{id}
+    </delete>
+
+    <delete id="deleteFengProblemEverydayByIds" parameterType="String">
+        delete from feng_problem_everyday where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

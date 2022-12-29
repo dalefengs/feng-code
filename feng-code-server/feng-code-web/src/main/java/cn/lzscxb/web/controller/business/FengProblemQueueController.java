@@ -45,6 +45,17 @@ public class FengProblemQueueController extends BaseController
         List<FengProblemQueue> list = fengProblemQueueService.selectFengProblemQueueList(fengProblemQueue);
         return getDataTable(list);
     }
+    /**
+     * 排行榜列表
+     */
+    @PreAuthorize("@ss.hasPermi('business:rank:list')")
+    @GetMapping("/rank-list")
+    public TableDataInfo rankList(FengProblemQueue fengProblemQueue)
+    {
+        startPage();
+        List<FengProblemQueue> list = fengProblemQueueService.selectFengProblemRankList(fengProblemQueue);
+        return getDataTable(list);
+    }
 
     /**
      * 查询任务管理列表

@@ -70,4 +70,6 @@ public interface IFengProblemQueueService {
     public int deleteFengProblemQueueById(Long id);
 
     List<FengProblemQueue> submitList(FengProblemQueue fengProblemQueue);
+
+    List<FengProblemQueue> selectFengProblemRankList(FengProblemQueue fengProblemQueue);
 }

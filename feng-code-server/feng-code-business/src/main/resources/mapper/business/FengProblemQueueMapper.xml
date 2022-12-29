@@ -11,6 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="problemId"    column="problem_id"    />
         <result property="title"    column="title"    />
         <result property="taskId"    column="task_id"    />
+        <result property="everydayId"    column="everyday_id"    />
         <result property="taskJoinId"    column="task_join_id"    />
         <result property="type"    column="type"    />
         <result property="code"    column="code"    />
@@ -18,6 +19,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="retryCount"    column="retry_count"    />
         <result property="successMsg"    column="success_msg"    />
         <result property="errorMsg"    column="error_msg"    />
+        <result property="totalCount"    column="total_count"    />
+        <result property="successCount"    column="success_count"    />
         <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateBy"    column="update_by"    />
@@ -25,13 +28,41 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectFengProblemQueueVo">
-        select q.id, q.user_id, q.problem_id, q.task_id, q.task_join_id, q.type, q.code, q.status, q.success_msg, q.error_msg, q.create_by, q.create_time, q.update_by, q.update_time, q.retry_count,
+        select q.id, q.user_id, q.problem_id, q.task_id, q.task_join_id, q.everyday_id, q.type, q.code, q.status, q.success_msg, q.error_msg, q.create_by, q.create_time, q.update_by, q.update_time, q.retry_count,
             fp.title, u.nick_name
         from feng_problem_queue as q
         left join feng_problem fp on q.problem_id = fp.id
         left join feng_users u on q.user_id = u.user_id
 
     </sql>
+
+
+    <select id="selectFengProblemRankList" resultMap="FengProblemQueueResult">
+        SELECT *
+        from (SELECT @cur_rank := 0) as r,
+             (select q.id,
+                     q.user_id,
+                     q.problem_id,
+                     q.task_id,
+                     q.task_join_id,
+                     q.type,
+                     q.code,
+                     q.status,
+                     q.success_msg,
+                     q.error_msg,
+                     q.create_by,
+                     q.create_time,
+                     q.update_by,
+                     q.update_time,
+                     q.retry_count,
+                     fu.nick_name,
+                     COUNT(1)                         as total_count,
+                     COUNT(if(q.status = 2, 1, null)) as success_count
+              from feng_problem_queue as q
+                       left join feng_users fu on fu.user_id = q.user_id
+              group by q.user_id) as q
+        order by q.total_count desc
+    </select>
 
     <select id="selectFengProblemQueueList" parameterType="cn.lzscxb.domain.entity.FengProblemQueue" resultMap="FengProblemQueueResult">
         <include refid="selectFengProblemQueueVo"/>
@@ -50,6 +81,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         and q.problem_id = #{problemId}
         <if test="type != null and type != -1 "> and q.type = #{type}</if>
         <if test="status != null "> and q.status = #{status}</if>
+        <if test="taskId != null "> and task_id = #{taskId}</if>
+        <if test="everydayId != null "> and everyday_id = #{everydayId}</if>
         order by q.create_time desc
     </select>
 
@@ -64,6 +97,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where problem_id = #{problemId}
         and user_id = #{userId}
         <if test="taskId != null "> and task_id = #{taskId}</if>
+        <if test="everydayId != null "> and everyday_id = #{everydayId}</if>
     </select>
         
     <insert id="insertFengProblemQueue" useGeneratedKeys="true" keyProperty="id" parameterType="cn.lzscxb.domain.entity.FengProblemQueue">
@@ -73,6 +107,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="userId != null">user_id,</if>
             <if test="problemId != null">problem_id,</if>
             <if test="taskId != null">task_id,</if>
+            <if test="everydayId != null">everyday_id,</if>
             <if test="taskJoinId != null">task_join_id,</if>
             <if test="type != null">type,</if>
             <if test="code != null and code != ''">code,</if>
@@ -90,6 +125,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="userId != null">#{userId},</if>
             <if test="problemId != null">#{problemId},</if>
             <if test="taskId != null">#{taskId},</if>
+            <if test="everydayId != null">#{everydayId},</if>
             <if test="taskJoinId != null">#{taskJoinId},</if>
             <if test="type != null">#{type},</if>
             <if test="code != null and code != ''">#{code},</if>
@@ -110,6 +146,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="userId != null">user_id = #{userId},</if>
             <if test="problemId != null">problem_id = #{problemId},</if>
             <if test="taskId != null">task_id = #{taskId},</if>
+            <if test="everydayId != null">everyday_id = #{everydayId},</if>
             <if test="taskJoinId != null">task_join_id = #{taskJoinId},</if>
             <if test="type != null">type = #{type},</if>
             <if test="code != null and code != ''">code = #{code},</if>
@@ -135,6 +172,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
-
 
 </mapper>
