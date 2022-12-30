@@ -226,7 +226,6 @@ export default {
     }
     this.id = this.$route.params.id
     this.getProblemInfo()
-    this.getSubmitList()
   },
   mounted () {
     // 隐藏底栏
@@ -301,6 +300,7 @@ export default {
       this.submitParam.problemId = this.id
       this.submitParam.taskId = this.taskId
       this.submitParam.everydayId = this.everydayId
+      this.submitParam.isAuto = this.problemInfo.isAuto
       submitListQueue(this.submitParam).then(res => {
         this.submitList = res.data
       })
@@ -357,6 +357,9 @@ export default {
     },
     tabClick (index) {
       this.activeKey = index
+      if (index === '4') {
+        this.getSubmitList()
+      }
     }
   }
 }

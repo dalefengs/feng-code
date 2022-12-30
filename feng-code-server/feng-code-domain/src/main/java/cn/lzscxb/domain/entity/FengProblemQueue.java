@@ -54,6 +54,9 @@ public class FengProblemQueue extends BaseEntity
     @Excel(name = "状态")
     private Integer status;
 
+    /** 是否自动批阅 */
+    private Integer isAuto;
+
     /** 成功信息 */
     private String successMsg;
 

@@ -81,8 +81,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         and q.problem_id = #{problemId}
         <if test="type != null and type != -1 "> and q.type = #{type}</if>
         <if test="status != null "> and q.status = #{status}</if>
-        <if test="taskId != null "> and task_id = #{taskId}</if>
-        <if test="everydayId != null "> and everyday_id = #{everydayId}</if>
+        <!-- 如果是自动批阅， 则只返回已经执行成功的和最新一条记录 -->
+        <if test="isAuto == 1">
+            and (q.status = 2
+            or q.id in (select id from (select id
+            from feng_problem_queue
+            where user_id = #{userId}
+            and problem_id = #{problemId}
+            <if test="taskId != null">
+                and task_id = #{taskId}
+            </if>
+            <if test="everydayId != null">
+                and everyday_id = #{everydayId}
+            </if>
+            order by create_time desc
+            limit 1
+            ) as c )
+            )
+        </if>
+        <if test="taskId != null "> and q.task_id = #{taskId}</if>
+        <if test="everydayId != null "> and q.everyday_id = #{everydayId}</if>
         order by q.create_time desc
     </select>
 

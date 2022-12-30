@@ -133,6 +133,7 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
             } else {
                 // 执行成功
                 queueInfo.setStatus(2);
+                // 如果是教师批阅则删除之前的所有执行记录（只保留一条）
                 if (problemInfo.getIsAuto() == 1 || queueInfo.getType() == 6) { // 待批阅状态
                     queueInfo.setStatus(5);
                 }else {

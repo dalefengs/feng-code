@@ -156,14 +156,14 @@
             </div>
           </a-calendar>
         </a-card>
-        <a-card class="right-shadow" style="height: 95px">
-          <div style="display: inline-block; vertical-align: text-bottom">
+        <a-card class="right-shadow" style="height: 95px; cursor: pointer" @click="$message.warn('学习广场暂未开放，敬请期待！')" >
+          <div style="display: inline-block; vertical-align: text-bottom;">
             <img
               src="https://static.leetcode-cn.com/cn-frontendx-assets/production/_next/static/images/icon-study-plan-d9ac428f64fe3787cd9224c67132b8b3.svg"
               alt="Study plan"
               class="h-10 w-10">
           </div>
-          <div style="display: inline-block; margin-left: 10px">
+          <div style="display: inline-block; margin-left: 10px" >
             <div style="display: inline-block; font-size: 18px">学习计划广场</div>
             <br>
             <div style="display: inline-block; color: #7f8c8d">学习计划广场</div>
