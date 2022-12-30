@@ -4,7 +4,7 @@
       <a-tabs default-active-key="1" :active-key="activeKey" @tabClick="tabClick">
         <a-tab-pane key="1" tab="题目描述">
           <h2>{{ problemInfo.title }}</h2>
-          <a-tag color="cyan" v-if="problemInfo.level === 0"> class="give-tag"简单</a-tag>
+          <a-tag color="cyan" v-if="problemInfo.level === 0"   class="give-tag">简单</a-tag>
           <a-tag color="orange" v-if="problemInfo.level === 1" class="give-tag">中等</a-tag>
           <a-tag color="red" v-if="problemInfo.level === 2" class="give-tag">困难</a-tag>
 
@@ -281,7 +281,9 @@ export default {
         if (res.code !== 200) {
           this.$message.error(res.msg)
         } else {
-          this.$message.success('提交成功！')
+          this.$notification.success({
+            message: '提交成功，请耐心等待！'
+          })
           this.getSubmitList()
           this.activeKey = '4'
           this.controllerIcon = 'up'
