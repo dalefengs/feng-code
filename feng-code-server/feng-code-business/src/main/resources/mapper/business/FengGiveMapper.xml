@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.lzscxb.business.mapper.FengGiveMapper">
+    
+    <resultMap type="cn.lzscxb.domain.entity.FengGive" id="FengGiveResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="problemId"    column="problem_id"    />
+        <result property="commentId"    column="comment_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectFengGiveVo">
+        select id, user_id, problem_id, comment_id, create_by, create_time, update_by, update_time from feng_give
+    </sql>
+
+    <select id="selectFengGiveList" parameterType="cn.lzscxb.domain.entity.FengGive" resultMap="FengGiveResult">
+        <include refid="selectFengGiveVo"/>
+        <where>  
+        </where>
+    </select>
+    
+    <select id="selectFengGiveById" parameterType="Long" resultMap="FengGiveResult">
+        <include refid="selectFengGiveVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectFengGive" resultMap="FengGiveResult">
+        <include refid="selectFengGiveVo"/>
+        where problem_id = #{problemId}
+        and user_id = #{userId}
+        and comment_id = #{commentId}
+    </select>
+        
+    <insert id="insertFengGive" parameterType="cn.lzscxb.domain.entity.FengGive" useGeneratedKeys="true" keyProperty="id">
+        insert into feng_give
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="problemId != null">problem_id,</if>
+            <if test="commentId != null">comment_id,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="problemId != null">#{problemId},</if>
+            <if test="commentId != null">#{commentId},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFengGive" parameterType="cn.lzscxb.domain.entity.FengGive">
+        update feng_give
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="problemId != null">problem_id = #{problemId},</if>
+            <if test="commentId != null">comment_id = #{commentId},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFengGiveById" parameterType="Long">
+        delete from feng_give where id = #{id}
+    </delete>
+
+    <delete id="deleteFengGiveByIds" parameterType="String">
+        delete from feng_give where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+</mapper>

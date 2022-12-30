@@ -289,12 +289,16 @@ var your-method-name = function(s) {
       this.codemirror.setOption('fullScreen', !this.codemirror.getOption('fullScreen'))
     },
     smartButtonClick () {
-      this.$message.warn('智能模式已开启，暂时不能关闭！')
+      this.$notification.warn({
+        message: '智能模式已开启，暂时不能关闭！'
+      })
     },
     resetTemplte () {
       this.cmOptions.mode = this.modes[this.language].mode
       this.code = this.modes[this.language].templete
-      this.$message.success('代码已恢复到原始状态！')
+      this.$notification.success({
+        message: '代码已恢复到原始状态'
+      })
     },
     async getLanguageDicts () {
       // 获取语言类型字典

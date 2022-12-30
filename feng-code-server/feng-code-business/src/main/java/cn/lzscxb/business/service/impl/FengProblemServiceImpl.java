@@ -44,7 +44,10 @@ public class FengProblemServiceImpl implements IFengProblemService
     @Override
     public FengProblem selectFengProblemById(Long id)
     {
-        FengProblem fengProblem = fengProblemMapper.selectFengProblemById(id);
+        FengProblem problem = new FengProblem();
+        problem.setId(id);
+        problem.setUserId(SecurityUtils.getUserId());
+        FengProblem fengProblem = fengProblemMapper.selectFengProblem(problem);
         List<String> languageList = JSON.parseArray(fengProblem.getLanguage(), String.class);
         List<String> languageDicts = new ArrayList<>();
         for (String language : languageList) {

@@ -5,15 +5,14 @@ import cn.lzscxb.domain.entity.FengProblem;
 
 /**
  * 题目管理Mapper接口
- * 
+ *
  * @author Likfees
  * @date 2022-11-21
  */
-public interface FengProblemMapper 
-{
+public interface FengProblemMapper {
     /**
      * 查询题目管理
-     * 
+     *
      * @param id 题目管理主键
      * @return 题目管理
      */
@@ -21,7 +20,7 @@ public interface FengProblemMapper
 
     /**
      * 查询题目管理列表
-     * 
+     *
      * @param fengProblem 题目管理
      * @return 题目管理集合
      */
@@ -29,7 +28,7 @@ public interface FengProblemMapper
 
     /**
      * 新增题目管理
-     * 
+     *
      * @param fengProblem 题目管理
      * @return 结果
      */
@@ -37,7 +36,7 @@ public interface FengProblemMapper
 
     /**
      * 修改题目管理
-     * 
+     *
      * @param fengProblem 题目管理
      * @return 结果
      */
@@ -45,7 +44,7 @@ public interface FengProblemMapper
 
     /**
      * 删除题目管理
-     * 
+     *
      * @param id 题目管理主键
      * @return 结果
      */
@@ -53,7 +52,7 @@ public interface FengProblemMapper
 
     /**
      * 批量删除题目管理
-     * 
+     *
      * @param ids 需要删除的数据主键集合
      * @return 结果
      */
@@ -62,4 +61,6 @@ public interface FengProblemMapper
     List<FengProblem> selectFengProblemTaskList(FengProblem fengProblem);
 
     List<Long> selectFengProblemAllIds();
+
+    FengProblem selectFengProblem(FengProblem fengProblem);
 }

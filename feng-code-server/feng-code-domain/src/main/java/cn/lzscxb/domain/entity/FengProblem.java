@@ -48,10 +48,6 @@ public class FengProblem extends BaseEntity
     @Excel(name = "题目等级(0简单 1中等 2困难)")
     private Integer level;
 
-    /** 点赞 */
-    @Excel(name = "点赞")
-    private Long likeCount;
-
     /** 题目说明 */
     private String description;
 
@@ -76,6 +72,10 @@ public class FengProblem extends BaseEntity
     /** 提交次数 */
     @Excel(name = "提交次数")
     private Long submitCount;
+
+    private Integer giveCount;
+
+    private Integer isGive;
 
     /** 排序 */
     @Excel(name = "排序")

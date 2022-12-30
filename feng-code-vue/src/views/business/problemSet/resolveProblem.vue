@@ -4,13 +4,13 @@
       <a-tabs default-active-key="1" :active-key="activeKey" @tabClick="tabClick">
         <a-tab-pane key="1" tab="题目描述">
           <h2>{{ problemInfo.title }}</h2>
-          <a-tag color="cyan" v-if="problemInfo.level === 0">简单</a-tag>
-          <a-tag color="orange" v-if="problemInfo.level === 1">中等</a-tag>
-          <a-tag color="red" v-if="problemInfo.level === 2">困难</a-tag>
+          <a-tag color="cyan" v-if="problemInfo.level === 0"> class="give-tag"简单</a-tag>
+          <a-tag color="orange" v-if="problemInfo.level === 1" class="give-tag">中等</a-tag>
+          <a-tag color="red" v-if="problemInfo.level === 2" class="give-tag">困难</a-tag>
 
-          <a-tag color="blue">
-            <a-icon type="like" />
-            {{ problemInfo.likeCount }}
+          <a-tag color="blue" @click="give(null)" class="give-tag">
+            <a-icon type="like" :theme="problemInfo.isGive === 1 ? 'filled' : 'outlined'" />
+            {{ problemInfo.giveCount }}
           </a-tag>
           <b> 作者：{{ problemInfo.nickName }}</b>
           <div class="description">
@@ -20,7 +20,7 @@
           <div>
             <template v-for="i in (teseCase.length > 3 ? 3 : teseCase.length)">
               <div :key="i">
-                <h3>示例 {{ i }}</h3>
+                <h3> 示例 {{ i }}：</h3>
                 <div class="sample">
                   <b>输入：</b> {{ teseCase[i - 1][0] }}
                   <br>
@@ -29,15 +29,29 @@
               </div>
             </template>
           </div>
+          <!--     示例     -->
           <div>
+            <template v-for="i in (teseCase.length > 3 ? 3 : teseCase.length)">
+              <div :key="i">
+                <h3> 示例 {{ i }}：</h3>
+                <div class="sample">
+                  <b>输入：</b> {{ teseCase[i - 1][0] }}
+                  <br>
+                  <b>输出：</b> {{ teseCase[i - 1][1] }}
+                </div>
+              </div>
+            </template>
+          </div>
+          <div style="margin-bottom: 60px">
             <h3>提示：</h3>
             {{ problemInfo.hint }}
           </div>
-          <div style="margin: 35px 0">
-            <span>提交次数：{{ problemInfo.successCount }}</span>
-            <span>通过次数：{{ problemInfo.successCount }}</span>
-            <span>通过率：{{ problemInfo.successCount }}</span>
+          <div class="submit-rete">
+            <span> 提交次数：{{ problemInfo.submitCount }} 次</span>
             <a-divider type="vertical" />
+            <span> 通过次数：{{ problemInfo.successCount }} 次</span>
+            <a-divider type="vertical" />
+            <span> 通过率：{{ ((problemInfo.successCount / problemInfo.submitCount) * 100 ).toFixed(2) }} %</span>
           </div>
         </a-tab-pane>
         <a-tab-pane key="2" tab="评论(112)">
@@ -153,6 +167,7 @@ import commonEmit from '@/utils/commonEmit'
 import Codemirror from '@/components/Codemirror'
 import { addQueue, getQueue, submitListQueue } from '@/api/business/queue'
 import { tableMixin } from '@/store/table-mixin'
+import { addGive } from '@/api/business/give'
 
 export default {
   name: 'ResolveProblem',
@@ -235,6 +250,19 @@ export default {
     this.changeEditorHeight('calc(65vh - 180px)')
   },
   methods: {
+    give (commentId) {
+      const param = {
+        problemId: this.id,
+        commentId: commentId ?? 0
+      }
+      addGive(param).then(res => {
+        this.$notification.success({
+          message: '点赞成功！'
+        })
+        this.problemInfo.giveCount = this.problemInfo.giveCount + 1
+        this.problemInfo.isGive = 1
+      })
+    },
     submit () {
       this.excuteStatus = 0
       this.excuteResult = {}
@@ -376,6 +404,24 @@ export default {
   //overflow-y: auto;
 }
 
+.submit-rete {
+  margin: 30px 0 30px -22px;
+  padding: 0 20px;
+  background-color: #ffffff;
+  height: 43px;
+  line-height: 43px;
+  position: fixed;
+  bottom: 0px;
+  box-shadow: 0 0 25px #f3f3f3;
+  width: 47.5%;
+  min-width: calc(1280px / 2 - 18px);
+}
+
+.give-tag {
+  font-size: 15px;
+  padding: 2px 10px;
+}
+
 /* 编辑器高度 */
 .CodeMirror {
   /* 动态高度 */
@@ -439,11 +485,11 @@ export default {
 
 .sample {
   background-color: #f7f7f8;
-  padding: 15px 15px;
-  margin: 15px 0 30px 0;
+  padding: 10px 15px;
+  margin: 15px 0 20px 0;
   border-radius: 10px;
   width: 100%;
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .sampleError {

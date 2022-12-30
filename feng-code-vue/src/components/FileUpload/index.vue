@@ -73,7 +73,9 @@ export default {
       }
       if (info.file.status === 'done') {
         if (info.file.response.code !== 200) {
-          this.$message.error('上传失败' + info.file.response.msg)
+          this.$notification.error({
+            message: '上传失败' + info.file.response.msg
+          })
           this.loading = false
           return
         }
