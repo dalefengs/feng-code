@@ -4,7 +4,7 @@
       <a-tabs default-active-key="1" :active-key="activeKey" @tabClick="tabClick">
         <a-tab-pane key="1" tab="题目描述">
           <h2>{{ problemInfo.title }}</h2>
-          <a-tag color="cyan" v-if="problemInfo.level === 0"   class="give-tag">简单</a-tag>
+          <a-tag color="cyan" v-if="problemInfo.level === 0" class="give-tag">简单</a-tag>
           <a-tag color="orange" v-if="problemInfo.level === 1" class="give-tag">中等</a-tag>
           <a-tag color="red" v-if="problemInfo.level === 2" class="give-tag">困难</a-tag>
 
@@ -29,19 +29,6 @@
               </div>
             </template>
           </div>
-          <!--     示例     -->
-          <div>
-            <template v-for="i in (teseCase.length > 3 ? 3 : teseCase.length)">
-              <div :key="i">
-                <h3> 示例 {{ i }}：</h3>
-                <div class="sample">
-                  <b>输入：</b> {{ teseCase[i - 1][0] }}
-                  <br>
-                  <b>输出：</b> {{ teseCase[i - 1][1] }}
-                </div>
-              </div>
-            </template>
-          </div>
           <div style="margin-bottom: 60px">
             <h3>提示：</h3>
             {{ problemInfo.hint }}
@@ -51,15 +38,66 @@
             <a-divider type="vertical" />
             <span> 通过次数：{{ problemInfo.successCount }} 次</span>
             <a-divider type="vertical" />
-            <span> 通过率：{{ ((problemInfo.successCount / problemInfo.submitCount) * 100 ).toFixed(2) }} %</span>
+            <span> 通过率：{{ problemInfo.submitCount ? ((problemInfo.successCount / problemInfo.submitCount) * 100 ).toFixed(2) : '0.00' }} %</span>
           </div>
         </a-tab-pane>
         <a-tab-pane key="2" tab="评论(112)">
-          评论
+          <a-comment>
+            <span slot="actions" key="comment-nested-reply-to">Reply to</span>
+            <a slot="author">Han Solo</a>
+            <a-avatar
+              slot="avatar"
+              src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+              alt="Han Solo"
+            />
+            <p slot="content">
+              We supply a series of design principles, practical patterns and high quality design resources
+              (Sketch and Axure).
+            </p>
+            <a-comment>
+              <span slot="actions">Reply to</span>
+              <a slot="author">Han Solo</a>
+              <a-avatar
+                slot="avatar"
+                src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                alt="Han Solo"
+              />
+              <p slot="content">
+                We supply a series of design principles, practical patterns and high quality design
+                resources (Sketch and Axure).
+              </p>
+              <a-comment>
+                <span slot="actions">Reply to</span>
+                <a slot="author">Han Solo</a>
+                <a-avatar
+                  slot="avatar"
+                  src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                  alt="Han Solo"
+                />
+                <p slot="content">
+                  We supply a series of design principles, practical patterns and high quality design
+                  resources (Sketch and Axure).
+                </p>
+              </a-comment>
+              <a-comment>
+                <span slot="actions">Reply to</span>
+                <a slot="author">Han Solo</a>
+                <a-avatar
+                  slot="avatar"
+                  src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                  alt="Han Solo"
+                />
+                <p slot="content">
+                  We supply a series of design principles, practical patterns and high quality design
+                  resources (Sketch and Axure).
+                </p>
+              </a-comment>
+            </a-comment>
+          </a-comment>
         </a-tab-pane>
-        <a-tab-pane key="3" tab="题解(10)">
+        <!-- <a-tab-pane key="3" tab="题解(10)">
           题解
-        </a-tab-pane>
+        </a-tab-pane>-->
         <a-tab-pane key="4" tab="提交记录">
           <!-- 数据展示 -->
           <a-table
@@ -413,10 +451,10 @@ export default {
   height: 43px;
   line-height: 43px;
   position: fixed;
-  bottom: 0px;
+  bottom: -1px;
   box-shadow: 0 0 25px #f3f3f3;
-  width: 47.5%;
-  min-width: calc(1280px / 2 - 18px);
+  width: 48.5%;
+  min-width: calc(1280px / 2);
 }
 
 .give-tag {

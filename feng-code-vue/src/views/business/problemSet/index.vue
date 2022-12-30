@@ -156,7 +156,7 @@
             </div>
           </a-calendar>
         </a-card>
-        <a-card class="right-shadow" style="height: 95px; cursor: pointer" @click="$message.warn('学习广场暂未开放，敬请期待！')" >
+        <a-card class="right-shadow" style="height: 95px; cursor: pointer" @click="$notification.warn({ message: '学习广场暂未开放，敬请期待！'})" >
           <div style="display: inline-block; vertical-align: text-bottom;">
             <img
               src="https://static.leetcode-cn.com/cn-frontendx-assets/production/_next/static/images/icon-study-plan-d9ac428f64fe3787cd9224c67132b8b3.svg"

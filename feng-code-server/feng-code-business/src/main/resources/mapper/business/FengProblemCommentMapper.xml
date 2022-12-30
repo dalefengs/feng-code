@@ -11,8 +11,6 @@
         <result property="replyUserId"    column="reply_user_id"    />
         <result property="problemId"    column="problem_id"    />
         <result property="content"    column="content"    />
-        <result property="likeCount"    column="like_count"    />
-        <result property="trampleCount"    column="trample_count"    />
         <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateBy"    column="update_by"    />
@@ -20,7 +18,7 @@
     </resultMap>
 
     <sql id="selectFengProblemCommentVo">
-        select id, user_id, pid, reply_user_id, problem_id, content, like_count, trample_count, create_by, create_time, update_by, update_time from feng_problem_comment
+        select id, user_id, pid, reply_user_id, problem_id, content, create_by, create_time, update_by, update_time from feng_problem_comment
     </sql>
 
     <select id="selectFengProblemCommentList" parameterType="cn.lzscxb.domain.entity.FengProblemComment" resultMap="FengProblemCommentResult">
@@ -45,8 +43,6 @@
             <if test="replyUserId != null">reply_user_id,</if>
             <if test="problemId != null">problem_id,</if>
             <if test="content != null and content != ''">content,</if>
-            <if test="likeCount != null">like_count,</if>
-            <if test="trampleCount != null">trample_count,</if>
             <if test="createBy != null">create_by,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateBy != null">update_by,</if>
@@ -59,8 +55,6 @@
             <if test="replyUserId != null">#{replyUserId},</if>
             <if test="problemId != null">#{problemId},</if>
             <if test="content != null and content != ''">#{content},</if>
-            <if test="likeCount != null">#{likeCount},</if>
-            <if test="trampleCount != null">#{trampleCount},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateBy != null">#{updateBy},</if>
@@ -76,8 +70,6 @@
             <if test="replyUserId != null">reply_user_id = #{replyUserId},</if>
             <if test="problemId != null">problem_id = #{problemId},</if>
             <if test="content != null and content != ''">content = #{content},</if>
-            <if test="likeCount != null">like_count = #{likeCount},</if>
-            <if test="trampleCount != null">trample_count = #{trampleCount},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateBy != null">update_by = #{updateBy},</if>

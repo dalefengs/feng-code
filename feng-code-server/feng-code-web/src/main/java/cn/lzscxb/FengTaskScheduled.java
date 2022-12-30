@@ -29,7 +29,7 @@ public class FengTaskScheduled {
     @Autowired
     private FengProblemEverydayServiceImpl everydayService;
 
-    //    @Scheduled(cron = "0 0 0 * * ?") // 每日凌晨执行，正式环境
+//        @Scheduled(cron = "0 0 0 * * ?") // 每日凌晨执行，正式环境
     @Scheduled(cron = "0 0 */1 * * ?") // 每小时执行一次
 //    @Scheduled(fixedRate = 10000)
     public void everydayAddProblem() {
