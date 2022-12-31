@@ -27,7 +27,7 @@
           我们推荐使用这种方式进行 LOGO 和 title 自定义
     -->
     <template v-slot:menuHeaderRender>
-      <div>
+      <div @click="$router.push({ path: '/index' })">
         <img src="~@/assets/logo-white.png" class="custom-logo-sidemenu" alt="logo" v-if="settings.layout === 'sidemenu'">
         <img src="~@/assets/logo.png" class="custom-logo" alt="logo" v-else>
       </div>

@@ -5,15 +5,14 @@ import cn.lzscxb.domain.entity.FengProblemComment;
 
 /**
  * 题目评论Mapper接口
- * 
+ *
  * @author Likfees
  * @date 2022-10-16
  */
-public interface FengProblemCommentMapper 
-{
+public interface FengProblemCommentMapper {
     /**
      * 查询题目评论
-     * 
+     *
      * @param id 题目评论主键
      * @return 题目评论
      */
@@ -21,7 +20,7 @@ public interface FengProblemCommentMapper
 
     /**
      * 查询题目评论列表
-     * 
+     *
      * @param fengProblemComment 题目评论
      * @return 题目评论集合
      */
@@ -29,7 +28,7 @@ public interface FengProblemCommentMapper
 
     /**
      * 新增题目评论
-     * 
+     *
      * @param fengProblemComment 题目评论
      * @return 结果
      */
@@ -37,7 +36,7 @@ public interface FengProblemCommentMapper
 
     /**
      * 修改题目评论
-     * 
+     *
      * @param fengProblemComment 题目评论
      * @return 结果
      */
@@ -45,7 +44,7 @@ public interface FengProblemCommentMapper
 
     /**
      * 删除题目评论
-     * 
+     *
      * @param id 题目评论主键
      * @return 结果
      */
@@ -53,9 +52,11 @@ public interface FengProblemCommentMapper
 
     /**
      * 批量删除题目评论
-     * 
+     *
      * @param ids 需要删除的数据主键集合
      * @return 结果
      */
     public int deleteFengProblemCommentByIds(Long[] ids);
+
+    List<FengProblemComment> selectFengProblemCommentByPid(Long pid);
 }

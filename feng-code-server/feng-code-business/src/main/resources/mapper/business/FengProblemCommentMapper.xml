@@ -7,10 +7,14 @@
     <resultMap type="cn.lzscxb.domain.entity.FengProblemComment" id="FengProblemCommentResult">
         <result property="id"    column="id"    />
         <result property="userId"    column="user_id"    />
+        <result property="nickName"    column="nick_name"    />
+        <result property="avatar"    column="avatar"    />
+        <result property="problemTitle"    column="problem_title"    />
         <result property="pid"    column="pid"    />
         <result property="replyUserId"    column="reply_user_id"    />
         <result property="problemId"    column="problem_id"    />
         <result property="content"    column="content"    />
+        <result property="giveCount"    column="give_count"    />
         <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateBy"    column="update_by"    />
@@ -18,20 +22,33 @@
     </resultMap>
 
     <sql id="selectFengProblemCommentVo">
-        select id, user_id, pid, reply_user_id, problem_id, content, create_by, create_time, update_by, update_time from feng_problem_comment
+        select c.id, c.user_id, c.pid, c.reply_user_id, c.problem_id, c.content, c.create_by, c.create_time, c.update_by, c.update_time,
+            fu.nick_name, fu.avatar, p.title as problem_title,
+            (select count(1) from feng_give where user_id = c.user_id and comment_id = c.id and problem_id = c.problem_id) as give_count
+        from feng_problem_comment as c
+        left join feng_users fu on c.user_id = fu.user_id
+        left join feng_problem p on p.id = c.problem_id
     </sql>
 
     <select id="selectFengProblemCommentList" parameterType="cn.lzscxb.domain.entity.FengProblemComment" resultMap="FengProblemCommentResult">
         <include refid="selectFengProblemCommentVo"/>
         <where>
+            c.pid = 0
             <if test="content != null  and content != ''"> and content like concat('%', #{content}, '%')</if>
-            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
+            <if test="nickName != null  and nickName != ''"> and fu.nick_name like concat('%', #{nickName}, '%')</if>
+            <if test="problemTitle != null and  problemTitle != ''">and p.title like concat('%', #{problemTitle}, '%')</if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and c.create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
         </where>
     </select>
 
     <select id="selectFengProblemCommentById" parameterType="Long" resultMap="FengProblemCommentResult">
         <include refid="selectFengProblemCommentVo"/>
-        where id = #{id}
+        where c.id = #{id}
+    </select>
+
+    <select id="selectFengProblemCommentByPid" parameterType="Long" resultMap="FengProblemCommentResult">
+        <include refid="selectFengProblemCommentVo"/>
+        where c.pid = #{pid}
     </select>
 
     <insert id="insertFengProblemComment" parameterType="cn.lzscxb.domain.entity.FengProblemComment">

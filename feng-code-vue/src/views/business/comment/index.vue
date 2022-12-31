@@ -6,6 +6,16 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
+              <a-form-item label="题目标题" prop="content">
+                <a-input v-model="queryParam.problemTitle" placeholder="请输入题目标题" allow-clear/>
+              </a-form-item>
+            </a-col>
+            <a-col :md="8" :sm="24">
+              <a-form-item label="用户昵称" prop="content">
+                <a-input v-model="queryParam.nickName" placeholder="请输入用户昵称" allow-clear/>
+              </a-form-item>
+            </a-col>
+            <a-col :md="8" :sm="24">
               <a-form-item label="评论内容" prop="content">
                 <a-input v-model="queryParam.content" placeholder="请输入评论内容" allow-clear/>
               </a-form-item>
@@ -26,9 +36,9 @@
       </div>
       <!-- 操作 -->
       <div class="table-operations">
-        <a-button type="primary" :disabled="single" @click="$refs.createForm.handleUpdate(undefined, ids)" v-hasPermi="['business:comment:edit']">
+        <!--        <a-button type="primary" :disabled="single" @click="$refs.createForm.handleUpdate(undefined, ids)" v-hasPermi="['business:comment:edit']">
           <a-icon type="edit" />修改
-        </a-button>
+        </a-button>-->
         <a-button type="danger" :disabled="multiple" @click="handleDelete" v-hasPermi="['business:comment:remove']">
           <a-icon type="delete" />删除
         </a-button>
@@ -59,17 +69,21 @@
         :bordered="tableBordered"
         @change="tableChange"
       >
+        <span slot="avatar" slot-scope="text, record">
+          <a-avatar v-if="record.avatar !== '' " :src="record.avatar" />
+          <a-avatar v-else icon="user" />
+        </span>
         <span slot="createTime" slot-scope="text, record">
           {{ parseTime(record.createTime) }}
         </span>
         <span slot="operation" slot-scope="text, record">
-          <a-divider type="vertical" v-hasPermi="['business:comment:edit']" />
+          <!--          <a-divider type="vertical" v-hasPermi="['business:comment:edit']" />
           <a @click="$refs.createForm.handleUpdate(record, undefined)" v-hasPermi="['business:comment:edit']">
             <a-icon type="edit" />修改
           </a>
-          <a-divider type="vertical" v-hasPermi="['business:comment:remove']" />
+          <a-divider type="vertical" v-hasPermi="['business:comment:remove']" /> -->
           <a @click="handleDelete(record)" v-hasPermi="['business:comment:remove']">
-            <a-icon type="delete" />删除
+            <a-icon type="delete" /> 删除
           </a>
         </span>
       </a-table>
@@ -118,6 +132,8 @@ export default {
       daterangeCreateTime: [],
       // 查询参数
       queryParam: {
+        problemTitle: null,
+        nickName: null,
         content: null,
         createTime: null,
         pageNum: 1,
@@ -125,32 +141,21 @@ export default {
       },
       columns: [
         {
-          title: '编号',
-          dataIndex: 'id',
+          title: '题目',
+          dataIndex: 'problemTitle',
           ellipsis: true,
           align: 'center'
         },
         {
-          title: '用户id',
-          dataIndex: 'userId',
+          title: '头像',
+          dataIndex: 'avatar',
           ellipsis: true,
+          scopedSlots: { customRender: 'avatar' },
           align: 'center'
         },
         {
-          title: 'pid',
-          dataIndex: 'pid',
-          ellipsis: true,
-          align: 'center'
-        },
-        {
-          title: '回复用户id',
-          dataIndex: 'replyUserId',
-          ellipsis: true,
-          align: 'center'
-        },
-        {
-          title: '问题id',
-          dataIndex: 'problemId',
+          title: '用户昵称',
+          dataIndex: 'nickName',
           ellipsis: true,
           align: 'center'
         },
@@ -162,19 +167,7 @@ export default {
         },
         {
           title: '点赞数',
-          dataIndex: 'likeCount',
-          ellipsis: true,
-          align: 'center'
-        },
-        {
-          title: '踩数量',
-          dataIndex: 'trampleCount',
-          ellipsis: true,
-          align: 'center'
-        },
-        {
-          title: '创建者',
-          dataIndex: 'createBy',
+          dataIndex: 'giveCount',
           ellipsis: true,
           align: 'center'
         },

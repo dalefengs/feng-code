@@ -1,5 +1,6 @@
 package cn.lzscxb.business.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import cn.lzscxb.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,32 @@ public class FengProblemCommentServiceImpl implements IFengProblemCommentService
     @Override
     public List<FengProblemComment> selectFengProblemCommentList(FengProblemComment fengProblemComment)
     {
-        return fengProblemCommentMapper.selectFengProblemCommentList(fengProblemComment);
+        List<FengProblemComment> fengProblemComments = fengProblemCommentMapper.selectFengProblemCommentList(fengProblemComment);
+        for (FengProblemComment problemComment : fengProblemComments) {
+            // 无限级评论
+            findCommentChildren(fengProblemComments, problemComment);
+        }
+        return fengProblemComments;
+    }
+
+    /**
+     * 查找子评论
+     * 
+     * @param  list
+     * @return void
+     */
+    public void findCommentChildren(List<FengProblemComment> list, FengProblemComment problemComment) {
+        List<FengProblemComment> childList = fengProblemCommentMapper.selectFengProblemCommentByPid(problemComment.getId());
+        for (FengProblemComment comment : list) {
+            if (comment.getId().equals(problemComment.getId())){
+                comment.setChildren(childList);
+            }
+        }
+        if (childList != null) {
+            for (FengProblemComment child : childList) {
+                findCommentChildren(childList, child);
+            }
+        }
     }
 
     /**
