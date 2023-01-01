@@ -168,7 +168,7 @@
               <dict-tag :options="dict.type['queue_status']" :value="record.status" />
             </span>
             <span slot="operation" slot-scope="text, record">
-              <a @click="$refs.createForm.handleUpdate(record, undefined)" v-hasPermi="['business:queue:edit']">
+              <a @click="handleViewQuque(record.id)" v-hasPermi="['business:queue:query']">
                 <a-icon type="search"/> 查看
               </a>
             </span>
@@ -176,7 +176,7 @@
         </a-tab-pane>
       </a-tabs>
     </a-col>
-    <a-col :span="12" style="position: relative; height: calc(100vh - 118px)">
+    <a-col :span="12" class="col-right" v-show="!showQuqueInfo" >
       <Codemirror
         :support-mode="problemInfo.languageDicts"
         :code-templates="problemInfo.codeTemplatesParse"
@@ -218,7 +218,7 @@
                 <div class="excuteTime">
                   <div>用例数量：{{ this.excuteResult.allCount ?? 0 }} 个</div>
                   <div>通过数量：{{ this.excuteResult.successCount ?? 0 }} 个</div>
-                  <div>通过率：{{ ((this.excuteResult.successCount / this.excuteResult.allCount) * 100).toFixed(2) }}%</div>
+                  <div>通过率：{{ this.excuteResult.allCount > 0 ? ((this.excuteResult.successCount / this.excuteResult.allCount) * 100).toFixed(2) : '0.00' }}%</div>
                 </div>
                 <div class="excuteTime">
                   <div>执行时间：{{ this.excuteResult.excuteTime ?? 0 }} ms</div>
@@ -248,6 +248,47 @@
         <div class="right">
           <a-button @click="submit()" style="background-color: #2db55d; color: white">提交</a-button>
         </div>
+      </div>
+    </a-col>
+    <a-col :span="12" class="col-right" v-show="showQuqueInfo">
+      <div class="queue-nav">
+        <a-button @click="showQuqueInfo = false">返回</a-button>
+      </div>
+      <!-- 个人信息 -->
+      <div style="margin-top: 20px;padding:0 20px">
+        <span>
+          <a-avatar
+            size="large"
+            :src="queueInfo.avatar"
+            v-if="queueInfo.avatar !== ''"
+          />
+          <a-avatar v-else size="large" icon="user" slot="avatar" />
+        </span>
+        <span style="margin-left: 14px; font-size: 20px; vertical-align: middle">{{ queueInfo.nickname }}</span>
+        <span style="float: right; font-size: 16px; vertical-align: middle">{{ queueInfo.createTime }}</span>
+      </div>
+      <br>
+      <div style="height: 40px">
+        <div v-show="Object.keys(queueInfo).length > 0">
+          <a-alert message="恭喜您，程序通过啦！" type="success" show-icon v-if="queueInfo.status === 2"/>
+          <a-alert message="恭喜你提交成功，请耐心等待教师批阅！" type="info" show-icon v-else-if="queueInfo.status === 5" />
+          <a-alert message="很遗憾，您的程序发生了错误，请再接再励！" type="error" show-icon v-else />
+        </div>
+      </div>
+
+      <Codemirror
+        ref="queueShowCode"
+        :read-only="true"
+      ></Codemirror>
+      <br>
+      <div class="excuteTime">
+        <div>用例数量：{{ this.excuteResult.allCount ?? 0 }} 个</div>
+        <div>通过数量：{{ this.excuteResult.successCount ?? 0 }} 个</div>
+        <div>通过率：{{ this.excuteResult.allCount > 0 ? ((this.excuteResult.successCount / this.excuteResult.allCount) * 100).toFixed(2) : '0.00' }}%</div>
+      </div>
+      <div class="excuteTime">
+        <div>执行时间：{{ this.excuteResult.excuteTime ?? 0 }} ms</div>
+        <div>执行占用：{{ this.excuteResult.memory ?? 0 }} MB</div>
       </div>
     </a-col>
   </a-row>
@@ -287,6 +328,8 @@ export default {
       errorTestCase: {},
       errorMsg: '',
       msg: '',
+      queueInfo: {}, // 查看提交记录信息详情
+      showQuqueInfo: false,
       taskId: 0,
       everydayId: 0,
       submitList: [], // 提交列表
@@ -356,6 +399,37 @@ export default {
     this.changeEditorHeight('calc(65vh - 180px)')
   },
   methods: {
+    /**
+     * 查看提交记录详情
+     * @param id
+     */
+    handleViewQuque (id) {
+      this.queueInfo = {}
+      this.showQuqueInfo = true
+      getQueue(id).then(res => {
+        this.queueInfo = res.data
+        this.$refs.queueShowCode.setCodeValue(res.data.code)
+        this.$refs.queueShowCode.language = res.data.typeName
+        if (res.data.successMsg) {
+          this.excuteResult = JSON.parse(res.data.successMsg)
+          console.log('excuteResult:', this.excuteResult)
+          if (this.excuteResult.errorTestCase) {
+            this.errorTestCase = this.excuteResult.errorTestCase
+          }
+          if (this.excuteResult.msg) {
+            this.msg = this.excuteResult.msg
+          }
+          if (this.excuteResult.errorMsg) {
+            this.errorMsg = this.excuteResult.errorMsg
+          }
+        } else {
+          this.errorMsg = res.data.errorMsg
+        }
+      }).catch((err) => {
+        console.error(err)
+        this.showQuqueInfo = false
+      })
+    },
     handleReplyCancel (id) {
       this.$refs['reply_' + id][0].style.display = 'none'
     },
@@ -575,6 +649,19 @@ export default {
   padding: 0 3px;
   margin: 0;
   //overflow-y: auto;
+}
+
+.queue-nav {
+  height: 44px;
+  line-height: 44px;
+  width: 100%;
+  border-bottom: #e8e8e8 1px solid;
+  padding-left: 10px;
+}
+
+.col-right {
+  position: relative;
+  height: calc(100vh - 118px);
 }
 
 .comment-input {

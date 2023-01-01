@@ -11,6 +11,7 @@ import cn.lzscxb.business.mapper.FengProblemMapper;
 import cn.lzscxb.business.mapper.FengTaskJoinMapper;
 import cn.lzscxb.common.core.redis.RedisCache;
 import cn.lzscxb.common.utils.DateUtils;
+import cn.lzscxb.common.utils.DictUtils;
 import cn.lzscxb.common.utils.SecurityUtils;
 import cn.lzscxb.common.utils.docker.DockerClientUtils;
 import cn.lzscxb.common.utils.file.FreeMarkerUtils;
@@ -400,7 +401,11 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
      */
     @Override
     public FengProblemQueue selectFengProblemQueueById(Long id) {
-        return fengProblemQueueMapper.selectFengProblemQueueById(id);
+        FengProblemQueue fengProblemQueue = fengProblemQueueMapper.selectFengProblemQueueById(id);
+        String code_language = DictUtils.getDictLabel("code_language", String.valueOf(fengProblemQueue.getType()));
+        log.info("typeId:{} dictVal: {}", String.valueOf(fengProblemQueue.getType()), code_language );
+        fengProblemQueue.setTypeName(code_language);
+        return fengProblemQueue;
     }
 
     /**

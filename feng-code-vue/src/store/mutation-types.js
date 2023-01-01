@@ -15,6 +15,7 @@ export const APP_LANGUAGE = 'app_language'
 export const LOGIN_USERNAME = 'login_username'
 export const LOGIN_PASSWORD = 'login_password'
 export const LOGIN_REMEMBERME = 'login_rememberme'
+export const USER_AVATAR = 'user_avatar'
 
 export const CONTENT_WIDTH_TYPE = {
   Fluid: 'Fluid',

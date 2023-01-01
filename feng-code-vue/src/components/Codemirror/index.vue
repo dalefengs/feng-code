@@ -6,18 +6,21 @@
     <div class="plane">
       <a-row style="vertical-align: center">
         <a-col :span="12">
-          <a-select v-model="language" style="width: 120px;" @change="languageChange">
+          <a-select v-model="language" style="width: 120px;" @change="languageChange" :disabled="readOnly">
             <a-select-option v-for="(item, key) in modes" :value="key" :key="key">
               {{ key }}
             </a-select-option>
           </a-select>
-          <a-button style="margin-left: 15px" icon="reddit" @click="smartButtonClick">
+          <a-button v-if="!readOnly" style="margin-left: 15px" icon="reddit" @click="smartButtonClick">
             智能模式
+          </a-button>
+          <a-button v-else style="margin-left: 15px" icon="reddit">
+            预览模式
           </a-button>
         </a-col>
         <a-col :span="12" style="text-align: right">
           <div>
-            <a-tooltip placement="top" title="还原到默认的代码模版" @click="resetTemplte">
+            <a-tooltip placement="top" title="还原到默认的代码模版" @click="resetTemplte" v-if="!readOnly">
               <a-icon class="right-icon" type="undo" />
             </a-tooltip>
             <a-tooltip placement="top" title="使用帮助">
@@ -113,6 +116,10 @@ export default {
     codeTemplates: {
       type: Array,
       default: () => []
+    },
+    readOnly: {
+      type: Boolean,
+      default: false
     }
   },
   watch: {
@@ -261,6 +268,8 @@ var your-method-name = function(s) {
         this.codemirror.showHint()
       }
     })
+    this.codemirror.setOption('readOnly', this.readOnly)
+
     // you can use this.codemirror to do something...
   },
   methods: {
@@ -276,6 +285,10 @@ var your-method-name = function(s) {
     // 返回内容
     getCodeValue () {
       return this.codemirror.doc.getValue()
+    },
+    // 返回内容
+    setCodeValue (code) {
+      this.code = code
     },
     // 切换语言
     languageChange (value) {

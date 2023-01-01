@@ -44,8 +44,11 @@ public class FengProblemQueue extends BaseEntity
     private Long taskJoinId;
 
     /** 语言类型 */
-    @Excel(name = "语言类型")
     private int type;
+
+    /** 语言类型 */
+    @Excel(name = "语言类型")
+    private String typeName;
 
     /** 代码 */
     private String code;
@@ -74,7 +77,18 @@ public class FengProblemQueue extends BaseEntity
     private String totalCount;
 
     private String successCount;
+
     private Integer ranking;
+
+    private String avatar;
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 
     public Integer getRanking() {
         return ranking;

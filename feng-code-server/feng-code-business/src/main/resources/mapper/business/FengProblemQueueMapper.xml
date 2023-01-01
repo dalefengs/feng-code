@@ -8,6 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="id"    column="id"    />
         <result property="userId"    column="user_id"    />
         <result property="nickname"    column="nick_name"    />
+        <result property="avatar"    column="avatar"    />
         <result property="problemId"    column="problem_id"    />
         <result property="title"    column="title"    />
         <result property="taskId"    column="task_id"    />
@@ -29,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <sql id="selectFengProblemQueueVo">
         select q.id, q.user_id, q.problem_id, q.task_id, q.task_join_id, q.everyday_id, q.type, q.code, q.status, q.success_msg, q.error_msg, q.create_by, q.create_time, q.update_by, q.update_time, q.retry_count,
-            fp.title, u.nick_name
+            fp.title, u.nick_name, u.avatar
         from feng_problem_queue as q
         left join feng_problem fp on q.problem_id = fp.id
         left join feng_users u on q.user_id = u.user_id
