@@ -69,6 +69,8 @@ import { timeFix } from '@/utils/util'
 import { mapGetters } from 'vuex'
 import { PageHeaderWrapper } from '@/components/ProLayout'
 import { getUserProfile } from '@/api/system/user'
+import storage from 'store'
+import { USER_AVATAR } from '@/store/mutation-types'
 
 export default {
   name: 'Index',
@@ -101,6 +103,7 @@ export default {
       getUserProfile().then(response => {
         this.user = response.data
         this.roleGroup = response.roleGroup
+        storage.set(USER_AVATAR, this.user.avatar)
       })
     },
     onSponsorTabChange (key, type) {

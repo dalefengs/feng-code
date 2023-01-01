@@ -19,6 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="tagName"    column="tag_name"    />
         <result property="hint"    column="hint"    />
         <result property="submitCount"    column="submit_count"    />
+        <result property="commentCount"    column="comment_count"    />
         <result property="sort"    column="sort"    />
         <result property="isAuto"    column="is_auto"    />
         <result property="successCount"    column="success_count"    />
@@ -76,7 +77,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id="selectFengProblemById" parameterType="Long" resultMap="FengProblemResult">
-        <include refid="selectFengProblemVo"/>
+        select p.id, p.title, p.user_id, p.level, p.description, p.category_id, p.tag_id, p.hint, p.submit_count,
+        p.sort, p.is_auto, p.success_count, p.language, p.method_names, p.param_types, p.code_templates, p.test_case,
+        p.create_by, p.create_time, p.update_by, p.update_time, u.nick_name, c.title as category_name, tag.title as tag_name,
+        ifnull(( select count(1) from feng_problem_comment where problem_id = p.id), 0) as comment_count
+        from feng_problem as p
+        left join feng_users u on u.user_id = p.user_id
+        left join feng_problem_category c on p.category_id = c.id
+        left join feng_problem_tags tag on tag.id = p.tag_id
         where p.id = #{id}
     </select>
 
@@ -89,7 +97,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         ) as give_count,
         (
             select count(1) from feng_give where problem_id = p.id and user_id = #{userId} and comment_id = 0
-        ) as is_give
+        ) as is_give,
+        ( select count(1) from feng_problem_comment where problem_id = p.id) as comment_count
         from feng_problem as p
         left join feng_users u on u.user_id = p.user_id
         left join feng_problem_category c on p.category_id = c.id

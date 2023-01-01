@@ -41,59 +41,113 @@
             <span> 通过率：{{ problemInfo.submitCount ? ((problemInfo.successCount / problemInfo.submitCount) * 100 ).toFixed(2) : '0.00' }} %</span>
           </div>
         </a-tab-pane>
-        <a-tab-pane key="2" tab="评论(112)">
-          <a-comment>
-            <span slot="actions" key="comment-nested-reply-to">Reply to</span>
-            <a slot="author">Han Solo</a>
+        <a-tab-pane key="2" :tab="'讨论(' + (problemInfo.commentCount ?? 0) + ')'">
+          <a-comment style="">
             <a-avatar
               slot="avatar"
-              src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-              alt="Han Solo"
+              :src="avatar"
+              v-if="avatar !== ''"
             />
+            <a-avatar v-else icon="user" slot="avatar" />
+            <div slot="content">
+              <a-form-item>
+                <a-textarea :rows="4" :value="commentContent" placeholder="请输出您要发表的内容" @change="handleCommentContent"/>
+              </a-form-item>
+              <a-form-item>
+                <a-button html-type="submit" :loading="submitting" type="primary" @click="handleSubmitComment(undefined, undefined, undefined)">
+                  提交
+                </a-button>
+              </a-form-item>
+            </div>
+          </a-comment>
+          <!-- 列表 -->
+          <a-comment v-for="(item, index) in commentList" :key="index">
+            <div slot="actions" key="comment-nested-reply-to">
+              <div>
+                <span style="color: #1890ff; cursor: pointer" @click="handelReplyShow(item.id)">回复</span>
+              </div>
+              <div style="margin-top: 10px; display: none;" :ref="'reply_'+item.id">
+                <div style="display: inline-block">
+                  <a-avatar
+                    slot="avatar"
+                    :src="avatar"
+                    v-if="avatar !== ''"
+                  />
+                  <a-avatar v-else icon="user" slot="avatar" />
+                </div>
+                <a-form-item class="comment-input">
+                  <a-input :ref="'reply_input_'+item.id" placeholder="请输入评论" allow-clear />
+                  <div class="comment-button">
+                    <a-button @click="handleReplyCancel(item.id)" style="margin-right: 16px">取消</a-button>
+                    <a-button type="primary" @click="handleSubmitComment(item.id, item.id, 0)">提交</a-button>
+                  </div>
+                </a-form-item>
+              </div>
+            </div>
+            <a slot="author" style="color: #2d2d2d; font-size: 15px">{{ item.nickName }}</a>
+            <a-avatar
+              slot="avatar"
+              v-if="item.avatar !== '' "
+              :src="item.avatar"
+              :alt="item.nickName"
+            />
+            <a-avatar v-else icon="user" slot="avatar" :alt="item.nickName" />
             <p slot="content">
-              We supply a series of design principles, practical patterns and high quality design resources
-              (Sketch and Axure).
+              {{ item.content }}
             </p>
-            <a-comment>
-              <span slot="actions">Reply to</span>
-              <a slot="author">Han Solo</a>
+            <a-comment v-if="item.children" v-for="(child, i) in item.children" :key="i">
+              <div slot="actions" key="comment-nested-reply-to">
+                <div>
+                  <span style="color: #1890ff; cursor: pointer" @click="handelReplyShow(child.id)">回复</span>
+                </div>
+                <div style="margin-top: 10px; display: none;" :ref="'reply_'+child.id">
+                  <div style="display: inline-block">
+                    <a-avatar
+                      slot="avatar"
+                      :src="avatar"
+                      v-if="avatar !== ''"
+                    />
+                    <a-avatar v-else icon="user" slot="avatar" />
+                  </div>
+                  <a-form-item class="comment-input">
+                    <a-input :placeholder="`回复 ${child.nickName} 的评论`" :ref="'reply_input_'+child.id" allow-clear />
+                    <div class="comment-button">
+                      <a-button @click="handleReplyCancel(child.id)" style="margin-right: 16px">取消</a-button>
+                      <a-button type="primary" @click="handleSubmitComment(child.id, item.id, child.userId)">提交</a-button>
+                    </div>
+                  </a-form-item>
+                </div>
+              </div>
+              <a slot="author" style="font-size: 15px">
+                {{ child.nickName }}
+                <span v-if="child.replyUserId > 0">
+                  <a-icon type="caret-right" /> {{ child.replyNickName }}
+                </span>
+              </a>
               <a-avatar
                 slot="avatar"
-                src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                alt="Han Solo"
+                v-if="child.avatar !== '' "
+                :src="child.avatar"
+                :alt="child.nickName"
               />
+              <a-avatar v-else icon="user" slot="avatar" :alt="child.nickName" />
               <p slot="content">
-                We supply a series of design principles, practical patterns and high quality design
-                resources (Sketch and Axure).
+                {{ child.content }}
               </p>
-              <a-comment>
-                <span slot="actions">Reply to</span>
-                <a slot="author">Han Solo</a>
-                <a-avatar
-                  slot="avatar"
-                  src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                  alt="Han Solo"
-                />
-                <p slot="content">
-                  We supply a series of design principles, practical patterns and high quality design
-                  resources (Sketch and Axure).
-                </p>
-              </a-comment>
-              <a-comment>
-                <span slot="actions">Reply to</span>
-                <a slot="author">Han Solo</a>
-                <a-avatar
-                  slot="avatar"
-                  src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                  alt="Han Solo"
-                />
-                <p slot="content">
-                  We supply a series of design principles, practical patterns and high quality design
-                  resources (Sketch and Axure).
-                </p>
-              </a-comment>
             </a-comment>
           </a-comment>
+          <!-- 分页 -->
+          <a-pagination
+            class="ant-table-pagination"
+            show-size-changer
+            show-quick-jumper
+            :current="commentQueryParam.pageNum"
+            :total="commentTotal"
+            :page-size="commentQueryParam.pageSize"
+            :showTotal="total => `共 ${total} 条`"
+            @showSizeChange="onCommentShowSizeChange"
+            @change="changeCommentSize"
+          />
         </a-tab-pane>
         <!-- <a-tab-pane key="3" tab="题解(10)">
           题解
@@ -206,6 +260,9 @@ import Codemirror from '@/components/Codemirror'
 import { addQueue, getQueue, submitListQueue } from '@/api/business/queue'
 import { tableMixin } from '@/store/table-mixin'
 import { addGive } from '@/api/business/give'
+import { addComment, listComment } from '@/api/business/comment'
+import storage from 'store'
+import { USER_AVATAR } from '@/store/mutation-types'
 
 export default {
   name: 'ResolveProblem',
@@ -217,6 +274,7 @@ export default {
   data () {
     return {
       id: undefined,
+      avatar: '',
       activeKey: '1',
       problemInfo: {
         codeTemplatesParse: []
@@ -232,6 +290,14 @@ export default {
       taskId: 0,
       everydayId: 0,
       submitList: [], // 提交列表
+      commentList: [], // 评论列表
+      commentTotal: 0,
+      commentContent: '',
+      submitting: false,
+      commentQueryParam: {
+        pageSize: 20,
+        pageNum: 1
+      },
       submitParam: {
         type: -1
       },
@@ -271,6 +337,7 @@ export default {
       this.$message.error('非法访问')
       this.$router.replace({ path: '/problemSet' })
     }
+    this.avatar = storage.get(USER_AVATAR)
     if (this.$route.query.taskId) {
       this.taskId = this.$route.query.taskId
     }
@@ -279,6 +346,7 @@ export default {
     }
     this.id = this.$route.params.id
     this.getProblemInfo()
+    this.getCommentList()
   },
   mounted () {
     // 隐藏底栏
@@ -288,6 +356,56 @@ export default {
     this.changeEditorHeight('calc(65vh - 180px)')
   },
   methods: {
+    handleReplyCancel (id) {
+      this.$refs['reply_' + id][0].style.display = 'none'
+    },
+    handelReplyShow (id) {
+      this.$refs['reply_' + id][0].style.display = 'inline-block'
+    },
+    handleSubmitComment (inputId, pid, replyUserId) {
+      if (!this.commentContent && !inputId) {
+        this.$notification.error({ message: '请输入你的讨论内容！' })
+        return false
+      }
+      const param = {
+        problemId: this.id,
+        content: this.commentContent
+      }
+      if (inputId) {
+        param.pid = pid
+        const content = this.$refs['reply_input_' + inputId][0].stateValue
+        if (!content) {
+          this.$notification.error({ message: '请输入你的回复内容！' })
+          this.submitList = false
+          return false
+        }
+        param.content = content
+      } else {
+        this.submitting = true
+      }
+      if (replyUserId) {
+        param.replyUserId = replyUserId
+      }
+      addComment(param).then(res => {
+        this.$notification.success({ message: '您的讨论提交成功！' })
+        this.getCommentList()
+        this.problemInfo.commentCount++
+      }).finally(() => {
+        this.submitting = false
+        this.commentContent = ''
+        if (inputId) {
+          this.handleReplyCancel(inputId)
+          this.$refs['reply_input_' + inputId][0].setValue('')
+        }
+      })
+    },
+    getCommentList () {
+      this.commentQueryParam.problemId = this.id
+      listComment(this.commentQueryParam).then(res => {
+        this.commentList = res.rows
+        this.commentTotal = res.total
+      })
+    },
     give (commentId) {
       const param = {
         problemId: this.id,
@@ -397,6 +515,9 @@ export default {
     changeEditorHeight (heightStyle) {
       this.$refs.styleVar.$el.setAttribute('style', '--edit-height: ' + heightStyle)
     },
+    handleCommentContent (e) {
+      this.commentContent = e.target.value
+    },
     // 解析JSON测试用例
     parseTestCase (jsonData) {
       const testCaseData = JSON.parse(jsonData)
@@ -423,8 +544,20 @@ export default {
         return false
       }
     },
+    onCommentShowSizeChange (current, pageSize) {
+      this.commentQueryParam.pageSize = pageSize
+      this.getCommentList()
+    },
+    changeCommentSize (current, pageSize) {
+      this.commentQueryParam.pageNum = current
+      this.commentQueryParam.pageSize = pageSize
+      this.getCommentList()
+    },
     tabClick (index) {
       this.activeKey = index
+      if (index === '2') {
+        this.getCommentList()
+      }
       if (index === '4') {
         this.getSubmitList()
       }
@@ -442,6 +575,22 @@ export default {
   padding: 0 3px;
   margin: 0;
   //overflow-y: auto;
+}
+
+.comment-input {
+  display: inline-block;
+  margin-left: 12px;
+  width: 420px;
+  input {
+    height: 36px;
+    border-radius: 20px;
+    vertical-align: bottom;
+  }
+}
+
+.comment-button {
+  float: right;
+  margin-right: 6px;
 }
 
 .submit-rete {

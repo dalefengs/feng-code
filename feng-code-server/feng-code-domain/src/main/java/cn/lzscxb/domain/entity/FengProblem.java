@@ -114,6 +114,8 @@ public class FengProblem extends BaseEntity
     @Excel(name = "测试用例")
     private String testCase;
 
+    private Integer commentCount;
+
     /**
      * 解析方法名JSON
      */

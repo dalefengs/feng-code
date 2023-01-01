@@ -61,6 +61,15 @@ public class FengProblemComment extends BaseEntity {
     private String problemTitle;
     private Integer giveCount;
     private String avatar;
+    private String replyNickName;
+
+    public String getReplyNickName() {
+        return replyNickName;
+    }
+
+    public void setReplyNickName(String replyNickName) {
+        this.replyNickName = replyNickName;
+    }
 
     public String getAvatar() {
         return avatar;

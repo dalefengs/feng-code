@@ -71,7 +71,6 @@ public class FengProblemCommentController extends BaseController
     /**
      * 新增题目评论
      */
-    @PreAuthorize("@ss.hasPermi('business:comment:add')")
     @Log(title = "题目评论", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody FengProblemComment fengProblemComment)

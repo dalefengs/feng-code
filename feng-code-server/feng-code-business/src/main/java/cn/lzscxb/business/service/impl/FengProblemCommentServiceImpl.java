@@ -1,8 +1,8 @@
 package cn.lzscxb.business.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import cn.lzscxb.common.utils.DateUtils;
+import cn.lzscxb.common.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cn.lzscxb.business.mapper.FengProblemCommentMapper;
@@ -42,6 +42,7 @@ public class FengProblemCommentServiceImpl implements IFengProblemCommentService
     @Override
     public List<FengProblemComment> selectFengProblemCommentList(FengProblemComment fengProblemComment)
     {
+        fengProblemComment.setUserId(SecurityUtils.getUserId());
         List<FengProblemComment> fengProblemComments = fengProblemCommentMapper.selectFengProblemCommentList(fengProblemComment);
         for (FengProblemComment problemComment : fengProblemComments) {
             // 无限级评论
@@ -80,6 +81,7 @@ public class FengProblemCommentServiceImpl implements IFengProblemCommentService
     public int insertFengProblemComment(FengProblemComment fengProblemComment)
     {
         fengProblemComment.setCreateTime(DateUtils.getNowDate());
+        fengProblemComment.setUserId(SecurityUtils.getUserId());
         return fengProblemCommentMapper.insertFengProblemComment(fengProblemComment);
     }
 
