@@ -78,6 +78,7 @@ public class FengTaskController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody FengTask fengTask)
     {
+        fengTask.setCreateBy(getUsername());
         return toAjax(fengTaskService.insertFengTask(fengTask));
     }
 
@@ -89,6 +90,7 @@ public class FengTaskController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody FengTask fengTask)
     {
+        fengTask.setCreateBy(getUsername());
         return toAjax(fengTaskService.updateFengTask(fengTask));
     }
 

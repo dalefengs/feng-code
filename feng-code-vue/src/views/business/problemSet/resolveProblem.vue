@@ -185,8 +185,9 @@
       <div class="controller" v-show="controllerIcon === 'up'">
         <a-tabs default-active-key="1">
           <a-tab-pane key="1" tab="执行结果">
-            <div v-if="excuteStatus === 0">请先提交您的代码。</div>
-            <div v-if="excuteStatus === 1"><a-icon type="loading" style="margin-right: 8px" />代码正在执行中，请等待...</div>
+            <div v-if="taskJoinInfo.status === 2" style="color: crimson">当前学习任务已于 {{ taskJoinInfo.endTime }} 过期, 不允许提交！</div>
+            <div v-else-if="excuteStatus === 0">请先提交您的代码。</div>
+            <div v-else-if="excuteStatus === 1"><a-icon type="loading" style="margin-right: 8px" />代码正在执行中，请等待...</div>
             <div v-if="excuteStatus > 1">
               <div v-if="excuteStatus === 2">
                 <a-alert message="恭喜您，程序通过啦！" type="success" show-icon />
@@ -245,8 +246,9 @@
             <a-icon :type="controllerIcon" style="font-size: 13px" />
           </a-button>
         </div>
-        <div class="right">
-          <a-button @click="submit()" style="background-color: #2db55d; color: white">提交</a-button>
+        <div class="right" >
+          <a-button @click="$notification.error({ message: '当前学习任务已过期，不允许提交' })" v-if="taskJoinInfo.status === 2" >提交</a-button>
+          <a-button @click="submit()" v-else style="background-color: #2db55d; color: white">提交</a-button>
         </div>
       </div>
     </a-col>
@@ -304,6 +306,7 @@ import { addGive } from '@/api/business/give'
 import { addComment, listComment } from '@/api/business/comment'
 import storage from 'store'
 import { USER_AVATAR } from '@/store/mutation-types'
+import { getTaskJoin } from '@/api/business/taskJoin'
 
 export default {
   name: 'ResolveProblem',
@@ -331,6 +334,8 @@ export default {
       queueInfo: {}, // 查看提交记录信息详情
       showQuqueInfo: false,
       taskId: 0,
+      taskJoinId: 0,
+      taskJoinInfo: {},
       everydayId: 0,
       submitList: [], // 提交列表
       commentList: [], // 评论列表
@@ -383,6 +388,10 @@ export default {
     this.avatar = storage.get(USER_AVATAR)
     if (this.$route.query.taskId) {
       this.taskId = this.$route.query.taskId
+    }
+    if (this.$route.query.taskJoinId) {
+      this.taskJoinId = this.$route.query.taskJoinId
+      getTaskJoin(this.taskJoinId).then(res => { this.taskJoinInfo = res.data })
     }
     if (this.$route.query.everydayId) {
       this.everydayId = this.$route.query.everydayId

@@ -278,6 +278,7 @@ export default {
       this.tsgsList = res.data
     })
     const taskParam = {
+      teacherId: 0,
       pageNum: 1,
       pageSize: 7
     }

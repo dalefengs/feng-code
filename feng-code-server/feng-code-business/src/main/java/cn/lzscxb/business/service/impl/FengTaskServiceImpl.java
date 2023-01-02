@@ -4,6 +4,7 @@ import java.util.List;
 import cn.lzscxb.common.utils.DateUtils;
 import cn.lzscxb.common.utils.SecurityUtils;
 import cn.lzscxb.domain.entity.FengTaskProblem;
+import cn.lzscxb.domain.enums.RoleKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cn.lzscxb.business.mapper.FengTaskMapper;
@@ -48,6 +49,9 @@ public class FengTaskServiceImpl implements IFengTaskService
     @Override
     public List<FengTask> selectFengTaskList(FengTask fengTask)
     {
+        if (SecurityUtils.isRoleDesignated(RoleKey.TEACHER)) {
+            fengTask.setTeacherId(SecurityUtils.getUserId());
+        }
         return fengTaskMapper.selectFengTaskList(fengTask);
     }
 
@@ -60,6 +64,10 @@ public class FengTaskServiceImpl implements IFengTaskService
     @Override
     public int insertFengTask(FengTask fengTask)
     {
+        // 如果是教师则加id
+        if (SecurityUtils.isRoleDesignated(RoleKey.TEACHER)) {
+            fengTask.setTeacherId(SecurityUtils.getUserId());
+        }
         fengTask.setCreateTime(DateUtils.getNowDate());
         return fengTaskMapper.insertFengTask(fengTask);
     }

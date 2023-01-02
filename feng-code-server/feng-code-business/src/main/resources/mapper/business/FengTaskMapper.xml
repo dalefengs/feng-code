@@ -11,6 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="subTitle"    column="sub_title"    />
         <result property="imgUrl"    column="img_url"    />
         <result property="isJoin"    column="is_join"    />
+        <result property="TaskJoinId"    column="task_join_id"    />
         <result property="taskExplain"    column="task_explain"    />
         <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
@@ -26,16 +27,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectFengTaskVo"/>
         <where>  
             <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
+            <if test="teacherId != null"> and teacher_id = #{teacherId}</if>
         </where>
     </select>
     
     <select id="selectFengTaskById" parameterType="Long" resultMap="FengTaskResult">
         select t.id, t.teacher_id, t.title, t.sub_title, t.img_url, t.task_explain, t.create_by, t.create_time,
-        t.update_by, t.update_time
+        t.update_by, t.update_time, tj.id as task_join_id
         <if test="currentUserId != null">
         ,ifnull((select 1 from feng_task_join where task_id = t.id and user_id = #{currentUserId}), 0) as is_join
         </if>
         from feng_task as t
+        left join feng_task_join tj on t.id = tj.task_id and tj.user_id = #{currentUserId}
         where t.id = #{id}
     </select>
         

@@ -69,6 +69,9 @@ public class FengTaskJoin extends BaseEntity
 
     private String nickName;
     private String className;
+    private Long teacherId;
+
+
 
     public String getClassName() {
         return className;

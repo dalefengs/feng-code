@@ -8,8 +8,11 @@ import cn.lzscxb.business.mapper.FengClassMapper;
 import cn.lzscxb.business.mapper.FengTaskMapper;
 import cn.lzscxb.common.utils.DateUtils;
 import cn.lzscxb.common.utils.SecurityUtils;
+import cn.lzscxb.domain.annotation.Log;
 import cn.lzscxb.domain.entity.FengClass;
 import cn.lzscxb.domain.entity.FengTask;
+import cn.lzscxb.domain.enums.RoleKey;
+import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,6 +85,9 @@ public class FengTaskJoinServiceImpl implements IFengTaskJoinService {
      */
     @Override
     public List<FengTaskJoin> selectFengTaskJoinList(FengTaskJoin fengTaskJoin) {
+        if (SecurityUtils.isRoleDesignated(RoleKey.TEACHER)) {
+            fengTaskJoin.setTeacherId(SecurityUtils.getUserId());
+        }
         return fengTaskJoinMapper.selectFengTaskJoinList(fengTaskJoin);
     }
 
@@ -106,6 +112,9 @@ public class FengTaskJoinServiceImpl implements IFengTaskJoinService {
 
     @Override
     public int insertFengTaskJoinByClass(FengTaskJoin fengTaskJoin) {
+        FengTask task = new FengTask();
+        task.setId(fengTaskJoin.getTaskId());
+        FengTask taskInfo = fengTaskMapper.selectFengTaskById(task);
         // 查询班级下所有学生
         for (Long classId : fengTaskJoin.getClassIds()) {
             List<Long> userIds = fengClassMapper.selectUserIdByClassId(classId);
@@ -116,6 +125,7 @@ public class FengTaskJoinServiceImpl implements IFengTaskJoinService {
                     FengTaskJoin join = new FengTaskJoin();
                     join.setClassId(classId);
                     join.setUserId(userId);
+                    join.setTeacherId(taskInfo.getTeacherId());
                     join.setTaskId(fengTaskJoin.getTaskId());
                     join.setCreateTime(DateUtils.getNowDate());
                     join.setEndTime(fengTaskJoin.getEndTime());

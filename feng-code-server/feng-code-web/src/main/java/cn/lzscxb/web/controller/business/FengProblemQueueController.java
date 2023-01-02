@@ -33,13 +33,23 @@ public class FengProblemQueueController extends BaseController
 {
     @Autowired
     private IFengProblemQueueService fengProblemQueueService;
-
     /**
      * 查询任务管理列表
      */
     @PreAuthorize("@ss.hasPermi('business:queue:list')")
     @GetMapping("/list")
     public TableDataInfo list(FengProblemQueue fengProblemQueue)
+    {
+        startPage();
+        List<FengProblemQueue> list = fengProblemQueueService.selectFengProblemQueueList(fengProblemQueue);
+        return getDataTable(list);
+    }
+    /**
+     * 查询待批阅任务管理列表
+     */
+    @PreAuthorize("@ss.hasPermi('business:queue:problem-check-list')")
+    @GetMapping("/check-list")
+    public TableDataInfo problemCheckList(FengProblemQueue fengProblemQueue)
     {
         startPage();
         List<FengProblemQueue> list = fengProblemQueueService.selectFengProblemQueueList(fengProblemQueue);

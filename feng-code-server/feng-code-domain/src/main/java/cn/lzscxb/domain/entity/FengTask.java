@@ -24,7 +24,7 @@ public class FengTask extends BaseEntity {
     /**
      * 创建任务的教师id
      */
-    private Integer teacherId;
+    private Long teacherId;
 
     /**
      * 当前用户Id
@@ -53,6 +53,16 @@ public class FengTask extends BaseEntity {
     private String taskExplain;
 
     private String isJoin;
+
+    private Long TaskJoinId;
+
+    public Long getTaskJoinId() {
+        return TaskJoinId;
+    }
+
+    public void setTaskJoinId(Long taskJoinId) {
+        TaskJoinId = taskJoinId;
+    }
 
     public String getIsJoin() {
         return isJoin;

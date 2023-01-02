@@ -123,8 +123,8 @@ export default {
       problemRowClick: record => ({
         on: {
           click: () => {
-            console.log('click:', record.id)
-            this.$router.push({ path: '/problemSet/' + record.id, query: { taskId: this.taskId } })
+            console.log('click:', record)
+            this.$router.push({ path: '/problemSet/' + record.id, query: { taskId: this.taskId, taskJoinId: this.taskInfo.taskJoinId } })
           }
         }
       }),

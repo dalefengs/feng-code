@@ -40,7 +40,7 @@ public class FengTaskScheduled {
     @Scheduled(cron = "0 0 */1 * * ?") // 每小时执行一次
 //    @Scheduled(fixedRate = 10000)
     public void everydayAddProblem() {
-        log.info("生成每日一题 - 定时任务执行啦！ 当前时间：{} {}", DateUtils.getDate(), DateUtils.getTime());
+        log.info("生成每日一题 - 定时任务执行啦！ 当前时间：{}", DateUtils.getTime());
         everydayService.everydayAddProblem();
 
     }
@@ -73,6 +73,7 @@ public class FengTaskScheduled {
 
     @Scheduled(cron = "0 0/1 * * * ?") // 每分钟执行一次
     public void taskJoinOverdue() {
+        log.info("过期学习任务 - 定时任务执行 当前时间：{}", DateUtils.getTime());
         fengTaskJoinService.overdueMyTask();
     }
 }

@@ -8,6 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="id"    column="id"    />
         <result property="classId"    column="class_id"    />
         <result property="userId"    column="user_id"    />
+        <result property="teacherId"    column="teacher_id"    />
         <result property="nickName"    column="nick_name"    />
         <result property="className"    column="class_name"    />
         <result property="taskId"    column="task_id"    />
@@ -24,7 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectFengTaskJoinVo">
-        select tj.id, tj.class_id, tj.user_id, tj.task_id, tj.status, tj.correct_count, tj.score, tj.end_time, tj.submit_time, tj.check_time, tj.create_by, tj.create_time, tj.update_by, tj.update_time,
+        select tj.id, tj.class_id, tj.user_id, tj.teacher_id, tj.task_id, tj.status, tj.correct_count, tj.score, tj.end_time, tj.submit_time, tj.check_time, tj.create_by, tj.create_time, tj.update_by, tj.update_time,
             u.nick_name, fc.name as class_name
         from feng_task_join as tj
         left join feng_users u on tj.user_id = u.user_id
@@ -34,6 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectFengTaskJoinList" parameterType="cn.lzscxb.domain.entity.FengTaskJoin" resultMap="FengTaskJoinResult">
         <include refid="selectFengTaskJoinVo"/>
         <where>  
+            <if test="teacherId != null "> and tj.teacher_id = #{teacherId}</if>
             <if test="taskId != null "> and task_id = #{taskId}</if>
             <if test="status != null "> and status = #{status}</if>
             <if test="endTime != null "> and end_time = #{endTime}</if>
