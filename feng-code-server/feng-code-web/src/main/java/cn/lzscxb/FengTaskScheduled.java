@@ -2,6 +2,7 @@ package cn.lzscxb;
 
 import cn.lzscxb.business.service.impl.FengProblemEverydayServiceImpl;
 import cn.lzscxb.business.service.impl.FengProblemQueueServiceImpl;
+import cn.lzscxb.business.service.impl.FengTaskJoinServiceImpl;
 import cn.lzscxb.common.core.redis.RedisCache;
 import cn.lzscxb.common.utils.DateUtils;
 import cn.lzscxb.domain.constant.CacheConstants;
@@ -29,18 +30,26 @@ public class FengTaskScheduled {
     @Autowired
     private FengProblemEverydayServiceImpl everydayService;
 
+    @Autowired
+    private FengTaskJoinServiceImpl fengTaskJoinService;
+
+    /**
+     * 自动生成每日一题
+     */
 //        @Scheduled(cron = "0 0 0 * * ?") // 每日凌晨执行，正式环境
     @Scheduled(cron = "0 0 */1 * * ?") // 每小时执行一次
 //    @Scheduled(fixedRate = 10000)
     public void everydayAddProblem() {
-        log.info("每日一题 - 定时任务执行啦！ 当前时间：{} {}", DateUtils.getDate(), DateUtils.getTime());
+        log.info("生成每日一题 - 定时任务执行啦！ 当前时间：{} {}", DateUtils.getDate(), DateUtils.getTime());
         everydayService.everydayAddProblem();
 
     }
 
+    /**
+     * 代码提交到 Docker 容器中执行
+     */
     @Scheduled(fixedRate = 100)
     public void executeQuque() {
-//        log.info("定时任务");
         Integer ququeId = redisCache.cacheListLPop(CacheConstants.QUQUE_EXECUTE);
         if (ququeId == null) {
             return;
@@ -62,4 +71,8 @@ public class FengTaskScheduled {
         }
     }
 
+    @Scheduled(cron = "0 0/1 * * * ?") // 每分钟执行一次
+    public void taskJoinOverdue() {
+        fengTaskJoinService.overdueMyTask();
+    }
 }
