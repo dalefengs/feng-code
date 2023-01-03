@@ -5,29 +5,14 @@
       <div class="table-page-search-wrapper">
         <a-form layout="inline">
           <a-row :gutter="48">
-            <a-col :md="5" :sm="24">
+            <a-col :md="8" :sm="24">
               <a-form-item label="用户昵称" prop="userId">
                 <a-input v-model="queryParam.nickname" placeholder="请输入昵称" allow-clear/>
               </a-form-item>
             </a-col>
-            <a-col :md="5" :sm="24">
+            <a-col :md="8" :sm="24">
               <a-form-item label="题目标题" prop="title">
                 <a-input v-model="queryParam.title" placeholder="请输入标题" allow-clear/>
-              </a-form-item>
-            </a-col>
-            <a-col :md="5" :sm="24">
-              <a-form-item label="语言类型" prop="type">
-                <a-select placeholder="请选择语言类型" v-model="queryParam.type" style="width: 100%" allow-clear>
-                  <a-select-option key="-1" :value="-1">全部语言</a-select-option>
-                  <a-select-option v-for="(d, index) in dict.type.code_language" :key="index" :value="d.value">{{ d.label }}</a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
-            <a-col :md="5" :sm="24">
-              <a-form-item label="状态" prop="status">
-                <a-select placeholder="请选择状态" v-model="queryParam.status" style="width: 100%" allow-clear>
-                  <a-select-option v-for="(d, index) in dict.type.queue_status" :key="index" :value="d.value">{{ d.label }}</a-select-option>
-                </a-select>
               </a-form-item>
             </a-col>
             <a-col :md="!advanced && 2 || 24" :sm="24">
@@ -49,11 +34,23 @@
         :bordered="tableBordered"
         @change="tableChange"
       >
+        <span slot="className" slot-scope="text, record">
+          {{ record.className ?? '个人参与' }}
+        </span>
         <span slot="type" slot-scope="text, record">
           <dict-tag :options="dict.type['code_language']" :value="record.type"/>
         </span>
         <span slot="status" slot-scope="text, record">
           <dict-tag :options="dict.type['queue_status']" :value="record.status"/>
+        </span>
+        <span slot="operation" slot-scope="text, record">
+          <a @click="update(record)">
+            <a-icon type="search" /> 批阅
+          </a>
+          <a-divider type="vertical" />
+          <a @click="handleDelete(record)">
+            <a-icon type="delete" /> 退回
+          </a>
         </span>
       </a-table>
       <!-- 分页 -->
@@ -80,9 +77,9 @@
 
 <script>
 import { tableMixin } from '@/store/table-mixin'
-import { delQueue, listQueue } from '@/api/business/queue'
+import { delQueue, listCheck } from '@/api/business/queue'
 export default {
-  name: 'Queue',
+  name: 'ProblemCheck',
   components: {},
   mixins: [tableMixin],
   dicts: ['code_language', 'queue_status'],
@@ -117,6 +114,13 @@ export default {
           align: 'center'
         },
         {
+          title: '参与方式(班级 | 个人)',
+          dataIndex: 'className',
+          scopedSlots: { customRender: 'className' },
+          ellipsis: true,
+          align: 'center'
+        },
+        {
           title: '昵称',
           dataIndex: 'nickname',
           ellipsis: true,
@@ -128,32 +132,33 @@ export default {
           ellipsis: true,
           align: 'center'
         },
-        {
-          title: '语言类型',
-          dataIndex: 'type',
-          scopedSlots: { customRender: 'type' },
-          ellipsis: true,
-          align: 'center'
-        },
+        // {
+        //   title: '语言类型',
+        //   dataIndex: 'type',
+        //   scopedSlots: { customRender: 'type' },
+        //   ellipsis: true,
+        //   align: 'center'
+        // },
         {
           title: '状态',
           dataIndex: 'status',
           scopedSlots: { customRender: 'status' },
           ellipsis: true,
           align: 'center'
-        }/* ,
+        },
         {
-          title: '执行信息',
-          dataIndex: 'successMsg',
+          title: '提交时间',
+          dataIndex: 'createTime',
           ellipsis: true,
           align: 'center'
         },
         {
-          title: '失败信息',
-          dataIndex: 'errorMsg',
-          ellipsis: true,
+          title: '操作',
+          dataIndex: 'operation',
+          width: '18%',
+          scopedSlots: { customRender: 'operation' },
           align: 'center'
-        } */
+        }
       ]
     }
   },
@@ -170,7 +175,7 @@ export default {
     /** 查询任务管理列表 */
     getList () {
       this.loading = true
-      listQueue(this.queryParam).then(response => {
+      listCheck(this.queryParam).then(response => {
         this.list = response.rows
         this.total = response.total
         this.loading = false

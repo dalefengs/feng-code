@@ -27,6 +27,9 @@ public class FengProblemQueue extends BaseEntity
     @Excel(name = "用户名")
     private Long userId;
 
+    /** 当前登录教师id */
+    private Long currenTeacherId;
+
     /** 题目 */
     @Excel(name = "题目")
     private Long problemId;
@@ -81,6 +84,24 @@ public class FengProblemQueue extends BaseEntity
     private Integer ranking;
 
     private String avatar;
+    private String taskTitle;
+    private String className;
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
+    public String getTaskTitle() {
+        return taskTitle;
+    }
+
+    public void setTaskTitle(String taskTitle) {
+        this.taskTitle = taskTitle;
+    }
 
     public String getAvatar() {
         return avatar;

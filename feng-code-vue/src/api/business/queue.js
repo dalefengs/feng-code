@@ -18,6 +18,15 @@ export function listRank (query) {
   })
 }
 
+// 查询任务管理列表
+export function listCheck (query) {
+  return request({
+    url: '/business/queue/check-list',
+    method: 'get',
+    params: query
+  })
+}
+
 // 提交记录
 export function submitListQueue (query) {
   return request({

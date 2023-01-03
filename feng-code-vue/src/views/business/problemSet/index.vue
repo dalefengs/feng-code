@@ -339,7 +339,7 @@ export default {
       })
     },
     goTaskInfo (id) {
-      this.$router.push({ path: 'task/' + id })
+      this.$router.push({ path: 'task/info/' + id })
     },
     onShowSizeChange (current, pageSize) {
       this.queryParam.pageSize = pageSize

@@ -3,6 +3,7 @@ package cn.lzscxb.business.service;
 import java.util.List;
 
 import cn.lzscxb.domain.entity.FengProblemQueue;
+import cn.lzscxb.domain.entity.FengTaskJoin;
 import cn.lzscxb.domain.model.ExecuteResult;
 
 /**
@@ -72,4 +73,6 @@ public interface IFengProblemQueueService {
     List<FengProblemQueue> submitList(FengProblemQueue fengProblemQueue);
 
     List<FengProblemQueue> selectFengProblemRankList(FengProblemQueue fengProblemQueue);
+
+    List<FengProblemQueue> selectFengTaskCheckList(FengProblemQueue fengProblemQueue);
 }

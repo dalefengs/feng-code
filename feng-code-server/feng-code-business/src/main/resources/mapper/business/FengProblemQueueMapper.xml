@@ -12,6 +12,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="problemId"    column="problem_id"    />
         <result property="title"    column="title"    />
         <result property="taskId"    column="task_id"    />
+        <result property="taskTitle"    column="task_title"    />
+        <result property="className"    column="class_name"    />
         <result property="everydayId"    column="everyday_id"    />
         <result property="taskJoinId"    column="task_join_id"    />
         <result property="type"    column="type"    />
@@ -37,6 +39,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     </sql>
 
+
+    <select id="selectFengTaskCheckList" parameterType="cn.lzscxb.domain.entity.FengProblemQueue" resultMap="FengProblemQueueResult">
+        select q.id, q.user_id, q.problem_id, q.task_id, q.task_join_id, q.everyday_id, q.type, q.code, q.status, q.retry_count, q.success_msg, q.error_msg, q.create_by, q.create_time, q.update_by, q.update_time,
+        t.title as task_title,
+        c.name as class_name,
+        fp.title,
+        u.nick_name
+        from feng_problem_queue q
+        left join feng_users u on u.user_id = q.user_id
+        left join feng_task t on t.id = q.task_id
+        left join feng_task_join j on j.id = q.task_join_id
+        left join feng_class c on c.id = j.class_id
+        left join feng_problem fp on fp.id  = q.problem_id
+        <where>
+            fp.is_auto = 1
+            and q.id = (select id
+            from feng_problem_queue
+                where user_id = q.user_id
+                    and problem_id = q.problem_id
+            order by create_time DESC
+            limit 1
+            )
+            <if test="currenTeacherId != null "> and fp.user_id = #{currenTeacherId}</if>
+            <if test="nickname != null and nickname != '' != null "> and u.nick_name like concat('%', #{nickname}, '%')</if>
+            <if test="title != null and title != '' != null "> and fp.title like concat('%', #{title}, '%')</if>
+        </where>
+        order by q.status desc, q.create_time
+
+    </select>
 
     <select id="selectFengProblemRankList" resultMap="FengProblemQueueResult">
         SELECT *

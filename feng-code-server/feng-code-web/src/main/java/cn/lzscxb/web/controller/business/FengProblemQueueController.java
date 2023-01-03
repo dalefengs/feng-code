@@ -2,6 +2,8 @@ package cn.lzscxb.web.controller.business;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import cn.lzscxb.domain.entity.FengTaskJoin;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,17 +46,7 @@ public class FengProblemQueueController extends BaseController
         List<FengProblemQueue> list = fengProblemQueueService.selectFengProblemQueueList(fengProblemQueue);
         return getDataTable(list);
     }
-    /**
-     * 查询待批阅任务管理列表
-     */
-    @PreAuthorize("@ss.hasPermi('business:queue:problem-check-list')")
-    @GetMapping("/check-list")
-    public TableDataInfo problemCheckList(FengProblemQueue fengProblemQueue)
-    {
-        startPage();
-        List<FengProblemQueue> list = fengProblemQueueService.selectFengProblemQueueList(fengProblemQueue);
-        return getDataTable(list);
-    }
+
     /**
      * 排行榜列表
      */
@@ -77,6 +69,21 @@ public class FengProblemQueueController extends BaseController
         List<FengProblemQueue> list = fengProblemQueueService.submitList(fengProblemQueue);
         return AjaxResult.success(list);
     }
+
+
+
+    /**
+     * 查询待批阅学习任务
+     */
+    @PreAuthorize("@ss.hasPermi('business:queue:check-list')")
+    @GetMapping("/check-list")
+    public TableDataInfo checkList(FengProblemQueue fengProblemQueue)
+    {
+        startPage();
+        List<FengProblemQueue> list = fengProblemQueueService.selectFengTaskCheckList(fengProblemQueue);
+        return getDataTable(list);
+    }
+
 
     /**
      * 执行任务

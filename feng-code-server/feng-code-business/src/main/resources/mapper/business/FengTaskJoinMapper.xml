@@ -52,7 +52,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         order by create_time desc
     </select>
 
-
     <select id="selectOverdueList" resultMap="FengTaskJoinResult">
         select id, class_id, user_id, task_id, status, correct_count, score, end_time, submit_time, check_time, create_by, create_time, update_by, update_time
         from feng_task_join
@@ -70,9 +69,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <insert id="batchInsertTaskJoin">
-        insert into feng_task_join (class_id, user_id, task_id, create_time, end_time, create_by) values
+        insert into feng_task_join (class_id, user_id, task_id, teacher_id, create_time, end_time, create_by) values
         <foreach collection="list" item="item" index="index" separator=",">
-            (#{item.classId}, #{item.userId}, #{item.taskId}, #{item.createTime}, #{item.endTime}, #{item.createBy})
+            (#{item.classId}, #{item.userId}, #{item.taskId}, #{item.teacherId}, #{item.createTime}, #{item.endTime}, #{item.createBy})
         </foreach>
     </insert>
         

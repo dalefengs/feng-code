@@ -71,6 +71,15 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
     private FengProblem problemInfo;
 
 
+    /**
+     * 待批阅列表
+     */
+    @Override
+    public List<FengProblemQueue> selectFengTaskCheckList(FengProblemQueue fengProblemQueue) {
+        List<FengProblemQueue> list = fengProblemQueueMapper.selectFengTaskCheckList(fengProblemQueue);
+        return list;
+    }
+
     @Override
     public List<FengProblemQueue> selectFengProblemRankList(FengProblemQueue fengProblemQueue) {
         List<FengProblemQueue> fengProblemQueues = fengProblemQueueMapper.selectFengProblemRankList(fengProblemQueue);

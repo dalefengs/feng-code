@@ -120,7 +120,7 @@ export default {
   },
   methods: {
     goTask (taskId) {
-      this.$router.push({ path: 'task/' + taskId })
+      this.$router.push({ path: 'task/info/' + taskId })
     },
     /** 查询任务管理列表 */
     getList () {
