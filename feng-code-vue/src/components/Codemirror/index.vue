@@ -356,6 +356,7 @@ var your-method-name = function(s) {
       } else {
         this.language = Object.keys(this.modes)[0]
         const mode = this.modes[this.language]
+        // 当传入的代码为空时或
         this.code = mode.templete
         this.cmOptions.mode = mode.mode
       }

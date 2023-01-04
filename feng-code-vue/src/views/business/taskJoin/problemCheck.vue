@@ -44,7 +44,7 @@
           <dict-tag :options="dict.type['queue_status']" :value="record.status"/>
         </span>
         <span slot="operation" slot-scope="text, record">
-          <a @click="update(record)">
+          <a @click="check(record)">
             <a-icon type="search" /> 批阅
           </a>
           <a-divider type="vertical" />
@@ -65,12 +65,7 @@
         @showSizeChange="onShowSizeChange"
         @change="changeSize"
       />
-      <!-- 增加修改 -->
-      <create-form
-        ref="createForm"
-        @ok="getList"
-      />
-      <!-- 数据展示 -->
+      <check-quque ref="checkQuque" @ok="getList" />
     </a-card>
   </page-header-wrapper>
 </template>
@@ -78,9 +73,11 @@
 <script>
 import { tableMixin } from '@/store/table-mixin'
 import { delQueue, listCheck } from '@/api/business/queue'
+import CheckQuque from '@/views/business/taskJoin/modules/checkQuquq'
+
 export default {
   name: 'ProblemCheck',
-  components: {},
+  components: { CheckQuque },
   mixins: [tableMixin],
   dicts: ['code_language', 'queue_status'],
   data () {
@@ -172,6 +169,9 @@ export default {
   watch: {
   },
   methods: {
+    check (record) {
+      this.$refs.checkQuque.handleAdd(record.id)
+    },
     /** 查询任务管理列表 */
     getList () {
       this.loading = true
@@ -230,7 +230,7 @@ export default {
       var that = this
       const ids = row.id || this.ids
       this.$confirm({
-        title: '确认删除所选中数据?',
+        title: '确认退回所选中数据?',
         content: '当前选中编号为' + ids + '的数据',
         onOk () {
           return delQueue(ids)
@@ -238,7 +238,7 @@ export default {
               that.onSelectChange([], [])
               that.getList()
               that.$message.success(
-                '删除成功',
+                '退回成功',
                 3
               )
             })

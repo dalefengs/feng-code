@@ -31,6 +31,7 @@ import org.springframework.stereotype.Service;
 import cn.lzscxb.business.mapper.FengProblemQueueMapper;
 import cn.lzscxb.domain.entity.FengProblemQueue;
 import cn.lzscxb.business.service.IFengProblemQueueService;
+import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -55,6 +56,9 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
     private FengTaskJoinMapper fengTaskJoinMapper;
 
     @Autowired
+    private FengProblemServiceImpl fengProblemService;
+
+    @Autowired
     private DockerClientUtils dockerClientUtils;
 
     @Autowired
@@ -70,6 +74,61 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
      */
     private FengProblem problemInfo;
 
+    @Override
+    @Transactional // 开启事物
+    public Integer checkQueue(FengProblemQueue fengProblemQueue) {
+        FengProblemQueue queue = fengProblemQueueMapper.selectFengProblemQueueById(fengProblemQueue.getId());
+        if (queue == null) {
+            log.info("queueId:{} 信息不存在", fengProblemQueue.getId());
+            throw new RuntimeException("记录不存在");
+        }
+        fengProblemQueue.setStatus(2);
+        fengProblemQueue.setType(queue.getType());
+        fengProblemQueue.setUpdateTime(DateUtils.getNowDate());
+        int i = fengProblemQueueMapper.updateFengProblemQueue(fengProblemQueue);
+        if (i <= 0) {
+            throw new RuntimeException("更新任务状态失败");
+        }
+        // 修改旧的待批阅提交数据为失败状态
+        queue.setStatus(5);
+        List<FengProblemQueue> list = fengProblemQueueMapper.selectFengProblemQueue(queue);
+        for (FengProblemQueue problemQueue : list) {
+            problemQueue.setStatus(3);
+            i = fengProblemQueueMapper.updateFengProblemQueue(problemQueue);
+            if (i <= 0) {
+                log.info("queueId:{} 旧数据更新状态失败", problemQueue.getId());
+                throw new RuntimeException("更新子任务状态失败");
+            }
+        }
+        FengProblem problem = new FengProblem();
+        problem.setTaskId(queue.getTaskId());
+        // 判断参与的学习任务是都是全部完成 并计算最终成绩和批阅时间
+        List<FengProblem> problems = fengProblemService.selectFengProblemTaskList(problem, queue.getUserId());
+        Integer totalScore = 0;
+        boolean isComplete = true; // 是否全部完成
+        for (FengProblem fengProblem : problems) {
+            if (fengProblem.getOwnness() != 1) {
+                isComplete = false;
+                break;
+            }
+            if (fengProblem.getScore() == null) {
+                totalScore += 100;
+            } else{
+                totalScore += fengProblem.getScore() ;
+            }
+        }
+        // 如果所有任务已完成
+        if (isComplete) {
+            FengTaskJoin join = fengTaskJoinMapper.selectFengTaskJoinById(queue.getTaskJoinId());
+            join.setScore(totalScore / problems.size());
+            join.setStatus(1);
+            join.setCheckTime(DateUtils.getNowDate());
+            join.setUpdateBy(fengProblemQueue.getUpdateBy());
+            join.setUpdateTime(DateUtils.getNowDate());
+            fengTaskJoinMapper.updateFengTaskJoin(join);
+        }
+        return 1;
+    }
 
     /**
      * 待批阅列表
@@ -99,19 +158,25 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
         FengTaskJoin joinInfo = null;
         try {
             queueInfo = fengProblemQueueMapper.selectFengProblemQueueById(id);
+            if (queueInfo == null) {
+                log.error("ququeId：{} 记录信息不存在", id);
+                return null;
+            }
             if (queueInfo.getTaskId() > 0) {
                 FengTaskJoin join = new FengTaskJoin();
                 join.setUserId(queueInfo.getUserId());
                 join.setTaskId(queueInfo.getTaskId());
                 joinInfo = fengTaskJoinMapper.selectFengTaskJoinByTaskId(join);
                 joinInfo.setSubmitTime(DateUtils.getNowDate());
-                joinInfo.setCheckTime(DateUtils.getNowDate());
-            }
-            if (queueInfo == null) {
-                log.error("ququeId：{} 记录信息不存在", id);
-                return null;
+//                if (queueInfo.getIsAuto().equals(0)) {
+//                    joinInfo.setCheckTime(DateUtils.getNowDate());
+//                }
             }
             problemInfo = fengProblemMapper.selectFengProblemById(queueInfo.getProblemId());
+            if (problemInfo == null) {
+                log.error("ququeId：{}, problemId:{} 题目记录信息不存在", id, queueInfo.getProblemId());
+                return null;
+            }
             Long problemId = problemInfo.getId();
             Long userId = queueInfo.getUserId();
             queueInfo.setStatus(1); // 执行中
@@ -146,12 +211,14 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
                 // 如果是教师批阅则删除之前的所有执行记录（只保留一条）
                 if (problemInfo.getIsAuto() == 1 || queueInfo.getType() == 6) { // 待批阅状态
                     queueInfo.setStatus(5);
-                }else {
+                } else {
+                    queueInfo.setScore(100);
                     problemInfo.setSuccessCount(problemInfo.getSuccessCount() + 1); // 添加成功次数
                 }
-                if (joinInfo != null) {
-                    joinInfo.setScore(100);
-                }
+//                if (joinInfo != null && queueInfo.getIsAuto().equals(0)) {
+//                    joinInfo.setScore(100);
+//                }
+                // 如果有 taskId 检查学习任务是否全部完成
             }
 
         } catch (Exception e) {
@@ -167,6 +234,36 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
             fengProblemQueueMapper.updateFengProblemQueue(queueInfo);
             if (joinInfo != null) {
                 fengTaskJoinMapper.updateFengTaskJoin(joinInfo);
+            }
+        }
+        // 如果有 taskId 检查学习任务是否全部完成
+        if (queueInfo.getTaskId() > 0) {
+            FengProblem problem = new FengProblem();
+            problem.setTaskId(queueInfo.getTaskId());
+            // 判断参与的学习任务是都是全部完成 并计算最终成绩和批阅时间
+            List<FengProblem> problems = fengProblemService.selectFengProblemTaskList(problem, queueInfo.getUserId());
+            Integer totalScore = 0;
+            boolean isComplete = true; // 是否全部完成
+            for (FengProblem fengProblem : problems) {
+                if (fengProblem.getOwnness() != 1) {
+                    isComplete = false;
+                    break;
+                }
+                if (fengProblem.getScore() == null) {
+                    totalScore += 100;
+                } else {
+                    totalScore += fengProblem.getScore();
+                }
+            }
+            // 如果所有任务已完成
+            if (isComplete) {
+                FengTaskJoin join = fengTaskJoinMapper.selectFengTaskJoinById(queueInfo.getTaskJoinId());
+                join.setScore(totalScore / problems.size());
+                join.setStatus(1);
+                join.setCheckTime(DateUtils.getNowDate());
+                join.setUpdateBy("robot");
+                join.setUpdateTime(DateUtils.getNowDate());
+                fengTaskJoinMapper.updateFengTaskJoin(join);
             }
         }
 
@@ -205,8 +302,10 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
                 break;
             case "python":
                 pythonThymeleafFill(codeDir);
+                break;
             case "shell":
                 shellThymeleafFill(codeDir);
+                break;
         }
 
         log.info("编译镜像中");

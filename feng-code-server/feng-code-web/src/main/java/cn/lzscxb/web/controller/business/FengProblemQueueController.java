@@ -131,6 +131,17 @@ public class FengProblemQueueController extends BaseController
     }
 
     /**
+     * 新增任务管理
+     */
+    @PreAuthorize("@ss.hasPermi('business:queue:check')")
+    @PostMapping("check")
+    public AjaxResult checkQueue(@RequestBody FengProblemQueue fengProblemQueue)
+    {
+        fengProblemQueue.setUpdateBy(getUsername());
+        return AjaxResult.success(fengProblemQueueService.checkQueue(fengProblemQueue));
+    }
+
+    /**
      * 修改任务管理
      */
     @PreAuthorize("@ss.hasPermi('business:queue:edit')")

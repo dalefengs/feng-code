@@ -41,6 +41,10 @@ public class FengProblem extends BaseEntity
     /** 当前用户 当前题目状态	*/
     private Integer ownness;
 
+
+    /** 当前用户 当前题目状态	*/
+    private Integer score;
+
     /** 作者 */
     private String nickName;
 

@@ -53,6 +53,15 @@ export function addQueue (data) {
   })
 }
 
+// 批阅题目
+export function checkQueue (data) {
+  return request({
+    url: '/business/queue/check',
+    method: 'post',
+    data: data
+  })
+}
+
 // 修改任务管理
 export function updateQueue (data) {
   return request({

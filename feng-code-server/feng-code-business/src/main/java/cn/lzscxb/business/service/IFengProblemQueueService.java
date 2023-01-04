@@ -75,4 +75,6 @@ public interface IFengProblemQueueService {
     List<FengProblemQueue> selectFengProblemRankList(FengProblemQueue fengProblemQueue);
 
     List<FengProblemQueue> selectFengTaskCheckList(FengProblemQueue fengProblemQueue);
+
+    Integer checkQueue(FengProblemQueue fengProblemQueue);
 }

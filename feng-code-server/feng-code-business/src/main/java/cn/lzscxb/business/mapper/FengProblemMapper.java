@@ -2,6 +2,7 @@ package cn.lzscxb.business.mapper;
 
 import java.util.List;
 import cn.lzscxb.domain.entity.FengProblem;
+import cn.lzscxb.domain.entity.FengProblemQueue;
 
 /**
  * 题目管理Mapper接口

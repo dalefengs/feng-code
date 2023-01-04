@@ -107,9 +107,8 @@ public class FengProblemServiceImpl implements IFengProblemService
      * @return 题目管理
      */
     @Override
-    public List<FengProblem> selectFengProblemTaskList(FengProblem fengProblem)
+    public List<FengProblem> selectFengProblemTaskList(FengProblem fengProblem, Long userId)
     {
-        Long userId = SecurityUtils.getUserId();
         fengProblem.setCurrentUserId(userId);
         List<FengProblem> fengProblems = fengProblemMapper.selectFengProblemTaskList(fengProblem);
         for (FengProblem problem : fengProblems) {
@@ -117,6 +116,7 @@ public class FengProblemServiceImpl implements IFengProblemService
             fengProblemQueue.setUserId(userId);
             fengProblemQueue.setProblemId(problem.getId());
             fengProblemQueue.setTaskId(fengProblem.getTaskId());
+            problem.setScore(fengProblemQueueMapper.selectProblemQuqueScore(fengProblemQueue));
             HashSet<Integer> statusList = fengProblemQueueMapper.selectProblemQuqueStatusList(fengProblemQueue);
             if (statusList.contains(2)) { // 2 执行完成
                 problem.setOwnness(1); // 解答过

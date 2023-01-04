@@ -185,7 +185,8 @@
       <div class="controller" v-show="controllerIcon === 'up'">
         <a-tabs default-active-key="1">
           <a-tab-pane key="1" tab="执行结果">
-            <div v-if="taskJoinInfo.status === 2" style="color: crimson">当前学习任务已于 {{ taskJoinInfo.endTime }} 过期, 不允许提交！</div>
+            <div v-if="taskJoinInfo.status === 1" style="color: crimson">当前学习任务已于 {{ taskJoinInfo.checkTime }} 完成, 不允许修改！</div>
+            <div v-else-if="taskJoinInfo.status === 2" style="color: crimson">当前学习任务已于 {{ taskJoinInfo.endTime }} 过期, 不允许提交！</div>
             <div v-else-if="excuteStatus === 0">请先提交您的代码。</div>
             <div v-else-if="excuteStatus === 1"><a-icon type="loading" style="margin-right: 8px" />代码正在执行中，请等待...</div>
             <div v-if="excuteStatus > 1">
@@ -198,14 +199,14 @@
                 </div>
                 <div class="excuteTime">
                   <div>执行时间：{{ this.excuteResult.excuteTime ?? 0 }} ms</div>
-                  <div>执行占用：{{ this.excuteResult.memory ?? 0 }} MB</div>
+                  <div>执行占用：{{ this.excuteResult.memory ? (this.excuteResult.memory * 1).toFixed(2) : 0 }} MB</div>
                 </div>
               </div>
               <div v-else-if="excuteStatus === 5">
                 <a-alert message="恭喜你提交成功，请耐心等待教师批阅！" type="info" show-icon />
                 <div class="excuteTime">
                   <div>执行时间：{{ this.excuteResult.excuteTime ?? 0 }} ms</div>
-                  <div>执行占用：{{ this.excuteResult.memory ?? 0 }} MB</div>
+                  <div>执行占用：{{ this.excuteResult.memory ? (this.excuteResult.memory * 1).toFixed(2) : 0 }} MB</div>
                 </div>
                 <div class="sampleError">
                   <div v-if="msg">
@@ -223,7 +224,7 @@
                 </div>
                 <div class="excuteTime">
                   <div>执行时间：{{ this.excuteResult.excuteTime ?? 0 }} ms</div>
-                  <div>执行占用：{{ this.excuteResult.memory ?? 0 }} MB</div>
+                  <div>执行占用：{{ this.excuteResult.memory ? (this.excuteResult.memory * 1).toFixed(2) : 0 }} MB</div>
                 </div>
                 <div class="sampleError">
                   <div v-if="!errorMsg">
@@ -247,7 +248,8 @@
           </a-button>
         </div>
         <div class="right" >
-          <a-button @click="$notification.error({ message: '当前学习任务已过期，不允许提交' })" v-if="taskJoinInfo.status === 2" >提交</a-button>
+          <a-button @click="$notification.error({ message: '当前学习任务完成，不允许修改' })" type="primary" v-if="taskJoinInfo.status === 1" >已完成</a-button>
+          <a-button @click="$notification.error({ message: '当前学习任务已过期，不允许提交' })" type="danger" v-else-if="taskJoinInfo.status === 2" >已过期</a-button>
           <a-button @click="submit()" v-else style="background-color: #2db55d; color: white">提交</a-button>
         </div>
       </div>
@@ -290,7 +292,7 @@
       </div>
       <div class="excuteTime">
         <div>执行时间：{{ this.excuteResult.excuteTime ?? 0 }} ms</div>
-        <div>执行占用：{{ this.excuteResult.memory ?? 0 }} MB</div>
+        <div>执行占用：{{ this.excuteResult.memory ? (this.excuteResult.memory * 1).toFixed(2) : 0 }} MB</div>
       </div>
     </a-col>
   </a-row>

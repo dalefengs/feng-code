@@ -68,4 +68,8 @@ public interface FengProblemQueueMapper {
     List<FengProblemQueue> selectFengProblemRankList(FengProblemQueue fengProblemQueue);
 
     List<FengProblemQueue> selectFengTaskCheckList(FengProblemQueue fengProblemQueue);
+
+    List<FengProblemQueue> selectFengProblemQueue(FengProblemQueue queue);
+
+    Integer selectProblemQuqueScore(FengProblemQueue fengProblemQueue);
 }

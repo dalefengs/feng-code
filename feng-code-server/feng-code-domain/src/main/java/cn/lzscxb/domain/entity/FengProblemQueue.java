@@ -49,6 +49,8 @@ public class FengProblemQueue extends BaseEntity
     /** 语言类型 */
     private int type;
 
+    private Long socre;
+
     /** 语言类型 */
     @Excel(name = "语言类型")
     private String typeName;
@@ -86,6 +88,15 @@ public class FengProblemQueue extends BaseEntity
     private String avatar;
     private String taskTitle;
     private String className;
+    private Integer score;
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
+    }
 
     public String getClassName() {
         return className;

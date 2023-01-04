@@ -68,7 +68,7 @@ public class FengProblemController extends BaseController
     public TableDataInfo problemTasklist(FengProblem fengProblem)
     {
         startPage();
-        List<FengProblem> list = fengProblemService.selectFengProblemTaskList(fengProblem);
+        List<FengProblem> list = fengProblemService.selectFengProblemTaskList(fengProblem, getUserId());
         return getDataTable(list);
     }
 

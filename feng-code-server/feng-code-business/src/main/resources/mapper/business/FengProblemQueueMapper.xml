@@ -11,6 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="avatar"    column="avatar"    />
         <result property="problemId"    column="problem_id"    />
         <result property="title"    column="title"    />
+        <result property="isAuto"    column="is_auto"    />
         <result property="taskId"    column="task_id"    />
         <result property="taskTitle"    column="task_title"    />
         <result property="className"    column="class_name"    />
@@ -18,6 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="taskJoinId"    column="task_join_id"    />
         <result property="type"    column="type"    />
         <result property="code"    column="code"    />
+        <result property="score"    column="score"    />
         <result property="status"    column="status"    />
         <result property="retryCount"    column="retry_count"    />
         <result property="successMsg"    column="success_msg"    />
@@ -31,11 +33,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectFengProblemQueueVo">
-        select q.id, q.user_id, q.problem_id, q.task_id, q.task_join_id, q.everyday_id, q.type, q.code, q.status, q.success_msg, q.error_msg, q.create_by, q.create_time, q.update_by, q.update_time, q.retry_count,
-            fp.title, u.nick_name, u.avatar
+        select q.id, q.user_id, q.problem_id, q.task_id, q.task_join_id, q.everyday_id, q.type, q.code, q.status, q.score, q.success_msg, q.error_msg, q.create_by, q.create_time, q.update_by, q.update_time, q.retry_count,
+            fp.title, u.nick_name, u.avatar, fp.is_auto, c.name as class_name
         from feng_problem_queue as q
         left join feng_problem fp on q.problem_id = fp.id
         left join feng_users u on q.user_id = u.user_id
+        left join feng_task_join j on j.id = q.task_join_id
+        left join feng_class c on c.id = j.class_id
 
     </sql>
 
@@ -141,6 +145,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where q.id = #{id}
     </select>
 
+    <select id="selectFengProblemQueue" parameterType="cn.lzscxb.domain.entity.FengProblemQueue" resultMap="FengProblemQueueResult">
+        <include refid="selectFengProblemQueueVo"/>
+        <where>
+            <if test="userId != null "> and q.user_id = #{userId}</if>
+            <if test="taskId != null "> and q.task_id = #{taskId}</if>
+            <if test="taskJoinId != null "> and q.task_join_id = #{taskJoinId}</if>
+            <if test="everydayId != null "> and q.everyday_id = #{everydayId}</if>
+            <if test="problemId != null "> and q.problem_id = #{problemId}</if>
+            <if test="type != null and type != -1 "> and q.type = #{type}</if>
+            <if test="status != null "> and q.status = #{status}</if>
+        </where>
+    </select>
+
     <!-- 查询当前用户的题目所有状态 -->
     <select id="selectProblemQuqueStatusList"  resultType="java.lang.Integer">
         select DISTINCT status from feng_problem_queue
@@ -148,6 +165,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         and user_id = #{userId}
         <if test="taskId != null "> and task_id = #{taskId}</if>
         <if test="everydayId != null "> and everyday_id = #{everydayId}</if>
+    </select>
+
+    <!-- 查询当前用户的题目所有状态 -->
+    <select id="selectProblemQuqueScore"  resultType="java.lang.Integer">
+        select score from feng_problem_queue
+        where problem_id = #{problemId}
+        and user_id = #{userId}
+        <if test="taskId != null "> and task_id = #{taskId}</if>
+        <if test="everydayId != null "> and everyday_id = #{everydayId}</if>
+        order by create_time desc
+        limit 1
     </select>
         
     <insert id="insertFengProblemQueue" useGeneratedKeys="true" keyProperty="id" parameterType="cn.lzscxb.domain.entity.FengProblemQueue">
@@ -162,6 +190,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="type != null">type,</if>
             <if test="code != null and code != ''">code,</if>
             <if test="status != null">status,</if>
+            <if test="score != null">score,</if>
             <if test="retryCount != null">retry_count,</if>
             <if test="successMsg != null and successMsg != ''">success_msg,</if>
             <if test="errorMsg != null and errorMsg != ''">error_msg,</if>
@@ -180,6 +209,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="type != null">#{type},</if>
             <if test="code != null and code != ''">#{code},</if>
             <if test="status != null">#{status},</if>
+            <if test="score != null">#{score},</if>
             <if test="retryCount != null">#{retryCount},</if>
             <if test="successMsg != null and successMsg != ''">#{successMsg},</if>
             <if test="errorMsg != null and errorMsg != ''">#{errorMsg},</if>
@@ -201,6 +231,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="type != null">type = #{type},</if>
             <if test="code != null and code != ''">code = #{code},</if>
             <if test="status != null">status = #{status},</if>
+            <if test="score != null">score = #{score},</if>
             <if test="retryCount != null">retry_count = #{retryCount},</if>
             <if test="successMsg != null and successMsg != ''">success_msg = #{successMsg},</if>
             <if test="errorMsg != null and errorMsg != ''">error_msg = #{errorMsg},</if>
@@ -222,5 +253,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
 
 </mapper>

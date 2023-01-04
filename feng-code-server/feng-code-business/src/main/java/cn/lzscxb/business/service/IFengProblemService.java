@@ -68,5 +68,5 @@ public interface IFengProblemService
      */
     public int deleteFengProblemById(Long id);
 
-    List<FengProblem> selectFengProblemTaskList(FengProblem fengProblem);
+    List<FengProblem> selectFengProblemTaskList(FengProblem fengProblem, Long userId);
 }
