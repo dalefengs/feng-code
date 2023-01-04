@@ -15,10 +15,18 @@
           <h1>{{ taskInfo.subTitle }}</h1>
         </div>
       </div>
-      <div class="task-tilte-right" v-show="taskInfo.isJoin === '0'">
-        <a-button type="primary" @click="showConfirm">
+      <div class="task-tilte-right" >
+        <a-button type="primary" @click="showConfirm" v-show="taskInfo.isJoin === '0'">
           立即参与
         </a-button>
+        <div v-if="taskInfo.joinStatus === 1">
+          <div class="yuan">
+            <div class="yuan_bl1" />
+            <div class="yuan_text">100</div>
+          </div>
+          <br>
+          <div style="font-size: 18px; margin:4px 19px 0 0; color: #1890ff">完成</div>
+        </div>
       </div>
     </div>
     <div class="task-explain">{{ taskInfo.taskExplain }}</div>
@@ -250,6 +258,43 @@ export default {
   height: 100%;
 }
 
+.yuan {
+  width: 76px;
+  height: 76px;
+  margin: 4.7px auto 0;
+  box-sizing: border-box;
+  padding-top: 4px;
+  text-align: center;
+  background-color: #f30606;
+  border-radius: 50%;
+  position: relative;
+}
+
+.yuan_bl1{
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: #1890ff;
+}
+
+.yuan_text {
+  width: 68px;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 50%;
+  position: relative;
+  font-size: 25px;
+  font-weight: bold;
+  color: #1890ff;
+  letter-spacing: 0;
+  text-align: center;
+  height: 68px;
+  line-height: 68px;
+}
+
 .ownness {
   vertical-align: middle;
   svg, .ownness-icon {
@@ -298,7 +343,7 @@ export default {
     margin-right: 20px;
   }
   .task-tilte-center {
-    width: 65%;
+    width: 55%;
     vertical-align: middle;
     span {
       display: inline-block;
@@ -307,8 +352,9 @@ export default {
     }
   }
   .task-tilte-right {
-    width: 15%;
+    width: 25%;
     text-align: right;
+    vertical-align: bottom;
   }
   div {
     display: inline-block;

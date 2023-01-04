@@ -3,6 +3,7 @@ package cn.lzscxb.business.service.impl;
 import cn.lzscxb.business.mapper.FengProblemMapper;
 import cn.lzscxb.common.core.redis.RedisCache;
 import cn.lzscxb.domain.constant.CacheConstants;
+import cn.lzscxb.domain.entity.FengProblemQueue;
 import cn.lzscxb.domain.model.ExecuteResult;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,8 +30,8 @@ public class FengProblemQueueServiceTest {
     @Test
     public void testExcuteQueue(){
 
-        ExecuteResult executeResult = fengProblemQueueService.excuteQueueSubmit(1, 101, 1, "java");
-        System.out.println(executeResult);
+        FengProblemQueue fengProblemQueue = fengProblemQueueService.excuteQuque(160);
+        System.out.println(fengProblemQueue);
 
     }
 

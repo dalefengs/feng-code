@@ -11,6 +11,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="subTitle"    column="sub_title"    />
         <result property="imgUrl"    column="img_url"    />
         <result property="isJoin"    column="is_join"    />
+        <result property="score"    column="score"    />
+        <result property="joinStatus"    column="join_status"    />
         <result property="TaskJoinId"    column="task_join_id"    />
         <result property="taskExplain"    column="task_explain"    />
         <result property="createBy"    column="create_by"    />
@@ -33,7 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <select id="selectFengTaskById" parameterType="Long" resultMap="FengTaskResult">
         select t.id, t.teacher_id, t.title, t.sub_title, t.img_url, t.task_explain, t.create_by, t.create_time,
-        t.update_by, t.update_time, tj.id as task_join_id
+        t.update_by, t.update_time, tj.id as task_join_id, tj.status as join_status, tj.score
         <if test="currentUserId != null">
         ,ifnull((select 1 from feng_task_join where task_id = t.id and user_id = #{currentUserId}), 0) as is_join
         </if>

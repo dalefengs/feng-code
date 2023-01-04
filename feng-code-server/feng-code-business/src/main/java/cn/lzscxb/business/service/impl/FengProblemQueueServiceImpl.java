@@ -168,9 +168,6 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
                 join.setTaskId(queueInfo.getTaskId());
                 joinInfo = fengTaskJoinMapper.selectFengTaskJoinByTaskId(join);
                 joinInfo.setSubmitTime(DateUtils.getNowDate());
-//                if (queueInfo.getIsAuto().equals(0)) {
-//                    joinInfo.setCheckTime(DateUtils.getNowDate());
-//                }
             }
             problemInfo = fengProblemMapper.selectFengProblemById(queueInfo.getProblemId());
             if (problemInfo == null) {
@@ -215,9 +212,6 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
                     queueInfo.setScore(100);
                     problemInfo.setSuccessCount(problemInfo.getSuccessCount() + 1); // 添加成功次数
                 }
-//                if (joinInfo != null && queueInfo.getIsAuto().equals(0)) {
-//                    joinInfo.setScore(100);
-//                }
                 // 如果有 taskId 检查学习任务是否全部完成
             }
 
@@ -236,8 +230,8 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
                 fengTaskJoinMapper.updateFengTaskJoin(joinInfo);
             }
         }
-        // 如果有 taskId 检查学习任务是否全部完成
-        if (queueInfo.getTaskId() > 0) {
+        // 如果状态是完成如果有 taskId 检查学习任务是否全部完成
+        if (queueInfo.getStatus().equals(2) && queueInfo.getTaskId() > 0) {
             FengProblem problem = new FengProblem();
             problem.setTaskId(queueInfo.getTaskId());
             // 判断参与的学习任务是都是全部完成 并计算最终成绩和批阅时间

@@ -56,6 +56,27 @@ public class FengTask extends BaseEntity {
 
     private Long TaskJoinId;
 
+    // taskJoin 表状态
+    private Integer joinStatus;
+
+    private Integer score;
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
+    }
+
+    public Integer getJoinStatus() {
+        return joinStatus;
+    }
+
+    public void setJoinStatus(Integer joinStatus) {
+        this.joinStatus = joinStatus;
+    }
+
     public Long getTaskJoinId() {
         return TaskJoinId;
     }
