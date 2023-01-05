@@ -38,6 +38,8 @@ class TestSolution {
             // 如果是数字类型转为字符，其他类型转为 JSON 串
             if (obj instanceof Integer || obj instanceof Float || obj instanceof Long || obj instanceof Double || obj instanceof Short) {
                 converResult = String.valueOf(obj);
+            } else if (obj instanceof String){
+                converResult = String.valueOf(obj);
             } else {
                 converResult = JSON.toJSONString(obj);
             }
