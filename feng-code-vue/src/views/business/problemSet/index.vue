@@ -67,6 +67,9 @@
             :customRow="problemRowClick"
             @change="tableChange"
           >
+            <span slot="title" slot-scope="text, record">
+              {{ record ? `${record.id}.${record.title}` : '' }}
+            </span>
             <span slot="level" slot-scope="text, record">
               <dict-tag :options="dict.type['difficulty_level']" :value="record.level" />
             </span>
@@ -221,8 +224,9 @@ export default {
         {
           title: '题目',
           dataIndex: 'title',
+          scopedSlots: { customRender: 'title' },
           ellipsis: true,
-          align: 'center'
+          align: 'left'
         },
         {
           title: '作者',

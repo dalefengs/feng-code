@@ -29,7 +29,7 @@
               </div>
             </template>
           </div>
-          <div style="margin-bottom: 60px">
+          <div style="margin-bottom: 60px; white-space: pre">
             <h3>提示：</h3>
             {{ problemInfo.hint }}
           </div>
@@ -768,6 +768,7 @@ export default {
   margin-top: 15px;
   margin-bottom: 35px;
   font-size: 16px;
+  white-space: pre;
 }
 
 .sample {
