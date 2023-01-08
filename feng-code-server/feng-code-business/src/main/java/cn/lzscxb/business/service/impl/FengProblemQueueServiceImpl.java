@@ -273,7 +273,7 @@ public class FengProblemQueueServiceImpl implements IFengProblemQueueService {
     public ExecuteResult excuteQueueSubmit(long id, long userId, long problemId, String language) {
 
         // 临时目录
-        String workDir = String.format("%sfengcode/u%d-id%d-p%d/", System.getProperty("java.io.tmpdir"), userId, id, problemId);
+        String workDir = String.format("%s/fengcode/u%d-id%d-p%d/", System.getProperty("java.io.tmpdir"), userId, id, problemId);
         // Dockerfile 是保存在本地的，为了方便测使用，和上传目录分开写
         String dockerfileName = workDir + language + "Dockerfile";
 

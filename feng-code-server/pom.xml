@@ -193,7 +193,6 @@
         <module>feng-code-web</module>
         <module>feng-code-framework</module>
         <module>feng-code-system</module>
-        <module>feng-code-quartz</module>
         <module>feng-code-generator</module>
         <module>feng-code-common</module>
         <module>feng-code-business</module>

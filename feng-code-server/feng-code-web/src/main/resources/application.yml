@@ -152,5 +152,5 @@ minio:
 
 
 docker-config:
-  host: 192.168.147.100
-  port: 2375
+  host: lzscxb.cn
+  port: 22375
